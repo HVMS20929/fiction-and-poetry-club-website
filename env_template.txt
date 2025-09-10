@@ -1,0 +1,23 @@
+# Supabase Configuration
+# Get these values from your Supabase project dashboard
+SUPABASE_URL=https://your-project-id.supabase.co
+SUPABASE_KEY=your-anon-key-here
+
+# Flask Configuration
+SECRET_KEY=your-secret-key-here
+FLASK_ENV=development
+FLASK_DEBUG=1
+
+# File Upload Configuration
+MAX_CONTENT_LENGTH=16777216
+UPLOAD_FOLDER=static/uploads
+
+# Email Configuration
+# For Gmail, you need to use an App Password, not your regular password
+# Go to Google Account > Security > 2-Step Verification > App passwords
+MAIL_SERVER=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USE_TLS=true
+MAIL_USERNAME=mapaoliteraryjournal@gmail.com
+MAIL_PASSWORD=your-app-password-here
+MAIL_DEFAULT_SENDER=mapaoliteraryjournal@gmail.com

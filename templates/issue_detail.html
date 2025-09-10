@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ issue.title }} - Mapao Magazine</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="https://kxxlyyqrzsxrzfwjadvg.supabase.co/storage/v1/object/public/magazine-assets/logos/fiction_logo.png" alt="Fiction & Poetry Club Logo" class="nav-logo-img">
+                <h1>Fiction & Poetry Club</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="{{ url_for('home') }}" class="nav-link">Home</a></li>
+                <li><a href="{{ url_for('mapao') }}" class="nav-link">Mapao</a></li>
+                <li><a href="{{ url_for('moments') }}" class="nav-link">Moments & Milestones</a></li>
+                <li><a href="{{ url_for('about') }}" class="nav-link">About</a></li>
+                <li><a href="{{ url_for('contact') }}" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">
+                        {{ message }}
+                        <span class="close-flash">&times;</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Issue Header -->
+    <section class="issue-header">
+        <div class="container">
+            <div class="issue-header-content">
+                            <div class="issue-cover-large">
+                <img src="{{ issue.cover_image_url }}" alt="{{ issue.title }} Cover" class="issue-cover-detail-img">
+                </div>
+                <div class="issue-header-info">
+                    <div class="issue-type-badge {{ issue.journal_type or 'literary' }}">
+                        {{ (issue.journal_type or 'literary').title() }}
+                    </div>
+                    <h1>{{ issue.title }}</h1>
+                    <p class="issue-description">{{ issue.description }}</p>
+                    <div class="issue-meta">
+                        <span class="meta-item">
+                            <i class="fas fa-calendar"></i>
+                            Released: {{ issue.release_date }}
+                        </span>
+                        <span class="meta-item">
+                            <i class="fas fa-book-open"></i>
+                            {{ issue.featured_articles|length }} Featured Articles
+                        </span>
+                    </div>
+                    <div class="issue-actions-header">
+                        {% if issue.is_latest_issue %}
+                            <button class="btn btn-secondary" disabled>
+                                <i class="fas fa-shopping-cart"></i> Buy Print Edition
+                            </button>
+                            <small style="display: block; margin-top: 0.5rem; opacity: 0.8;">Latest issue available in print only</small>
+                        {% else %}
+                            {% if issue.pdf_url %}
+                                <a href="{{ issue.pdf_url }}" class="btn btn-primary" target="_blank" download>
+                                    <i class="fas fa-download"></i> Download PDF
+                                </a>
+                            {% else %}
+                                <button class="btn btn-secondary" disabled>
+                                    <i class="fas fa-file-pdf"></i> PDF Not Available
+                                </button>
+                            {% endif %}
+                        {% endif %}
+                        <button class="btn btn-outline share-btn" data-issue="{{ issue.title }}">
+                            <i class="fas fa-share"></i> Share Issue
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Issue Content -->
+    <section class="issue-content-detail">
+        <div class="container">
+            <div class="issue-layout">
+                <!-- Table of Contents -->
+                <aside class="toc-sidebar">
+                    <div class="toc-content">
+                        <h3>Table of Contents</h3>
+                        <nav class="toc-nav">
+                            <ul>
+                                <li><a href="#editorial">Editorial</a></li>
+                                {% for article in issue.featured_articles %}
+                                <li><a href="#article-{{ loop.index }}">{{ article.title }}</a></li>
+                                {% endfor %}
+                                <li><a href="#contributors">Contributors</a></li>
+                                <li><a href="#gallery">Photo Gallery</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </aside>
+
+                <!-- Main Content -->
+                <main class="issue-main-content">
+                    <!-- Editorial -->
+                    <article class="issue-article" id="editorial">
+                        <h2>Editorial</h2>
+                        <div class="article-content">
+                            <p>{{ issue.editorial }}</p>
+                        </div>
+                    </article>
+
+                    <!-- Featured Articles -->
+                    {% for article in issue.featured_articles %}
+                    <article class="issue-article" id="article-{{ loop.index }}">
+                        <h2>{{ article.title }}</h2>
+                        <div class="article-content">
+                            <p>{{ article.content }}</p>
+                        </div>
+                    </article>
+                    {% endfor %}
+
+                    <!-- Contributors -->
+                    <section class="contributors-section" id="contributors">
+                        <h2>Contributors</h2>
+                        <div class="contributors-tabs">
+                            <button class="contrib-tab" data-group="editorial_team">Editorial Team</button>
+                            <button class="contrib-tab" data-group="featured_writers">Featured Writers</button>
+                            <button class="contrib-tab" data-group="photographers">Photographers</button>
+                        </div>
+                        <div class="contributors-groups">
+                                    <div class="contrib-group" id="editorial_team">
+            <h4>Editorial Team</h4>
+            <ul>
+                {% for member in issue.contributors.editorial_team %}
+                <li>
+                    <img src="{{ member.photo_url }}" alt="{{ member.name }}" class="team-member-photo">
+                    <div class="team-member-info">
+                        <div class="team-member-name">{{ member.name }}</div>
+                        <div class="team-member-role">{{ member.role }}</div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="contrib-group" id="featured_writers" style="display:none;">
+            <h4>Featured Writers</h4>
+            <ul>
+                {% for member in issue.contributors.featured_writers %}
+                <li>
+                    <img src="{{ member.photo_url }}" alt="{{ member.name }}" class="team-member-photo">
+                    <div class="team-member-info">
+                        <div class="team-member-name">{{ member.name }}</div>
+                        <div class="team-member-role">{{ member.role }}</div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="contrib-group" id="photographers" style="display:none;">
+            <h4>Photographers</h4>
+            <ul>
+                {% for member in issue.contributors.photographers %}
+                <li>
+                    <img src="{{ member.photo_url }}" alt="{{ member.name }}" class="team-member-photo">
+                    <div class="team-member-info">
+                        <div class="team-member-name">{{ member.name }}</div>
+                        <div class="team-member-role">{{ member.role }}</div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+                        </div>
+                    </section>
+                    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('.contrib-tab');
+    const groups = document.querySelectorAll('.contrib-group');
+    
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            // Remove active class from all tabs
+            tabs.forEach(t => t.classList.remove('active'));
+            // Add active class to clicked tab
+            this.classList.add('active');
+            
+            // Hide all groups
+            groups.forEach(g => g.style.display = 'none');
+            // Show the selected group
+            document.getElementById(this.dataset.group).style.display = 'block';
+        });
+    });
+    
+    // Show the first group by default and activate first tab
+    if (groups.length) {
+        groups[0].style.display = 'block';
+        tabs[0].classList.add('active');
+    }
+});
+</script>
+
+                    <!-- Photo Gallery -->
+                    <section class="gallery-section" id="gallery">
+                        <h2>Photo Gallery</h2>
+                        <div class="gallery-grid">
+                            {% for image in issue.gallery %}
+                            <div class="gallery-item">
+                                <div class="gallery-placeholder">
+                                    <img src="{{ image.file_url }}" alt="{{ image.caption }}" style="width:100%;height:auto;border-radius:8px;">
+                                    <p>{{ image.caption }}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </section>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Issues -->
+    <section class="related-issues">
+        <div class="container">
+            <h2>Other Issues</h2>
+            <div class="related-issues-grid">
+                <a href="{{ url_for('mapao') }}#all-issues" class="related-issue-card">
+                    <div class="related-issue-cover">
+                        <div class="cover-placeholder-small">
+                            <h4>Browse All Issues</h4>
+                        </div>
+                    </div>
+                    <div class="related-issue-content">
+                        <h4>Explore Our Collection</h4>
+                        <p>Discover all past issues of Mapao Magazine</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Fiction & Poetry Club Manipur</h3>
+                    <p>Nurturing literary excellence and preserving Manipuri culture since 2004.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="{{ url_for('home') }}">Home</a></li>
+                        <li><a href="{{ url_for('mapao') }}">Mapao Journal</a></li>
+                        <li><a href="{{ url_for('moments') }}">Moments & Milestones</a></li>
+                        <li><a href="{{ url_for('about') }}">About</a></li>
+                        <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Fiction & Poetry Club Manipur. All rights reserved.</p>
+                <div class="proudly-built">
+                    <span>Proudly built by</span>
+                    <img src="https://kxxlyyqrzsxrzfwjadvg.supabase.co/storage/v1/object/public/magazine-assets/logos/lookmai_logo.png" alt="Lookmai" class="lookmai-logo">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html> 
