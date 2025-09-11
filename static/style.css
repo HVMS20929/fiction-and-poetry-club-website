@@ -2287,6 +2287,11 @@ p {
     .home-hero .hero-content h2 {
         font-size: 0.9rem !important;
         white-space: nowrap;
+        text-align: center;
+    }
+
+    .home-hero .hero-content h3 {
+        text-align: center;
     }
 
     @media (max-width: 480px) {
@@ -2314,6 +2319,11 @@ p {
         
         .home-hero .hero-content h2 {
             font-size: 1.0rem !important;
+            text-align: center;
+        }
+
+        .home-hero .hero-content h3 {
+            text-align: center;
         }
     }
 
