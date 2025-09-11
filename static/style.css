@@ -2336,6 +2336,11 @@ p {
         text-align: center;
     }
     
+    .hero .hero-title-container {
+        margin: 0 0 0.5rem 0 !important;
+        justify-content: center;
+    }
+    
     .hero .hero-title-container h1 {
         font-size: 3.5rem !important;
         text-align: center;
@@ -2350,6 +2355,11 @@ p {
     @media (max-width: 480px) {
         .hero .hero-content {
             text-align: center;
+        }
+        
+        .hero .hero-title-container {
+            margin: 0 0 0.5rem 0 !important;
+            justify-content: center;
         }
         
         .hero .hero-title-container h1 {
