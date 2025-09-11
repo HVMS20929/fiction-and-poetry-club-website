@@ -778,13 +778,20 @@ p {
 }
 
 /* Page Header */
-.page-header {
-    background: #493D9E;
-    color: #FBFFE4;
-    padding: 8rem 0 4rem;
-    text-align: center;
-    position: relative;
-}
+    .page-header {
+        background: #493D9E;
+        color: #FBFFE4;
+        padding: 8rem 0 4rem;
+        text-align: center;
+        position: relative;
+    }
+
+    @media (max-width: 768px) {
+        .page-header {
+            margin-top: 70px;
+            padding: 4rem 0 2rem;
+        }
+    }
 
 .page-header::before {
     content: '';
@@ -1959,6 +1966,23 @@ p {
         display: flex;
     }
 
+    .nav-logo {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .nav-logo h1 {
+        font-size: 1.1rem;
+        white-space: nowrap;
+        line-height: 1.2;
+    }
+
+    .nav-logo-img {
+        height: 30px;
+        width: auto;
+    }
+
     .nav-menu {
         position: fixed;
         left: -100%;
@@ -1979,8 +2003,10 @@ p {
     .hero {
         flex-direction: column;
         text-align: center;
-        padding: 2rem 0;
+        padding: 4rem 0 2rem 0;
         background-position: center center;
+        margin-top: 70px;
+        min-height: calc(100vh - 70px);
     }
     
     .hero::before {
@@ -2018,8 +2044,9 @@ p {
 
     /* Home hero responsive */
     .home-hero {
-        min-height: 50vh;
-        padding: 3rem 1rem;
+        min-height: calc(100vh - 70px);
+        padding: 4rem 1rem 2rem 1rem;
+        margin-top: 70px;
     }
 
     .home-hero .hero-content {
@@ -2027,11 +2054,13 @@ p {
     }
 
     .home-hero .hero-title-container {
-        flex-direction: column;
-        gap: 0.25rem;
+        flex-direction: row;
+        gap: 0.5rem;
         text-align: center;
-        white-space: normal;
+        white-space: nowrap;
         margin-bottom: 0.5rem;
+        justify-content: center;
+        align-items: center;
     }
 
     .issue-showcase {
@@ -2164,17 +2193,32 @@ p {
         padding: 0 15px;
     }
 
+    .nav-logo h1 {
+        font-size: 0.9rem;
+        white-space: nowrap;
+    }
+
+    .nav-logo-img {
+        height: 25px;
+    }
+
     .hero-title-container {
         height: 60px;
         margin: 0 0 0.5rem 0;
     }
-    
+
     .hero-title {
         font-size: 2rem;
     }
 
     .hero-subtitle {
         font-size: 1.1rem;
+    }
+
+    .home-hero .hero-title-container h1,
+    .home-hero .hero-title-container h6 {
+        font-size: 0.9rem;
+        white-space: nowrap;
     }
 
     h1 { font-size: 2.5rem; }
@@ -2900,6 +2944,12 @@ p {
 
 /* Responsive Design for Moments Page */
 @media (max-width: 768px) {
+    .moments-hero {
+        margin-top: 70px;
+        padding: 4rem 0 2rem 0;
+        min-height: calc(100vh - 70px);
+    }
+
     .moments-hero h1 {
         font-size: 2.5rem;
     }
