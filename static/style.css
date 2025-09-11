@@ -2065,16 +2065,16 @@ p {
 
     .home-hero .hero-content {
         max-width: 100%;
-        text-align: center;
+        text-align: left;
     }
 
     .home-hero .hero-title-container {
         flex-direction: row;
         gap: 0.5rem;
-        text-align: center;
+        text-align: left;
         white-space: nowrap;
         margin-bottom: 0.5rem;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
     }
 
@@ -2287,11 +2287,11 @@ p {
     .home-hero .hero-content h2 {
         font-size: 0.9rem !important;
         white-space: nowrap;
-        text-align: center;
+        text-align: left;
     }
 
     .home-hero .hero-content h3 {
-        text-align: center;
+        text-align: left;
     }
 
     @media (max-width: 480px) {
@@ -2319,11 +2319,11 @@ p {
         
         .home-hero .hero-content h2 {
             font-size: 1.0rem !important;
-            text-align: center;
+            text-align: left;
         }
 
         .home-hero .hero-content h3 {
-            text-align: center;
+            text-align: left;
         }
     }
 
