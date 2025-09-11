@@ -477,7 +477,8 @@ p {
 }
 
 .home-hero .hero-title-container h1,
-.home-hero .hero-title-container h6 {
+.home-hero .hero-title-container h6,
+.home-hero .hero-title-container h7 {
     margin: 0;
     display: inline-block;
     white-space: nowrap;
@@ -2259,7 +2260,7 @@ p {
     .home-hero .hero-title-container h1,
     .home-hero .hero-title-container h6,
     .home-hero .hero-title-container h7 {
-        font-size: 0.7rem !important;
+        font-size: 0.5rem !important;
         white-space: nowrap;
         max-width: 100%;
     }
@@ -2267,7 +2268,12 @@ p {
     /* Override general h6 and h7 styles for home hero mobile */
     .home-hero h6,
     .home-hero h7 {
-        font-size: 0.7rem !important;
+        font-size: 0.5rem !important;
+    }
+
+    /* Override general hero-title style for home hero mobile */
+    .home-hero .hero-title {
+        font-size: 0.5rem !important;
     }
 
     .home-hero .hero-content h2 {
@@ -2279,16 +2285,20 @@ p {
         .home-hero .hero-title-container h1,
         .home-hero .hero-title-container h6,
         .home-hero .hero-title-container h7 {
-            font-size: 0.6rem !important;
+            font-size: 0.4rem !important;
         }
         
         .home-hero h6,
         .home-hero h7 {
-            font-size: 0.6rem !important;
+            font-size: 0.4rem !important;
+        }
+
+        .home-hero .hero-title {
+            font-size: 0.4rem !important;
         }
         
         .home-hero .hero-content h2 {
-            font-size: 0.6rem !important;
+            font-size: 0.5rem !important;
         }
     }
 
