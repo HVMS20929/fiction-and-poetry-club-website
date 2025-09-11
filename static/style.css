@@ -2257,19 +2257,48 @@ p {
     }
 
     .home-hero .hero-title-container h1,
-    .home-hero .hero-title-container h6 {
-        font-size: 1.4rem !important;
+    .home-hero .hero-title-container h6,
+    .home-hero .hero-title-container h7 {
+        font-size: 1.1rem !important;
         white-space: nowrap;
+    }
+
+    .home-hero .hero-content h2 {
+        font-size: 0.9rem !important;
+        white-space: nowrap;
+    }
+
+    @media (max-width: 480px) {
+        .home-hero .hero-title-container h1,
+        .home-hero .hero-title-container h6,
+        .home-hero .hero-title-container h7 {
+            font-size: 1rem !important;
+        }
+        
+        .home-hero .hero-content h2 {
+            font-size: 0.8rem !important;
+        }
     }
 
     /* Mapao page hero title mobile styles */
     .hero .hero-title-container h1 {
         font-size: 3.5rem !important;
+        text-align: center;
+    }
+
+    .hero .hero-content h2 {
+        font-size: 0.8rem !important;
+        line-height: 1.2;
+        margin-bottom: 1rem;
     }
 
     @media (max-width: 480px) {
         .hero .hero-title-container h1 {
             font-size: 2.8rem !important;
+        }
+        
+        .hero .hero-content h2 {
+            font-size: 0.7rem !important;
         }
     }
 
