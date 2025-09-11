@@ -2288,10 +2288,12 @@ p {
         font-size: 0.9rem !important;
         white-space: nowrap;
         text-align: left;
+        margin-left: 0 !important;
     }
 
     .home-hero .hero-content h3 {
         text-align: left;
+        margin-left: 0 !important;
     }
 
     @media (max-width: 480px) {
@@ -2320,10 +2322,12 @@ p {
         .home-hero .hero-content h2 {
             font-size: 1.0rem !important;
             text-align: left;
+            margin-left: 0 !important;
         }
 
         .home-hero .hero-content h3 {
             text-align: left;
+            margin-left: 0 !important;
         }
     }
 
