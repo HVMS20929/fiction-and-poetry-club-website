@@ -2036,7 +2036,7 @@ p {
     }
     
     .hero-title {
-        font-size: 2.5rem;
+        font-size: 3.5rem !important;
     }
 
     .hero-buttons {
@@ -2249,7 +2249,7 @@ p {
     }
 
     .hero-title {
-        font-size: 2rem;
+        font-size: 2.8rem !important;
     }
 
     .hero-subtitle {
@@ -2258,8 +2258,19 @@ p {
 
     .home-hero .hero-title-container h1,
     .home-hero .hero-title-container h6 {
-        font-size: 0.9rem;
+        font-size: 1.4rem !important;
         white-space: nowrap;
+    }
+
+    /* Mapao page hero title mobile styles */
+    .hero .hero-title-container h1 {
+        font-size: 3.5rem !important;
+    }
+
+    @media (max-width: 480px) {
+        .hero .hero-title-container h1 {
+            font-size: 2.8rem !important;
+        }
     }
 
     h1 { font-size: 2.5rem; }
