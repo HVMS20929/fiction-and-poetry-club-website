@@ -144,48 +144,66 @@
                             <button class="contrib-tab" data-group="photographers">Photographers</button>
                         </div>
                         <div class="contributors-groups">
-                                    <div class="contrib-group" id="editorial_team">
-            <h4>Editorial Team</h4>
-            <ul>
-                {% for member in issue.contributors.editorial_team %}
-                <li>
-                    <img src="{{ member.photo_url }}" alt="{{ member.name }}" class="team-member-photo">
-                    <div class="team-member-info">
-                        <div class="team-member-name">{{ member.name }}</div>
-                        <div class="team-member-role">{{ member.role }}</div>
-                    </div>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="contrib-group" id="featured_writers" style="display:none;">
-            <h4>Featured Writers</h4>
-            <ul>
-                {% for member in issue.contributors.featured_writers %}
-                <li>
-                    <img src="{{ member.photo_url }}" alt="{{ member.name }}" class="team-member-photo">
-                    <div class="team-member-info">
-                        <div class="team-member-name">{{ member.name }}</div>
-                        <div class="team-member-role">{{ member.role }}</div>
-                    </div>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="contrib-group" id="photographers" style="display:none;">
-            <h4>Photographers</h4>
-            <ul>
-                {% for member in issue.contributors.photographers %}
-                <li>
-                    <img src="{{ member.photo_url }}" alt="{{ member.name }}" class="team-member-photo">
-                    <div class="team-member-info">
-                        <div class="team-member-name">{{ member.name }}</div>
-                        <div class="team-member-role">{{ member.role }}</div>
-                    </div>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
+                            <div class="contrib-group" id="editorial_team">
+                                <h4>Editorial Team</h4>
+                                <div class="team-members-grid">
+                                    {% for member in issue.contributors.editorial_team %}
+                                    <div class="team-member-card">
+                                        <div class="member-avatar">
+                                            {% if member.photo_url %}
+                                                <img src="{{ member.photo_url }}" alt="{{ member.name }}" class="team-member-photo">
+                                            {% else %}
+                                                <i class="fas fa-user"></i>
+                                            {% endif %}
+                                        </div>
+                                        <div class="member-info">
+                                            <h3>{{ member.name }}</h3>
+                                            <p class="member-details">{{ member.role }}</p>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="contrib-group" id="featured_writers" style="display:none;">
+                                <h4>Featured Writers</h4>
+                                <div class="team-members-grid">
+                                    {% for member in issue.contributors.featured_writers %}
+                                    <div class="team-member-card">
+                                        <div class="member-avatar">
+                                            {% if member.photo_url %}
+                                                <img src="{{ member.photo_url }}" alt="{{ member.name }}" class="team-member-photo">
+                                            {% else %}
+                                                <i class="fas fa-user"></i>
+                                            {% endif %}
+                                        </div>
+                                        <div class="member-info">
+                                            <h3>{{ member.name }}</h3>
+                                            <p class="member-details">{{ member.role }}</p>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="contrib-group" id="photographers" style="display:none;">
+                                <h4>Photographers</h4>
+                                <div class="team-members-grid">
+                                    {% for member in issue.contributors.photographers %}
+                                    <div class="team-member-card">
+                                        <div class="member-avatar">
+                                            {% if member.photo_url %}
+                                                <img src="{{ member.photo_url }}" alt="{{ member.name }}" class="team-member-photo">
+                                            {% else %}
+                                                <i class="fas fa-user"></i>
+                                            {% endif %}
+                                        </div>
+                                        <div class="member-info">
+                                            <h3>{{ member.name }}</h3>
+                                            <p class="member-details">{{ member.role }}</p>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
                         </div>
                     </section>
                     <script>
