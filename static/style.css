@@ -1169,6 +1169,85 @@ p {
     color: #e74c3c;
 }
 
+/* TOC Section Dropdown Styles */
+.toc-section {
+    margin-bottom: 0.5rem;
+}
+
+.toc-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.5rem 0;
+}
+
+.toc-section-title {
+    color: #FBFFE4;
+    font-weight: 600;
+    margin: 0;
+}
+
+.toc-toggle-btn {
+    background: none;
+    border: none;
+    color: #FBFFE4;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toc-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+}
+
+.toc-toggle-btn i {
+    transition: transform 0.3s ease;
+    font-size: 0.8rem;
+}
+
+.toc-toggle-btn.expanded i {
+    transform: rotate(180deg);
+}
+
+.toc-section-content {
+    padding-left: 1rem;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.toc-section-content:not([style*="display: none"]) {
+    display: block;
+}
+
+.toc-subsection {
+    list-style: none;
+    padding-left: 0;
+    margin: 0.5rem 0;
+}
+
+.toc-subsection li {
+    margin-bottom: 0.25rem;
+}
+
+.toc-subsection a {
+    color: #FBFFE4;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: block;
+    padding: 0.25rem 0;
+    font-size: 0.9rem;
+}
+
+.toc-subsection a:hover {
+    color: #e74c3c;
+}
+
 .issue-article {
     margin-bottom: 4rem;
     padding-bottom: 2rem;

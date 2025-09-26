@@ -446,4 +446,29 @@ function initHeroTitleAnimation() {
 }
 
 // Initialize hero title animation when DOM is loaded
-document.addEventListener('DOMContentLoaded', initHeroTitleAnimation); 
+document.addEventListener('DOMContentLoaded', initHeroTitleAnimation);
+
+// TOC Section Dropdown Toggle
+document.addEventListener('DOMContentLoaded', function() {
+    // TOC Section Dropdown functionality
+    const tocToggleBtns = document.querySelectorAll('.toc-toggle-btn');
+    
+    tocToggleBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const sectionId = this.getAttribute('data-section');
+            const sectionContent = document.getElementById(sectionId);
+            
+            if (sectionContent) {
+                const isVisible = sectionContent.style.display !== 'none';
+                
+                if (isVisible) {
+                    sectionContent.style.display = 'none';
+                    this.classList.remove('expanded');
+                } else {
+                    sectionContent.style.display = 'block';
+                    this.classList.add('expanded');
+                }
+            }
+        });
+    });
+}); 

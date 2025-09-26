@@ -81,6 +81,17 @@ def issue_detail(issue_id):
     if issue is None:
         flash('Issue not found!', 'error')
         return redirect(url_for('issues'))
+    
+    # Organize articles by category for dropdown menu
+    if 'featured_articles' in issue:
+        articles_by_category = {}
+        for article in issue['featured_articles']:
+            category = article.get('category', 'Other')
+            if category not in articles_by_category:
+                articles_by_category[category] = []
+            articles_by_category[category].append(article)
+        issue['articles_by_category'] = articles_by_category
+    
     return render_template('issue_detail.html', issue=issue)
 
 @app.route('/about')
