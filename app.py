@@ -63,7 +63,7 @@ def home():
     issues = get_magazine_issues()
     latest_issue = issues[0] if issues else None
     # You can set these URLs from your Supabase Storage or environment variables
-    club_logo_url = "https://kxxlyyqrzsxrzfwjadvg.supabase.co/storage/v1/object/public/magazine-assets/logos/fiction_logo.png"
+    club_logo_url = "https://kxxlyyqrzsxrzfwjadvg.supabase.co/storage/v1/object/public/magazine-assets/logos/fiction-poetry-club-logo.png"
     hero_video_url = "https://kxxlyyqrzsxrzfwjadvg.supabase.co/storage/v1/object/public/magazine-assets/videos/purple_background.mp4"
     return render_template('home.html', latest_issue=latest_issue, issues=issues, club_logo_url=club_logo_url, hero_video_url=hero_video_url)
 
