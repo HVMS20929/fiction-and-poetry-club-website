@@ -1219,6 +1219,7 @@ p {
     padding-left: 1rem;
     transition: all 0.3s ease;
     overflow: hidden;
+    pointer-events: auto; /* Ensure content is clickable */
 }
 
 .toc-section-content:not([style*="display: none"]) {

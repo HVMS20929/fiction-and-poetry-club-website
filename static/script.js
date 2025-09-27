@@ -454,7 +454,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const tocToggleBtns = document.querySelectorAll('.toc-toggle-btn');
     
     tocToggleBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
             const sectionId = this.getAttribute('data-section');
             const sectionContent = document.getElementById(sectionId);
             
@@ -472,12 +475,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Also handle clicks on the section header (but not the toggle button)
+    const tocSectionHeaders = document.querySelectorAll('.toc-section-header');
+    tocSectionHeaders.forEach(header => {
+        header.addEventListener('click', function(e) {
+            // Only toggle if the click wasn't on the toggle button
+            if (!e.target.closest('.toc-toggle-btn')) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const toggleBtn = this.querySelector('.toc-toggle-btn');
+                if (toggleBtn) {
+                    toggleBtn.click();
+                }
+            }
+        });
+    });
+
     // Article Content Switching functionality
     const articleSwitchLinks = document.querySelectorAll('.article-switch-link');
     
     articleSwitchLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
+            e.stopPropagation(); // Prevent event bubbling to parent elements
             
             const articleId = this.getAttribute('data-article-id');
             const category = this.getAttribute('data-category');
