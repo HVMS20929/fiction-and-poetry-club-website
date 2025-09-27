@@ -531,13 +531,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Add active state to clicked link
                 this.setAttribute('data-active', 'true');
                 
-                // CRITICAL: Force the dropdown to stay open
+                // CRITICAL: Force the dropdown to stay open with aggressive approach
                 const dropdownContent = document.getElementById(category);
                 if (dropdownContent) {
                     console.log('Forcing dropdown to stay open for:', category);
-                    dropdownContent.style.display = 'block';
-                    dropdownContent.style.visibility = 'visible';
-                    dropdownContent.style.opacity = '1';
+                    
+                    // Set multiple CSS properties to force visibility
+                    dropdownContent.style.display = 'block !important';
+                    dropdownContent.style.visibility = 'visible !important';
+                    dropdownContent.style.opacity = '1 !important';
+                    dropdownContent.style.height = 'auto !important';
+                    dropdownContent.style.maxHeight = 'none !important';
+                    dropdownContent.style.overflow = 'visible !important';
+                    
+                    // Remove any classes that might hide it
+                    dropdownContent.classList.remove('hidden', 'collapse', 'd-none');
                     
                     const toggleBtn = document.querySelector(`[data-section="${category}"]`);
                     if (toggleBtn) {
@@ -545,6 +553,42 @@ document.addEventListener('DOMContentLoaded', function() {
                         toggleBtn.setAttribute('aria-expanded', 'true');
                         console.log('Dropdown state forced to open');
                     }
+                    
+                    // Set up a watcher to prevent other scripts from hiding it
+                    const observer = new MutationObserver(function(mutations) {
+                        mutations.forEach(function(mutation) {
+                            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                                const target = mutation.target;
+                                if (target === dropdownContent && target.style.display === 'none') {
+                                    console.log('Detected attempt to hide dropdown, forcing it back open');
+                                    target.style.display = 'block !important';
+                                    target.style.visibility = 'visible !important';
+                                    target.style.opacity = '1 !important';
+                                }
+                            }
+                        });
+                    });
+                    
+                    observer.observe(dropdownContent, {
+                        attributes: true,
+                        attributeFilter: ['style', 'class']
+                    });
+                    
+                    // Also check periodically to ensure it stays open
+                    const keepOpenInterval = setInterval(() => {
+                        if (dropdownContent.style.display === 'none') {
+                            console.log('Periodic check: dropdown was hidden, forcing back open');
+                            dropdownContent.style.display = 'block !important';
+                            dropdownContent.style.visibility = 'visible !important';
+                            dropdownContent.style.opacity = '1 !important';
+                        }
+                    }, 100);
+                    
+                    // Clear the interval after 10 seconds
+                    setTimeout(() => {
+                        clearInterval(keepOpenInterval);
+                        observer.disconnect();
+                    }, 10000);
                 }
                 
                 console.log('Article switched to:', articleId);
