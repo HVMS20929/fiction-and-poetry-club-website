@@ -772,6 +772,8 @@ p {
     width: auto;
     opacity: 0.9;
     transition: opacity 0.3s ease;
+    border-radius: 8px;
+    object-fit: cover;
 }
 
 .lookmai-logo:hover {
@@ -2549,6 +2551,7 @@ p {
     
     .lookmai-logo {
         height: 18px;
+        border-radius: 4px;
     }
 }
 
