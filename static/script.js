@@ -454,7 +454,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const tocToggleBtns = document.querySelectorAll('.toc-toggle-btn');
     
     tocToggleBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation(); // Prevent event bubbling
             const sectionId = this.getAttribute('data-section');
             const sectionContent = document.getElementById(sectionId);
             
@@ -472,12 +473,33 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Prevent dropdown from closing when clicking inside dropdown content
+    const tocSectionContents = document.querySelectorAll('.toc-section-content');
+    tocSectionContents.forEach(content => {
+        content.addEventListener('click', function(e) {
+            e.stopPropagation(); // Prevent event bubbling to parent elements
+        });
+    });
+
+    // Prevent section header from interfering with dropdown
+    const tocSectionHeaders = document.querySelectorAll('.toc-section-header');
+    tocSectionHeaders.forEach(header => {
+        header.addEventListener('click', function(e) {
+            // Only allow toggle button to handle the click
+            if (e.target.classList.contains('toc-toggle-btn') || e.target.closest('.toc-toggle-btn')) {
+                return; // Let the toggle button handle it
+            }
+            e.stopPropagation(); // Prevent other clicks from interfering
+        });
+    });
+
     // Article Switching functionality
     const articleSwitchLinks = document.querySelectorAll('.article-switch-link');
     
     articleSwitchLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
+            e.stopPropagation(); // Prevent event bubbling to parent elements
             
             const category = this.getAttribute('data-category');
             const articleId = this.getAttribute('data-article');
@@ -490,7 +512,7 @@ document.addEventListener('DOMContentLoaded', function() {
             this.classList.add('active');
             
             // Hide all articles in the same category
-            const categoryArticles = document.querySelectorAll(`[data-category="${category}"]`);
+            const categoryArticles = document.querySelectorAll(`.category-article[data-category="${category}"]`);
             categoryArticles.forEach(article => {
                 article.style.display = 'none';
                 article.classList.add('hidden');
