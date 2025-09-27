@@ -44,8 +44,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     });
 
-    // Smooth scrolling for anchor links (excluding article switch links)
-    document.querySelectorAll('a[href^="#"]:not(.article-switch-link)').forEach(anchor => {
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
@@ -237,8 +237,8 @@ document.addEventListener('DOMContentLoaded', function() {
         images.forEach(img => imageObserver.observe(img));
     }
 
-    // Table of Contents highlighting (excluding article switch links)
-    const tocLinks = document.querySelectorAll('.toc-nav a:not(.article-switch-link)');
+    // Table of Contents highlighting
+    const tocLinks = document.querySelectorAll('.toc-nav a');
     const sections = document.querySelectorAll('article[id], section[id]');
 
     if (tocLinks.length > 0 && sections.length > 0) {
@@ -448,151 +448,62 @@ function initHeroTitleAnimation() {
 // Initialize hero title animation when DOM is loaded
 document.addEventListener('DOMContentLoaded', initHeroTitleAnimation);
 
-// TOC Section Dropdown Toggle - Isolated Implementation
+// TOC Section Dropdown Toggle
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Initializing TOC dropdown functionality...');
+    // TOC Section Dropdown functionality
+    const tocToggleBtns = document.querySelectorAll('.toc-toggle-btn');
     
-    // Wait a bit to ensure all other scripts have loaded
-    setTimeout(function() {
-        // TOC Section Dropdown functionality
-        const tocToggleBtns = document.querySelectorAll('.toc-toggle-btn');
-        console.log('Found toggle buttons:', tocToggleBtns.length);
-        
-        tocToggleBtns.forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                e.stopImmediatePropagation();
+    tocToggleBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const sectionId = this.getAttribute('data-section');
+            const sectionContent = document.getElementById(sectionId);
+            
+            if (sectionContent) {
+                const isVisible = sectionContent.style.display !== 'none';
                 
-                console.log('Toggle button clicked');
-                const sectionId = this.getAttribute('data-section');
-                const sectionContent = document.getElementById(sectionId);
-                
-                if (sectionContent) {
-                    const isVisible = sectionContent.style.display !== 'none';
-                    
-                    if (isVisible) {
-                        sectionContent.style.display = 'none';
-                        this.classList.remove('expanded');
-                        this.setAttribute('aria-expanded', 'false');
-                        console.log('Dropdown closed for:', sectionId);
-                    } else {
-                        sectionContent.style.display = 'block';
-                        this.classList.add('expanded');
-                        this.setAttribute('aria-expanded', 'true');
-                        console.log('Dropdown opened for:', sectionId);
-                    }
+                if (isVisible) {
+                    sectionContent.style.display = 'none';
+                    this.classList.remove('expanded');
+                } else {
+                    sectionContent.style.display = 'block';
+                    this.classList.add('expanded');
                 }
-            }, true); // Use capture phase
+            }
         });
+    });
 
-        // Article Content Switching functionality
-        const articleSwitchLinks = document.querySelectorAll('.article-switch-link');
-        console.log('Found article switch links:', articleSwitchLinks.length);
-        
-        articleSwitchLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-                
-                console.log('Article switch link clicked');
-                const articleId = this.getAttribute('data-article-id');
-                const category = this.getAttribute('data-category');
-                
-                // Hide all articles in the same category
-                const articlesInCategory = document.querySelectorAll(`[data-category="${category}"]`);
-                articlesInCategory.forEach(article => {
-                    article.style.display = 'none';
-                });
-                
-                // Show the selected article
-                const selectedArticle = document.getElementById(articleId);
-                if (selectedArticle) {
-                    selectedArticle.style.display = 'block';
-                    
-                    // Scroll to the article smoothly
-                    selectedArticle.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'start',
-                        inline: 'nearest'
-                    });
-                }
-                
-                // Update active states in TOC
-                // Remove active state from all links in this category
-                const categoryLinks = document.querySelectorAll(`[data-category="${category}"]`);
-                categoryLinks.forEach(link => {
-                    if (link.classList.contains('article-switch-link')) {
-                        link.removeAttribute('data-active');
-                    }
-                });
-                
-                // Add active state to clicked link
-                this.setAttribute('data-active', 'true');
-                
-                // CRITICAL: Force the dropdown to stay open with aggressive approach
-                const dropdownContent = document.getElementById(category);
-                if (dropdownContent) {
-                    console.log('Forcing dropdown to stay open for:', category);
-                    
-                    // Set multiple CSS properties to force visibility
-                    dropdownContent.style.display = 'block !important';
-                    dropdownContent.style.visibility = 'visible !important';
-                    dropdownContent.style.opacity = '1 !important';
-                    dropdownContent.style.height = 'auto !important';
-                    dropdownContent.style.maxHeight = 'none !important';
-                    dropdownContent.style.overflow = 'visible !important';
-                    
-                    // Remove any classes that might hide it
-                    dropdownContent.classList.remove('hidden', 'collapse', 'd-none');
-                    
-                    const toggleBtn = document.querySelector(`[data-section="${category}"]`);
-                    if (toggleBtn) {
-                        toggleBtn.classList.add('expanded');
-                        toggleBtn.setAttribute('aria-expanded', 'true');
-                        console.log('Dropdown state forced to open');
-                    }
-                    
-                    // Set up a watcher to prevent other scripts from hiding it
-                    const observer = new MutationObserver(function(mutations) {
-                        mutations.forEach(function(mutation) {
-                            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
-                                const target = mutation.target;
-                                if (target === dropdownContent && target.style.display === 'none') {
-                                    console.log('Detected attempt to hide dropdown, forcing it back open');
-                                    target.style.display = 'block !important';
-                                    target.style.visibility = 'visible !important';
-                                    target.style.opacity = '1 !important';
-                                }
-                            }
-                        });
-                    });
-                    
-                    observer.observe(dropdownContent, {
-                        attributes: true,
-                        attributeFilter: ['style', 'class']
-                    });
-                    
-                    // Also check periodically to ensure it stays open
-                    const keepOpenInterval = setInterval(() => {
-                        if (dropdownContent.style.display === 'none') {
-                            console.log('Periodic check: dropdown was hidden, forcing back open');
-                            dropdownContent.style.display = 'block !important';
-                            dropdownContent.style.visibility = 'visible !important';
-                            dropdownContent.style.opacity = '1 !important';
-                        }
-                    }, 100);
-                    
-                    // Clear the interval after 10 seconds
-                    setTimeout(() => {
-                        clearInterval(keepOpenInterval);
-                        observer.disconnect();
-                    }, 10000);
-                }
-                
-                console.log('Article switched to:', articleId);
-            }, true); // Use capture phase
+    // Article Switching functionality
+    const articleSwitchLinks = document.querySelectorAll('.article-switch-link');
+    
+    articleSwitchLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const category = this.getAttribute('data-category');
+            const articleId = this.getAttribute('data-article');
+            
+            // Remove active class from all links in the same category
+            const categoryLinks = document.querySelectorAll(`[data-category="${category}"]`);
+            categoryLinks.forEach(catLink => catLink.classList.remove('active'));
+            
+            // Add active class to clicked link
+            this.classList.add('active');
+            
+            // Hide all articles in the same category
+            const categoryArticles = document.querySelectorAll(`[data-category="${category}"]`);
+            categoryArticles.forEach(article => {
+                article.style.display = 'none';
+                article.classList.add('hidden');
+            });
+            
+            // Show the selected article
+            const targetArticle = document.getElementById(articleId);
+            if (targetArticle) {
+                setTimeout(() => {
+                    targetArticle.style.display = 'block';
+                    targetArticle.classList.remove('hidden');
+                }, 150); // Small delay for smooth transition
+            }
         });
-    }, 100); // Small delay to ensure other scripts have run
+    });
 }); 

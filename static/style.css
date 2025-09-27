@@ -1219,24 +1219,6 @@ p {
     padding-left: 1rem;
     transition: all 0.3s ease;
     overflow: hidden;
-    pointer-events: auto; /* Ensure content is clickable */
-    position: relative; /* Ensure proper stacking context */
-    z-index: 10; /* Ensure it's above other elements */
-}
-
-/* Force dropdown to stay visible when it should be open */
-.toc-section-content[style*="display: block"] {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-}
-
-/* Ensure expanded state is maintained */
-.toc-toggle-btn.expanded + .toc-section-content,
-.toc-toggle-btn[aria-expanded="true"] + .toc-section-content {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
 }
 
 .toc-section-content:not([style*="display: none"]) {
@@ -1266,34 +1248,43 @@ p {
     color: #e74c3c;
 }
 
-/* Article switching styles */
+/* Article Switch Link Styles */
 .article-switch-link {
-    transition: all 0.3s ease;
+    color: #FBFFE4;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: block;
+    padding: 0.25rem 0;
+    font-size: 0.9rem;
     position: relative;
 }
 
-.article-switch-link[data-active="true"] {
-    color: #e74c3c !important;
+.article-switch-link:hover {
+    color: #e74c3c;
+}
+
+.article-switch-link.active {
+    color: #e74c3c;
     font-weight: 600;
 }
 
-.article-switch-link[data-active="true"]::before {
-    content: "●";
+.article-switch-link.active::before {
+    content: "▶";
     position: absolute;
     left: -1rem;
     color: #e74c3c;
     font-size: 0.8rem;
 }
 
-.article-switch-link:hover {
-    color: #e74c3c !important;
+/* Category Article Display Styles */
+.category-article {
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Ensure article switch links are properly isolated */
-.article-switch-link {
-    position: relative;
-    z-index: 15;
-    pointer-events: auto;
+.category-article.hidden {
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
 }
 
 .issue-article {
