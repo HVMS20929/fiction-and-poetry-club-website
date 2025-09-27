@@ -237,8 +237,8 @@ document.addEventListener('DOMContentLoaded', function() {
         images.forEach(img => imageObserver.observe(img));
     }
 
-    // Table of Contents highlighting
-    const tocLinks = document.querySelectorAll('.toc-nav a');
+    // Table of Contents highlighting (excluding article switch links)
+    const tocLinks = document.querySelectorAll('.toc-nav a:not(.article-switch-link)');
     const sections = document.querySelectorAll('article[id], section[id]');
 
     if (tocLinks.length > 0 && sections.length > 0) {
@@ -448,88 +448,107 @@ function initHeroTitleAnimation() {
 // Initialize hero title animation when DOM is loaded
 document.addEventListener('DOMContentLoaded', initHeroTitleAnimation);
 
-// TOC Section Dropdown Toggle
+// TOC Section Dropdown Toggle - Isolated Implementation
 document.addEventListener('DOMContentLoaded', function() {
-    // TOC Section Dropdown functionality
-    const tocToggleBtns = document.querySelectorAll('.toc-toggle-btn');
+    console.log('Initializing TOC dropdown functionality...');
     
-    tocToggleBtns.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const sectionId = this.getAttribute('data-section');
-            const sectionContent = document.getElementById(sectionId);
-            
-            if (sectionContent) {
-                const isVisible = sectionContent.style.display !== 'none';
+    // Wait a bit to ensure all other scripts have loaded
+    setTimeout(function() {
+        // TOC Section Dropdown functionality
+        const tocToggleBtns = document.querySelectorAll('.toc-toggle-btn');
+        console.log('Found toggle buttons:', tocToggleBtns.length);
+        
+        tocToggleBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
                 
-                if (isVisible) {
-                    sectionContent.style.display = 'none';
-                    this.classList.remove('expanded');
-                    this.setAttribute('aria-expanded', 'false');
-                } else {
-                    sectionContent.style.display = 'block';
-                    this.classList.add('expanded');
-                    this.setAttribute('aria-expanded', 'true');
+                console.log('Toggle button clicked');
+                const sectionId = this.getAttribute('data-section');
+                const sectionContent = document.getElementById(sectionId);
+                
+                if (sectionContent) {
+                    const isVisible = sectionContent.style.display !== 'none';
+                    
+                    if (isVisible) {
+                        sectionContent.style.display = 'none';
+                        this.classList.remove('expanded');
+                        this.setAttribute('aria-expanded', 'false');
+                        console.log('Dropdown closed for:', sectionId);
+                    } else {
+                        sectionContent.style.display = 'block';
+                        this.classList.add('expanded');
+                        this.setAttribute('aria-expanded', 'true');
+                        console.log('Dropdown opened for:', sectionId);
+                    }
                 }
-            }
+            }, true); // Use capture phase
         });
-    });
 
-    // Article Content Switching functionality
-    const articleSwitchLinks = document.querySelectorAll('.article-switch-link');
-    
-    articleSwitchLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation(); // Prevent event bubbling to parent elements
-            
-            const articleId = this.getAttribute('data-article-id');
-            const category = this.getAttribute('data-category');
-            
-            // Hide all articles in the same category
-            const articlesInCategory = document.querySelectorAll(`[data-category="${category}"]`);
-            articlesInCategory.forEach(article => {
-                article.style.display = 'none';
-            });
-            
-            // Show the selected article
-            const selectedArticle = document.getElementById(articleId);
-            if (selectedArticle) {
-                selectedArticle.style.display = 'block';
+        // Article Content Switching functionality
+        const articleSwitchLinks = document.querySelectorAll('.article-switch-link');
+        console.log('Found article switch links:', articleSwitchLinks.length);
+        
+        articleSwitchLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
                 
-                // Scroll to the article smoothly
-                selectedArticle.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'start',
-                    inline: 'nearest'
+                console.log('Article switch link clicked');
+                const articleId = this.getAttribute('data-article-id');
+                const category = this.getAttribute('data-category');
+                
+                // Hide all articles in the same category
+                const articlesInCategory = document.querySelectorAll(`[data-category="${category}"]`);
+                articlesInCategory.forEach(article => {
+                    article.style.display = 'none';
                 });
-            }
-            
-            // Update active states in TOC
-            // Remove active state from all links in this category
-            const categoryLinks = document.querySelectorAll(`[data-category="${category}"]`);
-            categoryLinks.forEach(link => {
-                if (link.classList.contains('article-switch-link')) {
-                    link.removeAttribute('data-active');
+                
+                // Show the selected article
+                const selectedArticle = document.getElementById(articleId);
+                if (selectedArticle) {
+                    selectedArticle.style.display = 'block';
+                    
+                    // Scroll to the article smoothly
+                    selectedArticle.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start',
+                        inline: 'nearest'
+                    });
                 }
-            });
-            
-            // Add active state to clicked link
-            this.setAttribute('data-active', 'true');
-            
-            // Ensure the dropdown stays open by checking its state
-            const dropdownContent = document.getElementById(category);
-            if (dropdownContent) {
-                // Force the dropdown to stay open
-                dropdownContent.style.display = 'block';
-                const toggleBtn = document.querySelector(`[data-section="${category}"]`);
-                if (toggleBtn) {
-                    toggleBtn.classList.add('expanded');
-                    toggleBtn.setAttribute('aria-expanded', 'true');
+                
+                // Update active states in TOC
+                // Remove active state from all links in this category
+                const categoryLinks = document.querySelectorAll(`[data-category="${category}"]`);
+                categoryLinks.forEach(link => {
+                    if (link.classList.contains('article-switch-link')) {
+                        link.removeAttribute('data-active');
+                    }
+                });
+                
+                // Add active state to clicked link
+                this.setAttribute('data-active', 'true');
+                
+                // CRITICAL: Force the dropdown to stay open
+                const dropdownContent = document.getElementById(category);
+                if (dropdownContent) {
+                    console.log('Forcing dropdown to stay open for:', category);
+                    dropdownContent.style.display = 'block';
+                    dropdownContent.style.visibility = 'visible';
+                    dropdownContent.style.opacity = '1';
+                    
+                    const toggleBtn = document.querySelector(`[data-section="${category}"]`);
+                    if (toggleBtn) {
+                        toggleBtn.classList.add('expanded');
+                        toggleBtn.setAttribute('aria-expanded', 'true');
+                        console.log('Dropdown state forced to open');
+                    }
                 }
-            }
+                
+                console.log('Article switched to:', articleId);
+            }, true); // Use capture phase
         });
-    });
+    }, 100); // Small delay to ensure other scripts have run
 }); 

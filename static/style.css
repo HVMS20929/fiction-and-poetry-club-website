@@ -1220,6 +1220,8 @@ p {
     transition: all 0.3s ease;
     overflow: hidden;
     pointer-events: auto; /* Ensure content is clickable */
+    position: relative; /* Ensure proper stacking context */
+    z-index: 10; /* Ensure it's above other elements */
 }
 
 .toc-section-content:not([style*="display: none"]) {
@@ -1270,6 +1272,13 @@ p {
 
 .article-switch-link:hover {
     color: #e74c3c !important;
+}
+
+/* Ensure article switch links are properly isolated */
+.article-switch-link {
+    position: relative;
+    z-index: 15;
+    pointer-events: auto;
 }
 
 .issue-article {
