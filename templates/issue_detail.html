@@ -120,12 +120,18 @@
                                         <div class="toc-section-content" id="{{ category|lower|replace(' ', '-') }}" style="display: none;">
                                             <ul class="toc-subsection">
                                                 {% for article in articles %}
-                                                <li><a href="#{{ article.title|lower|replace(' ', '-') }}">{{ article.title }}</a></li>
+                                                <li><a href="#" class="article-switch-link" 
+                                                       data-article-id="{{ article.title|lower|replace(' ', '-') }}"
+                                                       data-category="{{ category|lower|replace(' ', '-') }}"
+                                                       {% if loop.index == 1 %}data-active="true"{% endif %}>{{ article.title }}</a></li>
                                                 {% endfor %}
                                             </ul>
                                         </div>
                                         {% else %}
-                                        <a href="#{{ articles[0].title|lower|replace(' ', '-') }}">{{ articles[0].title }}</a>
+                                        <a href="#" class="article-switch-link" 
+                                           data-article-id="{{ articles[0].title|lower|replace(' ', '-') }}"
+                                           data-category="{{ category|lower|replace(' ', '-') }}"
+                                           data-active="true">{{ articles[0].title }}</a>
                                         {% endif %}
                                     </li>
                                     {% endfor %}
@@ -156,7 +162,10 @@
                     {% if issue.articles_by_category %}
                         {% for category, articles in issue.articles_by_category.items() %}
                             {% for article in articles %}
-                            <article class="issue-article" id="{{ article.title|lower|replace(' ', '-') }}">
+                            <article class="issue-article article-content-{{ category|lower|replace(' ', '-') }}" 
+                                     id="{{ article.title|lower|replace(' ', '-') }}"
+                                     {% if loop.index > 1 %}style="display: none;"{% endif %}
+                                     data-category="{{ category|lower|replace(' ', '-') }}">
                                 <h2>{{ article.title }}</h2>
                                 <div class="article-content">
                                     <p>{{ article.content }}</p>

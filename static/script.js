@@ -471,4 +471,47 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Article Content Switching functionality
+    const articleSwitchLinks = document.querySelectorAll('.article-switch-link');
+    
+    articleSwitchLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const articleId = this.getAttribute('data-article-id');
+            const category = this.getAttribute('data-category');
+            
+            // Hide all articles in the same category
+            const articlesInCategory = document.querySelectorAll(`[data-category="${category}"]`);
+            articlesInCategory.forEach(article => {
+                article.style.display = 'none';
+            });
+            
+            // Show the selected article
+            const selectedArticle = document.getElementById(articleId);
+            if (selectedArticle) {
+                selectedArticle.style.display = 'block';
+                
+                // Scroll to the article smoothly
+                selectedArticle.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start',
+                    inline: 'nearest'
+                });
+            }
+            
+            // Update active states in TOC
+            // Remove active state from all links in this category
+            const categoryLinks = document.querySelectorAll(`[data-category="${category}"]`);
+            categoryLinks.forEach(link => {
+                if (link.classList.contains('article-switch-link')) {
+                    link.removeAttribute('data-active');
+                }
+            });
+            
+            // Add active state to clicked link
+            this.setAttribute('data-active', 'true');
+        });
+    });
 }); 

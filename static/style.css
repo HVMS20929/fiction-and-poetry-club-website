@@ -1248,6 +1248,29 @@ p {
     color: #e74c3c;
 }
 
+/* Article switching styles */
+.article-switch-link {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.article-switch-link[data-active="true"] {
+    color: #e74c3c !important;
+    font-weight: 600;
+}
+
+.article-switch-link[data-active="true"]::before {
+    content: "●";
+    position: absolute;
+    left: -1rem;
+    color: #e74c3c;
+    font-size: 0.8rem;
+}
+
+.article-switch-link:hover {
+    color: #e74c3c !important;
+}
+
 .issue-article {
     margin-bottom: 4rem;
     padding-bottom: 2rem;
