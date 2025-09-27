@@ -44,8 +44,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 5000);
     });
 
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    // Smooth scrolling for anchor links (excluding article switch links)
+    document.querySelectorAll('a[href^="#"]:not(.article-switch-link)').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
@@ -467,26 +467,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (isVisible) {
                     sectionContent.style.display = 'none';
                     this.classList.remove('expanded');
+                    this.setAttribute('aria-expanded', 'false');
                 } else {
                     sectionContent.style.display = 'block';
                     this.classList.add('expanded');
-                }
-            }
-        });
-    });
-
-    // Also handle clicks on the section header (but not the toggle button)
-    const tocSectionHeaders = document.querySelectorAll('.toc-section-header');
-    tocSectionHeaders.forEach(header => {
-        header.addEventListener('click', function(e) {
-            // Only toggle if the click wasn't on the toggle button
-            if (!e.target.closest('.toc-toggle-btn')) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                const toggleBtn = this.querySelector('.toc-toggle-btn');
-                if (toggleBtn) {
-                    toggleBtn.click();
+                    this.setAttribute('aria-expanded', 'true');
                 }
             }
         });
@@ -533,6 +518,18 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Add active state to clicked link
             this.setAttribute('data-active', 'true');
+            
+            // Ensure the dropdown stays open by checking its state
+            const dropdownContent = document.getElementById(category);
+            if (dropdownContent) {
+                // Force the dropdown to stay open
+                dropdownContent.style.display = 'block';
+                const toggleBtn = document.querySelector(`[data-section="${category}"]`);
+                if (toggleBtn) {
+                    toggleBtn.classList.add('expanded');
+                    toggleBtn.setAttribute('aria-expanded', 'true');
+                }
+            }
         });
     });
 }); 
