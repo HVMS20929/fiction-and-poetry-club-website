@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, send_from_directory
 from flask_mail import Mail, Message
 from datetime import datetime
 import os
@@ -232,6 +232,10 @@ Fiction & Poetry Club Manipur
 def moments():
     moments_data = get_moments_data()
     return render_template('moments.html', moments=moments_data)
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
