@@ -4,10 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mapao Journal - Fiction and Poetry Club Manipur</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Mapao Journal - Literary magazine by Fiction and Poetry Club Manipur. Explore latest issues, featured articles, and literary works from Manipur's creative community.">
+    <meta name="keywords" content="Mapao Journal, Literary Magazine, Fiction, Poetry, Manipur, Literature, Creative Writing, Literary Publication">
+    <meta name="author" content="Fiction and Poetry Club Manipur">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Mapao Journal - Fiction and Poetry Club Manipur">
+    <meta property="og:description" content="Explore Mapao Journal - Literary magazine featuring creative works from Manipur's literary community.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:image" content="{{ url_for('static', filename='images/fiction&poetry_favicon.png', _external=True) }}">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Mapao Journal - Fiction and Poetry Club Manipur">
+    <meta name="twitter:description" content="Literary magazine featuring creative works from Manipur's literary community">
+    <meta name="twitter:image" content="{{ url_for('static', filename='images/fiction&poetry_favicon.png', _external=True) }}">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ request.url }}">
+    
+    <!-- Favicon Links -->
     <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
     <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
