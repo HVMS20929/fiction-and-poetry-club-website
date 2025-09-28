@@ -2256,7 +2256,40 @@ p {
 
     .toc-sidebar {
         position: static;
-        order: 2;
+        order: 1;
+        margin-bottom: 2rem;
+    }
+    
+    .toc-content {
+        padding: 1.5rem;
+    }
+    
+    .toc-content h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .toc-nav a {
+        font-size: 0.9rem;
+        padding: 0.5rem 0;
+    }
+    
+    .toc-section-header {
+        padding: 0.75rem 0;
+    }
+    
+    .toc-section-title {
+        font-size: 0.9rem;
+    }
+    
+    .toc-toggle-btn {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+    
+    .toc-subsection a {
+        font-size: 0.8rem;
+        padding: 0.4rem 0;
     }
 
     .story-content {
@@ -3289,5 +3322,32 @@ p {
     
     .moment-card {
         margin: 0 1rem;
+    }
+    
+    .toc-content {
+        padding: 1rem;
+    }
+    
+    .toc-content h3 {
+        font-size: 1.1rem;
+    }
+    
+    .toc-nav a {
+        font-size: 0.85rem;
+        padding: 0.4rem 0;
+    }
+    
+    .toc-section-title {
+        font-size: 0.85rem;
+    }
+    
+    .toc-toggle-btn {
+        padding: 0.4rem;
+        font-size: 0.75rem;
+    }
+    
+    .toc-subsection a {
+        font-size: 0.75rem;
+        padding: 0.3rem 0;
     }
 }
