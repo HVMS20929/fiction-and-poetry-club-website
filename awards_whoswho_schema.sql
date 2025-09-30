@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS awards (
     awardee_bio TEXT,
     award_speech TEXT,
     ceremony_photos TEXT[], -- Array of photo URLs
+    literary_genre VARCHAR(100),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
