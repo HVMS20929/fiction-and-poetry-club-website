@@ -95,6 +95,24 @@ class DatabaseService:
             print(f"Error creating article: {e}")
             return None
     
+    def update_article(self, article_id: int, article_data: Dict[str, Any]) -> bool:
+        """Update an existing article"""
+        try:
+            response = self.supabase.table(Config.ARTICLES_TABLE).update(article_data).eq('id', article_id).execute()
+            return bool(response.data)
+        except Exception as e:
+            print(f"Error updating article {article_id}: {e}")
+            return False
+    
+    def delete_article(self, article_id: int) -> bool:
+        """Delete an article"""
+        try:
+            response = self.supabase.table(Config.ARTICLES_TABLE).delete().eq('id', article_id).execute()
+            return bool(response.data)
+        except Exception as e:
+            print(f"Error deleting article {article_id}: {e}")
+            return False
+    
     # Photos
     def get_photos_by_issue(self, issue_id: int) -> List[Dict[str, Any]]:
         """Get all photos for a specific issue"""
@@ -175,7 +193,6 @@ class DatabaseService:
         """Upload a file from bytes to Supabase Storage"""
         try:
             # Create a unique filename to avoid conflicts
-            import uuid
             file_extension = os.path.splitext(file_name)[1]
             unique_filename = f"{folder}/{uuid.uuid4()}{file_extension}"
             
@@ -188,17 +205,26 @@ class DatabaseService:
             elif file_extension.lower() in ['.webp']:
                 content_type = "image/webp"
             
+            print(f"Attempting to upload file: {unique_filename} with content type: {content_type}")
+            
             response = self.supabase.storage.from_(bucket_name).upload(
                 path=unique_filename,
                 file=file_bytes,
                 file_options={"content-type": content_type}
             )
             
+            print(f"Upload response: {response}")
+            
             if response:
-                return f"{self.supabase.storage.from_(bucket_name).get_public_url(unique_filename)}"
+                public_url = f"{self.supabase.storage.from_(bucket_name).get_public_url(unique_filename)}"
+                print(f"Generated public URL: {public_url}")
+                return public_url
             return None
         except Exception as e:
             print(f"Error uploading file {file_name}: {e}")
+            print(f"Error type: {type(e)}")
+            import traceback
+            traceback.print_exc()
             return None
     
     def delete_file(self, file_name: str, bucket_name: str = 'magazine-assets') -> bool:

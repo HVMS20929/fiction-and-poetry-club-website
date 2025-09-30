@@ -543,6 +543,62 @@ def admin_new_article():
     
     return render_template('admin/new_article.html', issues=issues)
 
+@app.route('/admin/articles/<int:article_id>/edit', methods=['GET', 'POST'])
+@admin_required
+def admin_edit_article(article_id):
+    """Edit article"""
+    try:
+        db = get_db_service()
+        if not db:
+            flash('Database connection error!', 'error')
+            return redirect(url_for('admin_articles'))
+        
+        article = db.get_article_by_id(article_id)
+        if not article:
+            flash('Article not found!', 'error')
+            return redirect(url_for('admin_articles'))
+        
+        # Get all issues for the dropdown
+        issues = db.get_all_issues()
+        
+        if request.method == 'POST':
+            article_data = {
+                'issue_id': int(request.form.get('issue_id')),
+                'title': request.form.get('title'),
+                'content': request.form.get('content'),
+                'author': request.form.get('author'),
+                'category': request.form.get('category')
+            }
+            
+            if db.update_article(article_id, article_data):
+                flash('Article updated successfully!', 'success')
+                return redirect(url_for('admin_articles'))
+            else:
+                flash('Error updating article!', 'error')
+        
+        return render_template('admin/edit_article.html', article=article, issues=issues)
+        
+    except Exception as e:
+        print(f"Error editing article: {e}")
+        flash('Error editing article!', 'error')
+        return redirect(url_for('admin_articles'))
+
+@app.route('/admin/articles/<int:article_id>/delete', methods=['POST'])
+@admin_required
+def admin_delete_article(article_id):
+    """Delete article"""
+    try:
+        db = get_db_service()
+        if db and db.delete_article(article_id):
+            flash('Article deleted successfully!', 'success')
+        else:
+            flash('Error deleting article!', 'error')
+    except Exception as e:
+        print(f"Error deleting article: {e}")
+        flash('Error deleting article!', 'error')
+    
+    return redirect(url_for('admin_articles'))
+
 @app.route('/admin/moments')
 @admin_required
 def admin_moments():
