@@ -3360,7 +3360,8 @@ p {
     background: linear-gradient(135deg, #8F87F1 0%, #493D9E 100%);
     color: white;
     text-align: center;
-    padding: 4rem 0;
+    padding: 8rem 0 4rem;
+    position: relative;
 }
 
 .awards-header h1 {
@@ -3374,6 +3375,11 @@ p {
     opacity: 0.9;
     max-width: 600px;
     margin: 0 auto;
+}
+
+.awards-header .container {
+    position: relative;
+    z-index: 2;
 }
 
 .awards-intro {
@@ -4218,6 +4224,11 @@ p {
 
 /* Mobile Responsive Styles for Awards and Who's Who */
 @media (max-width: 768px) {
+    .awards-header {
+        margin-top: 70px;
+        padding: 2rem 0;
+    }
+    
     .awards-header h1,
     .whos-who-header h1 {
         font-size: 2.5rem;
@@ -4268,6 +4279,11 @@ p {
 }
 
 @media (max-width: 480px) {
+    .awards-header {
+        margin-top: 70px;
+        padding: 1.5rem 0;
+    }
+    
     .awards-header h1,
     .whos-who-header h1 {
         font-size: 2rem;
