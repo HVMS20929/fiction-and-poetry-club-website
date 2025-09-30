@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 from flask_mail import Mail, Message
 from datetime import datetime
 import os
+from werkzeug.utils import secure_filename
 from config import Config
 from database import get_db_service
 import traceback
@@ -12,6 +13,11 @@ app.config.from_object(Config)
 # Admin credentials (in production, use environment variables)
 ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME', 'admin')
 ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'mapao2024')
+
+# Helper function for file validation
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in Config.ALLOWED_EXTENSIONS
 
 # Initialize Flask-Mail (with error handling)
 try:
@@ -346,13 +352,41 @@ def admin_new_issue():
     """Create new magazine issue"""
     if request.method == 'POST':
         try:
+            # Handle cover image upload
+            cover_image_url = request.form.get('cover_image_url', '')
+            
+            # Check if a file was uploaded
+            if 'cover_image_file' in request.files:
+                file = request.files['cover_image_file']
+                if file and file.filename and allowed_file(file.filename):
+                    # Upload to Supabase Storage
+                    db = get_db_service()
+                    if db:
+                        file_bytes = file.read()
+                        uploaded_url = db.upload_file_from_bytes(
+                            file_bytes, 
+                            secure_filename(file.filename), 
+                            folder='covers'
+                        )
+                        if uploaded_url:
+                            cover_image_url = uploaded_url
+                        else:
+                            flash('Error uploading cover image!', 'error')
+                            return render_template('admin/new_issue.html')
+                    else:
+                        flash('Database connection error!', 'error')
+                        return render_template('admin/new_issue.html')
+                elif file and file.filename:
+                    flash('Invalid file type! Please upload a valid image file.', 'error')
+                    return render_template('admin/new_issue.html')
+            
             issue_data = {
                 'title': request.form.get('title'),
                 'description': request.form.get('description'),
                 'release_date': request.form.get('release_date'),
                 'editorial': request.form.get('editorial'),
                 'journal_type': request.form.get('journal_type', 'literary'),
-                'cover_image_url': request.form.get('cover_image_url')
+                'cover_image_url': cover_image_url
             }
             
             db = get_db_service()
@@ -387,13 +421,36 @@ def admin_edit_issue(issue_id):
             return redirect(url_for('admin_issues'))
         
         if request.method == 'POST':
+            # Handle cover image upload
+            cover_image_url = request.form.get('cover_image_url', issue.get('cover_image_url', ''))
+            
+            # Check if a new file was uploaded
+            if 'cover_image_file' in request.files:
+                file = request.files['cover_image_file']
+                if file and file.filename and allowed_file(file.filename):
+                    # Upload to Supabase Storage
+                    file_bytes = file.read()
+                    uploaded_url = db.upload_file_from_bytes(
+                        file_bytes, 
+                        secure_filename(file.filename), 
+                        folder='covers'
+                    )
+                    if uploaded_url:
+                        cover_image_url = uploaded_url
+                    else:
+                        flash('Error uploading cover image!', 'error')
+                        return render_template('admin/edit_issue.html', issue=issue)
+                elif file and file.filename:
+                    flash('Invalid file type! Please upload a valid image file.', 'error')
+                    return render_template('admin/edit_issue.html', issue=issue)
+            
             issue_data = {
                 'title': request.form.get('title'),
                 'description': request.form.get('description'),
                 'release_date': request.form.get('release_date'),
                 'editorial': request.form.get('editorial'),
                 'journal_type': request.form.get('journal_type', 'literary'),
-                'cover_image_url': request.form.get('cover_image_url')
+                'cover_image_url': cover_image_url
             }
             
             if db.update_issue(issue_id, issue_data):

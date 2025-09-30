@@ -171,6 +171,36 @@ class DatabaseService:
             print(f"Error uploading file {file_path}: {e}")
             return None
     
+    def upload_file_from_bytes(self, file_bytes: bytes, file_name: str, folder: str = 'covers', bucket_name: str = 'magazine-assets') -> Optional[str]:
+        """Upload a file from bytes to Supabase Storage"""
+        try:
+            # Create a unique filename to avoid conflicts
+            import uuid
+            file_extension = os.path.splitext(file_name)[1]
+            unique_filename = f"{folder}/{uuid.uuid4()}{file_extension}"
+            
+            # Determine content type based on file extension
+            content_type = "image/jpeg"
+            if file_extension.lower() in ['.png']:
+                content_type = "image/png"
+            elif file_extension.lower() in ['.gif']:
+                content_type = "image/gif"
+            elif file_extension.lower() in ['.webp']:
+                content_type = "image/webp"
+            
+            response = self.supabase.storage.from_(bucket_name).upload(
+                path=unique_filename,
+                file=file_bytes,
+                file_options={"content-type": content_type}
+            )
+            
+            if response:
+                return f"{self.supabase.storage.from_(bucket_name).get_public_url(unique_filename)}"
+            return None
+        except Exception as e:
+            print(f"Error uploading file {file_name}: {e}")
+            return None
+    
     def delete_file(self, file_name: str, bucket_name: str = 'magazine-assets') -> bool:
         """Delete a file from Supabase Storage"""
         try:

@@ -113,6 +113,18 @@
             font-family: inherit;
         }
         
+        .form-group input[type="file"] {
+            padding: 0.5rem;
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            cursor: pointer;
+        }
+        
+        .form-group input[type="file"]:hover {
+            border-color: #667eea;
+            background: #f0f2ff;
+        }
+        
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
@@ -245,7 +257,7 @@
                             <p>Update the details for "{{ issue.title }}"</p>
                         </div>
                         
-                        <form method="POST">
+                        <form method="POST" enctype="multipart/form-data">
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="title">Issue Title <span class="required">*</span></label>
@@ -269,18 +281,22 @@
                                 <div class="help-text">Provide a compelling description of what readers can expect</div>
                             </div>
                             
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="release_date">Release Date</label>
-                                    <input type="text" id="release_date" name="release_date" value="{{ issue.release_date or '' }}" placeholder="e.g., September 2024">
-                                    <div class="help-text">When was/will this issue be released?</div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="cover_image_url">Cover Image URL</label>
-                                    <input type="url" id="cover_image_url" name="cover_image_url" value="{{ issue.cover_image_url or '' }}" placeholder="https://...">
-                                    <div class="help-text">URL to the cover image (Supabase Storage recommended)</div>
-                                </div>
+                            <div class="form-group">
+                                <label for="release_date">Release Date</label>
+                                <input type="text" id="release_date" name="release_date" value="{{ issue.release_date or '' }}" placeholder="e.g., September 2024">
+                                <div class="help-text">When was/will this issue be released?</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="cover_image_file">Upload New Cover Image</label>
+                                <input type="file" id="cover_image_file" name="cover_image_file" accept="image/*">
+                                <div class="help-text">Upload a new cover image to replace the current one (PNG, JPG, JPEG, GIF, WEBP)</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="cover_image_url">Cover Image URL</label>
+                                <input type="url" id="cover_image_url" name="cover_image_url" value="{{ issue.cover_image_url or '' }}" placeholder="https://...">
+                                <div class="help-text">Current cover image URL (will be updated if you upload a new file above)</div>
                             </div>
                             
                             <div class="form-group">
