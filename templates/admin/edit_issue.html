@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Issue - Mapao Magazine Admin</title>
+    <title>Edit Issue - Mapao Magazine Admin</title>
     <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
@@ -209,8 +209,8 @@
         <div class="admin-header">
             <div class="container">
                 <div class="admin-title">
-                    <i class="fas fa-plus"></i>
-                    <h1>New Issue</h1>
+                    <i class="fas fa-edit"></i>
+                    <h1>Edit Issue</h1>
                 </div>
                 <div class="admin-nav">
                     <a href="{{ url_for('admin_dashboard') }}"><i class="fas fa-home"></i> Dashboard</a>
@@ -241,23 +241,23 @@
                 <div class="form-container">
                     <div class="form-card">
                         <div class="form-header">
-                            <h2><i class="fas fa-book"></i> Create New Issue</h2>
-                            <p>Fill in the details for the new magazine issue</p>
+                            <h2><i class="fas fa-edit"></i> Edit Issue</h2>
+                            <p>Update the details for "{{ issue.title }}"</p>
                         </div>
                         
                         <form method="POST">
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="title">Issue Title <span class="required">*</span></label>
-                                    <input type="text" id="title" name="title" required>
+                                    <input type="text" id="title" name="title" value="{{ issue.title }}" required>
                                     <div class="help-text">e.g., "Fall/Winter 2024 - Literary"</div>
                                 </div>
                                 
                                 <div class="form-group">
                                     <label for="journal_type">Journal Type <span class="required">*</span></label>
                                     <select id="journal_type" name="journal_type" required>
-                                        <option value="literary">Literary</option>
-                                        <option value="research">Research</option>
+                                        <option value="literary" {% if issue.journal_type == 'literary' %}selected{% endif %}>Literary</option>
+                                        <option value="research" {% if issue.journal_type == 'research' %}selected{% endif %}>Research</option>
                                     </select>
                                     <div class="help-text">Choose the type of journal</div>
                                 </div>
@@ -265,27 +265,27 @@
                             
                             <div class="form-group">
                                 <label for="description">Description <span class="required">*</span></label>
-                                <textarea id="description" name="description" required placeholder="Brief description of the issue content and theme..."></textarea>
+                                <textarea id="description" name="description" required placeholder="Brief description of the issue content and theme...">{{ issue.description or '' }}</textarea>
                                 <div class="help-text">Provide a compelling description of what readers can expect</div>
                             </div>
                             
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="release_date">Release Date</label>
-                                    <input type="text" id="release_date" name="release_date" placeholder="e.g., September 2024">
+                                    <input type="text" id="release_date" name="release_date" value="{{ issue.release_date or '' }}" placeholder="e.g., September 2024">
                                     <div class="help-text">When was/will this issue be released?</div>
                                 </div>
                                 
                                 <div class="form-group">
                                     <label for="cover_image_url">Cover Image URL</label>
-                                    <input type="url" id="cover_image_url" name="cover_image_url" placeholder="https://...">
+                                    <input type="url" id="cover_image_url" name="cover_image_url" value="{{ issue.cover_image_url or '' }}" placeholder="https://...">
                                     <div class="help-text">URL to the cover image (Supabase Storage recommended)</div>
                                 </div>
                             </div>
                             
                             <div class="form-group">
                                 <label for="editorial">Editorial Content</label>
-                                <textarea id="editorial" name="editorial" placeholder="Editorial content for this issue..."></textarea>
+                                <textarea id="editorial" name="editorial" placeholder="Editorial content for this issue...">{{ issue.editorial or '' }}</textarea>
                                 <div class="help-text">The main editorial content that appears in the issue</div>
                             </div>
                             
@@ -294,7 +294,7 @@
                                     <i class="fas fa-arrow-left"></i> Cancel
                                 </a>
                                 <button type="submit" class="btn-admin btn-primary">
-                                    <i class="fas fa-save"></i> Create Issue
+                                    <i class="fas fa-save"></i> Update Issue
                                 </button>
                             </div>
                         </form>

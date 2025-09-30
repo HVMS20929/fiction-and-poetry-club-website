@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Issue - Mapao Magazine Admin</title>
+    <title>New Article - Mapao Magazine Admin</title>
     <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
@@ -121,7 +121,7 @@
         }
         
         .form-group textarea {
-            min-height: 120px;
+            min-height: 200px;
             resize: vertical;
         }
         
@@ -210,7 +210,7 @@
             <div class="container">
                 <div class="admin-title">
                     <i class="fas fa-plus"></i>
-                    <h1>New Issue</h1>
+                    <h1>New Article</h1>
                 </div>
                 <div class="admin-nav">
                     <a href="{{ url_for('admin_dashboard') }}"><i class="fas fa-home"></i> Dashboard</a>
@@ -241,60 +241,64 @@
                 <div class="form-container">
                     <div class="form-card">
                         <div class="form-header">
-                            <h2><i class="fas fa-book"></i> Create New Issue</h2>
-                            <p>Fill in the details for the new magazine issue</p>
+                            <h2><i class="fas fa-file-alt"></i> Create New Article</h2>
+                            <p>Add a new article to a magazine issue</p>
                         </div>
                         
                         <form method="POST">
+                            <div class="form-group">
+                                <label for="issue_id">Issue <span class="required">*</span></label>
+                                <select id="issue_id" name="issue_id" required>
+                                    <option value="">Select an issue...</option>
+                                    {% for issue in issues %}
+                                    <option value="{{ issue.id }}">{{ issue.title }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="help-text">Choose which issue this article belongs to</div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="title">Article Title <span class="required">*</span></label>
+                                <input type="text" id="title" name="title" required>
+                                <div class="help-text">The main title of the article</div>
+                            </div>
+                            
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label for="title">Issue Title <span class="required">*</span></label>
-                                    <input type="text" id="title" name="title" required>
-                                    <div class="help-text">e.g., "Fall/Winter 2024 - Literary"</div>
+                                    <label for="author">Author <span class="required">*</span></label>
+                                    <input type="text" id="author" name="author" required>
+                                    <div class="help-text">Name of the article author</div>
                                 </div>
                                 
                                 <div class="form-group">
-                                    <label for="journal_type">Journal Type <span class="required">*</span></label>
-                                    <select id="journal_type" name="journal_type" required>
-                                        <option value="literary">Literary</option>
-                                        <option value="research">Research</option>
+                                    <label for="category">Category</label>
+                                    <select id="category" name="category">
+                                        <option value="">Select category...</option>
+                                        <option value="Editorial">Editorial</option>
+                                        <option value="Feature">Feature</option>
+                                        <option value="Poetry">Poetry</option>
+                                        <option value="Short Story">Short Story</option>
+                                        <option value="Research">Research</option>
+                                        <option value="Interview">Interview</option>
+                                        <option value="Review">Review</option>
+                                        <option value="Other">Other</option>
                                     </select>
-                                    <div class="help-text">Choose the type of journal</div>
+                                    <div class="help-text">Article category or type</div>
                                 </div>
                             </div>
                             
                             <div class="form-group">
-                                <label for="description">Description <span class="required">*</span></label>
-                                <textarea id="description" name="description" required placeholder="Brief description of the issue content and theme..."></textarea>
-                                <div class="help-text">Provide a compelling description of what readers can expect</div>
-                            </div>
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="release_date">Release Date</label>
-                                    <input type="text" id="release_date" name="release_date" placeholder="e.g., September 2024">
-                                    <div class="help-text">When was/will this issue be released?</div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="cover_image_url">Cover Image URL</label>
-                                    <input type="url" id="cover_image_url" name="cover_image_url" placeholder="https://...">
-                                    <div class="help-text">URL to the cover image (Supabase Storage recommended)</div>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="editorial">Editorial Content</label>
-                                <textarea id="editorial" name="editorial" placeholder="Editorial content for this issue..."></textarea>
-                                <div class="help-text">The main editorial content that appears in the issue</div>
+                                <label for="content">Article Content <span class="required">*</span></label>
+                                <textarea id="content" name="content" required placeholder="Write the article content here..."></textarea>
+                                <div class="help-text">The main content of the article. You can use basic HTML formatting.</div>
                             </div>
                             
                             <div class="form-actions">
-                                <a href="{{ url_for('admin_issues') }}" class="btn-admin btn-secondary">
+                                <a href="{{ url_for('admin_articles') }}" class="btn-admin btn-secondary">
                                     <i class="fas fa-arrow-left"></i> Cancel
                                 </a>
                                 <button type="submit" class="btn-admin btn-primary">
-                                    <i class="fas fa-save"></i> Create Issue
+                                    <i class="fas fa-save"></i> Create Article
                                 </button>
                             </div>
                         </form>
