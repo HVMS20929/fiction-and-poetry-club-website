@@ -536,4 +536,345 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-}); 
+});
+
+// ========================================
+// AWARDS PAGE FUNCTIONALITY
+// ========================================
+
+// Year filtering for awards
+document.addEventListener('DOMContentLoaded', function() {
+    const yearBtns = document.querySelectorAll('.year-btn');
+    const awardCards = document.querySelectorAll('.award-card');
+    
+    if (yearBtns.length > 0 && awardCards.length > 0) {
+        yearBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                yearBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                const selectedYear = this.getAttribute('data-year');
+                
+                awardCards.forEach(card => {
+                    const cardYear = card.getAttribute('data-year');
+                    
+                    if (selectedYear === 'all' || cardYear === selectedYear) {
+                        card.style.display = 'block';
+                        card.style.animation = 'fadeIn 0.5s ease';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    }
+});
+
+// ========================================
+// WHO'S WHO PAGE FUNCTIONALITY
+// ========================================
+
+// Alphabet filtering for who's who
+document.addEventListener('DOMContentLoaded', function() {
+    const alphabetBtns = document.querySelectorAll('.alphabet-btn');
+    const personCards = document.querySelectorAll('.person-card');
+    const searchInput = document.getElementById('search-input');
+    
+    // Show all cards by default
+    if (personCards.length > 0) {
+        personCards.forEach(card => {
+            card.classList.add('show');
+        });
+    }
+    
+    // Alphabet filtering
+    if (alphabetBtns.length > 0 && personCards.length > 0) {
+        alphabetBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                alphabetBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                const selectedLetter = this.getAttribute('data-letter');
+                
+                personCards.forEach(card => {
+                    const cardLetter = card.getAttribute('data-letter');
+                    
+                    if (selectedLetter === 'all' || cardLetter === selectedLetter) {
+                        card.classList.add('show');
+                        card.style.animation = 'fadeIn 0.5s ease';
+                    } else {
+                        card.classList.remove('show');
+                    }
+                });
+            });
+        });
+    }
+    
+    // Search functionality
+    if (searchInput && personCards.length > 0) {
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            
+            personCards.forEach(card => {
+                const personName = card.getAttribute('data-name');
+                const personInfo = card.querySelector('.person-info');
+                const personBio = personInfo ? personInfo.textContent.toLowerCase() : '';
+                
+                if (searchTerm === '' || 
+                    personName.includes(searchTerm) || 
+                    personBio.includes(searchTerm)) {
+                    card.classList.add('show');
+                    card.style.animation = 'fadeIn 0.5s ease';
+                } else {
+                    card.classList.remove('show');
+                }
+            });
+            
+            // Update alphabet buttons based on search results
+            updateAlphabetButtons();
+        });
+    }
+    
+    function updateAlphabetButtons() {
+        const visibleCards = Array.from(personCards).filter(card => 
+            card.classList.contains('show')
+        );
+        
+        const visibleLetters = new Set();
+        visibleCards.forEach(card => {
+            visibleLetters.add(card.getAttribute('data-letter'));
+        });
+        
+        alphabetBtns.forEach(btn => {
+            const letter = btn.getAttribute('data-letter');
+            if (letter === 'all') {
+                btn.style.display = 'inline-block';
+            } else if (visibleLetters.has(letter)) {
+                btn.style.display = 'inline-block';
+                btn.style.opacity = '1';
+            } else {
+                btn.style.opacity = '0.3';
+            }
+        });
+    }
+});
+
+// ========================================
+// LIGHTBOX FUNCTIONALITY
+// ========================================
+
+// Lightbox functionality for ceremony photos
+function openLightbox(imageSrc) {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    
+    if (lightbox && lightboxImg) {
+        lightboxImg.src = imageSrc;
+        lightbox.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    
+    if (lightbox) {
+        lightbox.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+}
+
+// Close lightbox when clicking outside the image
+document.addEventListener('click', function(e) {
+    const lightbox = document.getElementById('lightbox');
+    if (lightbox && e.target === lightbox) {
+        closeLightbox();
+    }
+});
+
+// Close lightbox when pressing Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeLightbox();
+    }
+});
+
+// ========================================
+// SMOOTH SCROLLING FOR INTERNAL LINKS
+// ========================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Smooth scrolling for anchor links within the same page
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            
+            // Skip if href is just '#' (invalid selector)
+            if (href === '#') {
+                e.preventDefault();
+                return;
+            }
+            
+            e.preventDefault();
+            const target = document.querySelector(href);
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+});
+
+// ========================================
+// CARD ANIMATIONS
+// ========================================
+
+// Add fade-in animation for cards
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.award-card, .person-card');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+    
+    cards.forEach(card => {
+        observer.observe(card);
+    });
+});
+
+// ========================================
+// MOBILE OPTIMIZATIONS
+// ========================================
+
+// Touch-friendly interactions for mobile
+document.addEventListener('DOMContentLoaded', function() {
+    // Add touch feedback for buttons
+    const buttons = document.querySelectorAll('.year-btn, .alphabet-btn, .btn');
+    
+    buttons.forEach(btn => {
+        btn.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.95)';
+        });
+        
+        btn.addEventListener('touchend', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+    
+    // Prevent zoom on double tap for buttons
+    buttons.forEach(btn => {
+        btn.addEventListener('touchend', function(e) {
+            e.preventDefault();
+        });
+    });
+});
+
+// ========================================
+// PERFORMANCE OPTIMIZATIONS
+// ========================================
+
+// Debounced search for better performance
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Apply debouncing to search input
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search-input');
+    
+    if (searchInput) {
+        const debouncedSearch = debounce(function() {
+            // Search functionality is already handled above
+        }, 300);
+        
+        searchInput.addEventListener('input', debouncedSearch);
+    }
+});
+
+// ========================================
+// ACCESSIBILITY IMPROVEMENTS
+// ========================================
+
+// Keyboard navigation for filters
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.year-btn, .alphabet-btn');
+    
+    filterButtons.forEach((btn, index) => {
+        btn.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                const nextBtn = filterButtons[index + 1] || filterButtons[0];
+                nextBtn.focus();
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                const prevBtn = filterButtons[index - 1] || filterButtons[filterButtons.length - 1];
+                prevBtn.focus();
+            } else if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                this.click();
+            }
+        });
+    });
+});
+
+// Focus management for lightbox
+function openLightbox(imageSrc) {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    
+    if (lightbox && lightboxImg) {
+        lightboxImg.src = imageSrc;
+        lightbox.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        
+        // Focus on the close button for accessibility
+        const closeBtn = document.querySelector('.lightbox-close');
+        if (closeBtn) {
+            closeBtn.focus();
+        }
+    }
+}
+
+// ========================================
+// ERROR HANDLING
+// ========================================
+
+// Graceful error handling for missing elements
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if required elements exist before adding event listeners
+    const requiredElements = [
+        '.year-btn',
+        '.alphabet-btn',
+        '.award-card',
+        '.person-card',
+        '#search-input'
+    ];
+    
+    requiredElements.forEach(selector => {
+        const elements = document.querySelectorAll(selector);
+        if (elements.length === 0) {
+            console.warn(`Element with selector "${selector}" not found. Some functionality may not work.`);
+        }
+    });
+});

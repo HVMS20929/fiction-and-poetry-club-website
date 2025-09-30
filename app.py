@@ -1,23 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, send_from_directory, session
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, send_from_directory
 from flask_mail import Mail, Message
 from datetime import datetime
 import os
-from werkzeug.utils import secure_filename
 from config import Config
 from database import get_db_service
 import traceback
 
 app = Flask(__name__)
 app.config.from_object(Config)
-
-# Admin credentials (in production, use environment variables)
-ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME', 'admin')
-ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'mapao2024')
-
-# Helper function for file validation
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in Config.ALLOWED_EXTENSIONS
 
 # Initialize Flask-Mail (with error handling)
 try:
@@ -255,392 +245,75 @@ def robots_txt():
 def sitemap_xml():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'sitemap.xml', mimetype='application/xml')
 
-# Admin Routes
-def admin_required(f):
-    """Decorator to require admin authentication"""
-    def decorated_function(*args, **kwargs):
-        if not session.get('admin_logged_in'):
-            return redirect(url_for('admin_login'))
-        return f(*args, **kwargs)
-    decorated_function.__name__ = f.__name__
-    return decorated_function
-
-@app.route('/admin/login', methods=['GET', 'POST'])
-def admin_login():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-        
-        if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
-            session['admin_logged_in'] = True
-            flash('Successfully logged in!', 'success')
-            return redirect(url_for('admin_dashboard'))
-        else:
-            flash('Invalid username or password!', 'error')
-    
-    return render_template('admin/login.html')
-
-@app.route('/admin/logout')
-def admin_logout():
-    session.pop('admin_logged_in', None)
-    flash('Successfully logged out!', 'success')
-    return redirect(url_for('admin_login'))
-
-@app.route('/admin')
-@admin_required
-def admin_dashboard():
-    """Admin dashboard with statistics"""
+@app.route('/awards')
+def awards():
     try:
         db = get_db_service()
         if db:
-            # Get statistics
-            issues = db.get_all_issues()
-            moments = db.get_all_moments()
-            
-            # Count articles and contributors
-            total_articles = 0
-            total_contributors = 0
-            for issue in issues:
-                articles = db.get_articles_by_issue(issue['id'])
-                contributors = db.get_contributors_by_issue(issue['id'])
-                total_articles += len(articles)
-                total_contributors += len(contributors.get('editorial_team', [])) + len(contributors.get('featured_writers', [])) + len(contributors.get('photographers', []))
-            
-            stats = {
-                'total_issues': len(issues),
-                'total_articles': total_articles,
-                'total_contributors': total_contributors,
-                'total_moments': len(moments),
-                'latest_issues': issues[:5]  # Show latest 5 issues
-            }
+            awards = db.get_all_awards()
+            years = db.get_awards_years()
         else:
-            stats = {
-                'total_issues': 0,
-                'total_articles': 0,
-                'total_contributors': 0,
-                'total_moments': 0,
-                'latest_issues': []
-            }
+            awards = []
+            years = []
     except Exception as e:
-        print(f"Error fetching admin stats: {e}")
-        stats = {
-            'total_issues': 0,
-            'total_articles': 0,
-            'total_contributors': 0,
-            'total_moments': 0,
-            'latest_issues': []
-        }
+        print(f"Error fetching awards: {e}")
+        awards = []
+        years = []
     
-    return render_template('admin/dashboard.html', stats=stats)
+    return render_template('awards.html', awards=awards, years=years)
 
-@app.route('/admin/issues')
-@admin_required
-def admin_issues():
-    """Manage magazine issues"""
-    try:
-        db = get_db_service()
-        issues = db.get_all_issues() if db else []
-    except Exception as e:
-        print(f"Error fetching issues: {e}")
-        issues = []
-    
-    return render_template('admin/issues.html', issues=issues)
-
-@app.route('/admin/issues/new', methods=['GET', 'POST'])
-@admin_required
-def admin_new_issue():
-    """Create new magazine issue"""
-    if request.method == 'POST':
-        try:
-            # Handle cover image upload
-            cover_image_url = request.form.get('cover_image_url', '')
-            
-            # Check if a file was uploaded
-            if 'cover_image_file' in request.files:
-                file = request.files['cover_image_file']
-                if file and file.filename and allowed_file(file.filename):
-                    # Upload to Supabase Storage
-                    db = get_db_service()
-                    if db:
-                        file_bytes = file.read()
-                        uploaded_url = db.upload_file_from_bytes(
-                            file_bytes, 
-                            secure_filename(file.filename), 
-                            folder='covers'
-                        )
-                        if uploaded_url:
-                            cover_image_url = uploaded_url
-                        else:
-                            flash('Error uploading cover image!', 'error')
-                            return render_template('admin/new_issue.html')
-                    else:
-                        flash('Database connection error!', 'error')
-                        return render_template('admin/new_issue.html')
-                elif file and file.filename:
-                    flash('Invalid file type! Please upload a valid image file.', 'error')
-                    return render_template('admin/new_issue.html')
-            
-            issue_data = {
-                'title': request.form.get('title'),
-                'description': request.form.get('description'),
-                'release_date': request.form.get('release_date'),
-                'editorial': request.form.get('editorial'),
-                'journal_type': request.form.get('journal_type', 'literary'),
-                'cover_image_url': cover_image_url
-            }
-            
-            db = get_db_service()
-            if db:
-                new_issue = db.create_issue(issue_data)
-                if new_issue:
-                    flash('Issue created successfully!', 'success')
-                    return redirect(url_for('admin_issues'))
-                else:
-                    flash('Error creating issue!', 'error')
-            else:
-                flash('Database connection error!', 'error')
-        except Exception as e:
-            print(f"Error creating issue: {e}")
-            flash('Error creating issue!', 'error')
-    
-    return render_template('admin/new_issue.html')
-
-@app.route('/admin/issues/<int:issue_id>/edit', methods=['GET', 'POST'])
-@admin_required
-def admin_edit_issue(issue_id):
-    """Edit magazine issue"""
-    try:
-        db = get_db_service()
-        if not db:
-            flash('Database connection error!', 'error')
-            return redirect(url_for('admin_issues'))
-        
-        issue = db.get_issue_by_id(issue_id)
-        if not issue:
-            flash('Issue not found!', 'error')
-            return redirect(url_for('admin_issues'))
-        
-        if request.method == 'POST':
-            # Handle cover image upload
-            cover_image_url = request.form.get('cover_image_url', issue.get('cover_image_url', ''))
-            
-            # Check if a new file was uploaded
-            if 'cover_image_file' in request.files:
-                file = request.files['cover_image_file']
-                if file and file.filename and allowed_file(file.filename):
-                    # Upload to Supabase Storage
-                    file_bytes = file.read()
-                    uploaded_url = db.upload_file_from_bytes(
-                        file_bytes, 
-                        secure_filename(file.filename), 
-                        folder='covers'
-                    )
-                    if uploaded_url:
-                        cover_image_url = uploaded_url
-                    else:
-                        flash('Error uploading cover image!', 'error')
-                        return render_template('admin/edit_issue.html', issue=issue)
-                elif file and file.filename:
-                    flash('Invalid file type! Please upload a valid image file.', 'error')
-                    return render_template('admin/edit_issue.html', issue=issue)
-            
-            issue_data = {
-                'title': request.form.get('title'),
-                'description': request.form.get('description'),
-                'release_date': request.form.get('release_date'),
-                'editorial': request.form.get('editorial'),
-                'journal_type': request.form.get('journal_type', 'literary'),
-                'cover_image_url': cover_image_url
-            }
-            
-            if db.update_issue(issue_id, issue_data):
-                flash('Issue updated successfully!', 'success')
-                return redirect(url_for('admin_issues'))
-            else:
-                flash('Error updating issue!', 'error')
-        
-        return render_template('admin/edit_issue.html', issue=issue)
-        
-    except Exception as e:
-        print(f"Error editing issue: {e}")
-        flash('Error editing issue!', 'error')
-        return redirect(url_for('admin_issues'))
-
-@app.route('/admin/issues/<int:issue_id>/delete', methods=['POST'])
-@admin_required
-def admin_delete_issue(issue_id):
-    """Delete magazine issue"""
-    try:
-        db = get_db_service()
-        if db and db.delete_issue(issue_id):
-            flash('Issue deleted successfully!', 'success')
-        else:
-            flash('Error deleting issue!', 'error')
-    except Exception as e:
-        print(f"Error deleting issue: {e}")
-        flash('Error deleting issue!', 'error')
-    
-    return redirect(url_for('admin_issues'))
-
-@app.route('/admin/articles')
-@admin_required
-def admin_articles():
-    """Manage articles"""
+@app.route('/awards/<int:award_id>')
+def award_detail(award_id):
     try:
         db = get_db_service()
         if db:
-            issues = db.get_all_issues()
-            all_articles = []
-            for issue in issues:
-                articles = db.get_articles_by_issue(issue['id'])
-                for article in articles:
-                    article['issue_title'] = issue['title']
-                    all_articles.append(article)
+            award = db.get_award_by_id(award_id)
         else:
-            all_articles = []
-            issues = []
+            award = None
     except Exception as e:
-        print(f"Error fetching articles: {e}")
-        all_articles = []
-        issues = []
+        print(f"Error fetching award {award_id}: {e}")
+        award = None
     
-    return render_template('admin/articles.html', articles=all_articles, issues=issues)
+    if award is None:
+        flash('Award not found!', 'error')
+        return redirect(url_for('awards'))
+    
+    return render_template('award_detail.html', award=award)
 
-@app.route('/admin/articles/new', methods=['GET', 'POST'])
-@admin_required
-def admin_new_article():
-    """Create new article"""
+@app.route('/whos-who')
+def whos_who():
     try:
         db = get_db_service()
-        issues = db.get_all_issues() if db else []
-    except Exception as e:
-        print(f"Error fetching issues: {e}")
-        issues = []
-    
-    if request.method == 'POST':
-        try:
-            article_data = {
-                'issue_id': int(request.form.get('issue_id')),
-                'title': request.form.get('title'),
-                'content': request.form.get('content'),
-                'author': request.form.get('author'),
-                'category': request.form.get('category')
-            }
-            
-            db = get_db_service()
-            if db:
-                new_article = db.create_article(article_data)
-                if new_article:
-                    flash('Article created successfully!', 'success')
-                    return redirect(url_for('admin_articles'))
-                else:
-                    flash('Error creating article!', 'error')
-            else:
-                flash('Database connection error!', 'error')
-        except Exception as e:
-            print(f"Error creating article: {e}")
-            flash('Error creating article!', 'error')
-    
-    return render_template('admin/new_article.html', issues=issues)
-
-@app.route('/admin/articles/<int:article_id>/edit', methods=['GET', 'POST'])
-@admin_required
-def admin_edit_article(article_id):
-    """Edit article"""
-    try:
-        db = get_db_service()
-        if not db:
-            flash('Database connection error!', 'error')
-            return redirect(url_for('admin_articles'))
-        
-        article = db.get_article_by_id(article_id)
-        if not article:
-            flash('Article not found!', 'error')
-            return redirect(url_for('admin_articles'))
-        
-        # Get all issues for the dropdown
-        issues = db.get_all_issues()
-        
-        if request.method == 'POST':
-            article_data = {
-                'issue_id': int(request.form.get('issue_id')),
-                'title': request.form.get('title'),
-                'content': request.form.get('content'),
-                'author': request.form.get('author'),
-                'category': request.form.get('category')
-            }
-            
-            if db.update_article(article_id, article_data):
-                flash('Article updated successfully!', 'success')
-                return redirect(url_for('admin_articles'))
-            else:
-                flash('Error updating article!', 'error')
-        
-        return render_template('admin/edit_article.html', article=article, issues=issues)
-        
-    except Exception as e:
-        print(f"Error editing article: {e}")
-        flash('Error editing article!', 'error')
-        return redirect(url_for('admin_articles'))
-
-@app.route('/admin/articles/<int:article_id>/delete', methods=['POST'])
-@admin_required
-def admin_delete_article(article_id):
-    """Delete article"""
-    try:
-        db = get_db_service()
-        if db and db.delete_article(article_id):
-            flash('Article deleted successfully!', 'success')
+        if db:
+            people = db.get_all_whos_who()
+            letters = db.get_whos_who_letters()
         else:
-            flash('Error deleting article!', 'error')
+            people = []
+            letters = []
     except Exception as e:
-        print(f"Error deleting article: {e}")
-        flash('Error deleting article!', 'error')
+        print(f"Error fetching who's who: {e}")
+        people = []
+        letters = []
     
-    return redirect(url_for('admin_articles'))
+    return render_template('whos_who.html', people=people, letters=letters)
 
-@app.route('/admin/moments')
-@admin_required
-def admin_moments():
-    """Manage moments"""
+@app.route('/whos-who/<int:person_id>')
+def whos_who_detail(person_id):
     try:
         db = get_db_service()
-        moments = db.get_all_moments() if db else []
+        if db:
+            person = db.get_whos_who_by_id(person_id)
+        else:
+            person = None
     except Exception as e:
-        print(f"Error fetching moments: {e}")
-        moments = []
+        print(f"Error fetching person {person_id}: {e}")
+        person = None
     
-    return render_template('admin/moments.html', moments=moments)
-
-@app.route('/admin/moments/new', methods=['GET', 'POST'])
-@admin_required
-def admin_new_moment():
-    """Create new moment"""
-    if request.method == 'POST':
-        try:
-            moment_data = {
-                'title': request.form.get('title'),
-                'date': request.form.get('date'),
-                'description': request.form.get('description'),
-                'category': request.form.get('category'),
-                'image_url': request.form.get('image_url')
-            }
-            
-            db = get_db_service()
-            if db:
-                new_moment = db.create_moment(moment_data)
-                if new_moment:
-                    flash('Moment created successfully!', 'success')
-                    return redirect(url_for('admin_moments'))
-                else:
-                    flash('Error creating moment!', 'error')
-            else:
-                flash('Database connection error!', 'error')
-        except Exception as e:
-            print(f"Error creating moment: {e}")
-            flash('Error creating moment!', 'error')
+    if person is None:
+        flash('Person not found!', 'error')
+        return redirect(url_for('whos_who'))
     
-    return render_template('admin/new_moment.html')
+    return render_template('whos_who_detail.html', person=person)
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))

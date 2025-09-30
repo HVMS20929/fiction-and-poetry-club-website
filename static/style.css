@@ -3351,3 +3351,946 @@ p {
         padding: 0.3rem 0;
     }
 }
+
+/* ========================================
+   AWARDS PAGE STYLES
+   ======================================== */
+
+.awards-header {
+    background: linear-gradient(135deg, #8F87F1 0%, #493D9E 100%);
+    color: white;
+    text-align: center;
+    padding: 4rem 0;
+}
+
+.awards-header h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.awards-header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.awards-intro {
+    padding: 4rem 0;
+    background: #f8f9fa;
+}
+
+.intro-content h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.intro-content p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #666;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    text-align: center;
+}
+
+.award-highlights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.highlight-item {
+    text-align: center;
+    padding: 2rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.highlight-item:hover {
+    transform: translateY(-5px);
+}
+
+.highlight-item i {
+    font-size: 3rem;
+    color: #8F87F1;
+    margin-bottom: 1rem;
+}
+
+.highlight-item h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.highlight-item p {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.awards-filter {
+    padding: 2rem 0;
+    background: white;
+    border-bottom: 1px solid #eee;
+}
+
+.filter-content {
+    text-align: center;
+}
+
+.filter-content h3 {
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.year-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.year-btn {
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #8F87F1;
+    background: white;
+    color: #8F87F1;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.year-btn:hover,
+.year-btn.active {
+    background: #8F87F1;
+    color: white;
+}
+
+.awards-listing {
+    padding: 4rem 0;
+}
+
+.awards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.award-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.award-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.award-year {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: #8F87F1;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    z-index: 2;
+}
+
+.award-content {
+    padding: 2rem;
+}
+
+.awardee-photo {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.awardee-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #8F87F1;
+}
+
+.awardee-placeholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    border: 4px solid #8F87F1;
+}
+
+.awardee-placeholder i {
+    font-size: 3rem;
+    color: #8F87F1;
+}
+
+.awardee-info h3 {
+    text-align: center;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-size: 1.4rem;
+}
+
+.award-genre {
+    text-align: center;
+    color: #8F87F1;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.award-bio-preview {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.award-actions {
+    text-align: center;
+}
+
+.no-awards {
+    text-align: center;
+    padding: 4rem 0;
+}
+
+.no-awards-content i {
+    font-size: 4rem;
+    color: #ddd;
+    margin-bottom: 1rem;
+}
+
+.no-awards-content h3 {
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.awards-cta {
+    background: linear-gradient(135deg, #8F87F1 0%, #493D9E 100%);
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.cta-content h2 {
+    margin-bottom: 1rem;
+    font-size: 2.5rem;
+}
+
+.cta-content p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+/* Award Detail Page Styles */
+.award-detail-header {
+    background: linear-gradient(135deg, #8F87F1 0%, #493D9E 100%);
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.award-year-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    backdrop-filter: blur(10px);
+}
+
+.award-detail-header h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.award-title {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin-bottom: 0.5rem;
+}
+
+.award-genre {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+.award-detail-content {
+    padding: 4rem 0;
+}
+
+.award-layout {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.awardee-section {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 3rem;
+    margin-bottom: 3rem;
+    align-items: start;
+}
+
+.awardee-photo-large {
+    text-align: center;
+}
+
+.awardee-img-large {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 6px solid #8F87F1;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.awardee-placeholder-large {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    border: 6px solid #8F87F1;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.awardee-placeholder-large i {
+    font-size: 5rem;
+    color: #8F87F1;
+}
+
+.awardee-bio h2 {
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.awardee-bio p {
+    line-height: 1.8;
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.award-speech-section {
+    margin-bottom: 3rem;
+}
+
+.award-speech-section h2 {
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.speech-content {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 10px;
+    border-left: 4px solid #8F87F1;
+}
+
+.speech-content blockquote {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #333;
+    margin: 0 0 1rem 0;
+    font-style: italic;
+}
+
+.speech-content cite {
+    color: #8F87F1;
+    font-weight: 600;
+    font-style: normal;
+}
+
+.ceremony-photos-section h2 {
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.ceremony-photos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.ceremony-photo-item {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.ceremony-photo-item:hover {
+    transform: scale(1.05);
+}
+
+.ceremony-photo {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.award-navigation {
+    padding: 2rem 0;
+    background: #f8f9fa;
+}
+
+.nav-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* Lightbox Styles */
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 10000;
+}
+
+#lightbox-img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 10px;
+}
+
+/* ========================================
+   WHO'S WHO PAGE STYLES
+   ======================================== */
+
+.whos-who-header {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+    color: white;
+    text-align: center;
+    padding: 4rem 0;
+}
+
+.whos-who-header h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.whos-who-header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.whos-who-intro {
+    padding: 4rem 0;
+    background: #f8f9fa;
+}
+
+.whos-who-intro h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.whos-who-intro p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #666;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    text-align: center;
+}
+
+.search-section {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.search-box {
+    position: relative;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3rem;
+    border: 2px solid #ddd;
+    border-radius: 25px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.search-box input:focus {
+    border-color: #27ae60;
+}
+
+.search-box i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+}
+
+.alphabet-nav {
+    padding: 2rem 0;
+    background: white;
+    border-bottom: 1px solid #eee;
+}
+
+.alphabet-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.alphabet-btn {
+    padding: 0.75rem 1rem;
+    border: 2px solid #27ae60;
+    background: white;
+    color: #27ae60;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    min-width: 50px;
+    text-align: center;
+}
+
+.alphabet-btn:hover,
+.alphabet-btn.active {
+    background: #27ae60;
+    color: white;
+}
+
+.whos-who-listing {
+    padding: 4rem 0;
+}
+
+.people-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.person-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: none;
+}
+
+.person-card.show {
+    display: block;
+}
+
+.person-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.person-photo {
+    text-align: center;
+    padding: 2rem 2rem 1rem;
+}
+
+.person-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #27ae60;
+}
+
+.person-placeholder {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    border: 4px solid #27ae60;
+}
+
+.person-placeholder i {
+    font-size: 2.5rem;
+    color: #27ae60;
+}
+
+.person-info {
+    padding: 0 2rem 2rem;
+    text-align: center;
+}
+
+.person-info h3 {
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-size: 1.3rem;
+}
+
+.person-genre {
+    color: #27ae60;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.person-years {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.person-bio-preview {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.whos-who-stats {
+    background: #f8f9fa;
+    padding: 3rem 0;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 2rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stat-item i {
+    font-size: 3rem;
+    color: #27ae60;
+    margin-bottom: 1rem;
+}
+
+.stat-item h3 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.stat-item p {
+    color: #666;
+    font-weight: 500;
+}
+
+.whos-who-cta {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.whos-who-cta h2 {
+    margin-bottom: 1rem;
+    font-size: 2.5rem;
+}
+
+.whos-who-cta p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.no-people {
+    text-align: center;
+    padding: 4rem 0;
+}
+
+.no-people-content i {
+    font-size: 4rem;
+    color: #ddd;
+    margin-bottom: 1rem;
+}
+
+.no-people-content h3 {
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+/* Who's Who Detail Page Styles */
+.person-detail-header {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+    color: white;
+    padding: 4rem 0;
+}
+
+.person-header-content {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 2rem;
+    align-items: center;
+}
+
+.person-photo-large {
+    text-align: center;
+}
+
+.person-img-large {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 6px solid white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.person-placeholder-large {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    border: 6px solid white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.person-placeholder-large i {
+    font-size: 4rem;
+    color: white;
+}
+
+.person-header-info h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.person-genre {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 0.5rem;
+}
+
+.person-years {
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+.person-detail-content {
+    padding: 4rem 0;
+}
+
+.person-layout {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.person-bio-section {
+    margin-bottom: 3rem;
+}
+
+.person-bio-section h2 {
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.bio-content p {
+    line-height: 1.8;
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.notable-works-section,
+.awards-section,
+.genre-details-section {
+    margin-bottom: 3rem;
+}
+
+.notable-works-section h2,
+.awards-section h2,
+.genre-details-section h2 {
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.works-list,
+.awards-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.work-item,
+.award-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #27ae60;
+}
+
+.work-item i,
+.award-item i {
+    margin-right: 1rem;
+    color: #27ae60;
+    font-size: 1.2rem;
+}
+
+.genre-details-section {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+.genre-badge {
+    display: inline-block;
+    background: #27ae60;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.genre-info p {
+    line-height: 1.8;
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.person-navigation {
+    padding: 2rem 0;
+    background: #f8f9fa;
+}
+
+/* Mobile Responsive Styles for Awards and Who's Who */
+@media (max-width: 768px) {
+    .awards-header h1,
+    .whos-who-header h1 {
+        font-size: 2.5rem;
+    }
+    
+    .award-highlights {
+        grid-template-columns: 1fr;
+    }
+    
+    .awards-grid,
+    .people-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .year-buttons,
+    .alphabet-buttons {
+        gap: 0.5rem;
+    }
+    
+    .year-btn,
+    .alphabet-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .awardee-section {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .person-header-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .ceremony-photos-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .nav-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .awards-header h1,
+    .whos-who-header h1 {
+        font-size: 2rem;
+    }
+    
+    .award-card,
+    .person-card {
+        margin: 0 1rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .year-buttons,
+    .alphabet-buttons {
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding: 0 1rem;
+    }
+    
+    .year-btn,
+    .alphabet-btn {
+        flex-shrink: 0;
+    }
+}

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who's Who in Manipuri Literature - Fiction & Poetry Club Manipur</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Who's Who in Manipuri Literature - A comprehensive directory of literary figures, writers, poets, and scholars who have contributed to Manipuri literature.">
+    <meta name="keywords" content="Manipuri Literature, Who's Who, Literary Figures, Writers, Poets, Manipur, Fiction Poetry Club">
+    <meta name="author" content="Fiction and Poetry Club Manipur">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Meta Tags for Social Media -->
+    <meta property="og:title" content="Who's Who in Manipuri Literature - Fiction & Poetry Club Manipur">
+    <meta property="og:description" content="A comprehensive directory of literary figures who have shaped Manipuri literature.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:image" content="{{ url_for('static', filename='images/fiction&poetry_favicon.png', _external=True) }}">
+    <meta property="og:site_name" content="Fiction and Poetry Club Manipur">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Who's Who in Manipuri Literature">
+    <meta name="twitter:description" content="A comprehensive directory of literary figures who have shaped Manipuri literature.">
+    <meta name="twitter:image" content="{{ url_for('static', filename='images/fiction&poetry_favicon.png', _external=True) }}">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ request.url }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="https://kxxlyyqrzsxrzfwjadvg.supabase.co/storage/v1/object/public/magazine-assets/logos/fiction-poetry-club-logo.png" alt="Fiction & Poetry Club Logo" class="nav-logo-img">
+                <h1>Fiction & Poetry Club</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="{{ url_for('home') }}" class="nav-link">Home</a></li>
+                <li><a href="{{ url_for('mapao') }}" class="nav-link">Mapao</a></li>
+                <li><a href="{{ url_for('moments') }}" class="nav-link">Moments & Milestones</a></li>
+                <li><a href="{{ url_for('about') }}" class="nav-link">About</a></li>
+                <li><a href="{{ url_for('contact') }}" class="nav-link">Contact</a></li>
+                <li><a href="{{ url_for('awards') }}" class="nav-link">Awards</a></li>
+                <li><a href="{{ url_for('whos_who') }}" class="nav-link active">Who's Who</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">
+                        {{ message }}
+                        <span class="close-flash">&times;</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Page Header -->
+    <section class="page-header whos-who-header">
+        <div class="container">
+            <h1>Who's Who in Manipuri Literature</h1>
+            <p>A comprehensive directory of literary figures who have shaped and enriched Manipuri literature</p>
+        </div>
+    </section>
+
+    <!-- Introduction -->
+    <section class="whos-who-intro">
+        <div class="container">
+            <div class="intro-content">
+                <h2>Literary Legacy</h2>
+                <p>Manipuri literature has been enriched by countless writers, poets, playwrights, and scholars who have contributed to its growth and development. This directory celebrates their contributions and preserves their legacy for future generations.</p>
+                
+                <div class="search-section">
+                    <div class="search-box">
+                        <input type="text" id="search-input" placeholder="Search for a literary figure...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Alphabetical Navigation -->
+    <section class="alphabet-nav">
+        <div class="container">
+            <div class="alphabet-buttons">
+                <button class="alphabet-btn active" data-letter="all">All</button>
+                {% for letter in letters %}
+                <button class="alphabet-btn" data-letter="{{ letter }}">{{ letter }}</button>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- People Listing -->
+    <section class="whos-who-listing">
+        <div class="container">
+            {% if people %}
+                <div class="people-grid" id="people-grid">
+                    {% for person in people %}
+                    <div class="person-card" data-letter="{{ person.name[0].upper() }}" data-name="{{ person.name.lower() }}">
+                        <div class="person-photo">
+                            {% if person.photo_url %}
+                                <img src="{{ person.photo_url }}" alt="{{ person.name }}" class="person-img">
+                            {% else %}
+                                <div class="person-placeholder">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="person-info">
+                            <h3>{{ person.name }}</h3>
+                            <p class="person-genre">{{ person.literary_genre }}</p>
+                            <p class="person-years">
+                                {% if person.birth_year %}
+                                    {{ person.birth_year }}
+                                    {% if person.death_year %}
+                                        - {{ person.death_year }}
+                                    {% else %}
+                                        - Present
+                                    {% endif %}
+                                {% endif %}
+                            </p>
+                            <p class="person-bio-preview">{{ person.bio[:100] }}{% if person.bio|length > 100 %}...{% endif %}</p>
+                            <a href="{{ url_for('whos_who_detail', person_id=person.id) }}" class="btn btn-primary">View Profile</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="no-people">
+                    <div class="no-people-content">
+                        <i class="fas fa-users"></i>
+                        <h3>No Literary Figures Found</h3>
+                        <p>We're working on adding more profiles. Please check back soon!</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Statistics -->
+    <section class="whos-who-stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <i class="fas fa-users"></i>
+                    <h3>{{ people|length }}</h3>
+                    <p>Literary Figures</p>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-book"></i>
+                    <h3>{{ letters|length }}</h3>
+                    <p>Alphabetical Sections</p>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-trophy"></i>
+                    <h3>{{ people|selectattr('awards_received')|list|length }}</h3>
+                    <p>Award Recipients</p>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-pen-fancy"></i>
+                    <h3>{{ people|groupby('literary_genre')|list|length }}</h3>
+                    <p>Literary Genres</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="whos-who-cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Know Someone Missing?</h2>
+                <p>Help us expand our directory by suggesting literary figures who should be included in our Who's Who.</p>
+                <a href="{{ url_for('contact') }}" class="btn btn-primary">Suggest Someone</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Fiction & Poetry Club</h3>
+                    <p>Nurturing literary excellence in Manipur since 2004</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="{{ url_for('home') }}">Home</a></li>
+                        <li><a href="{{ url_for('mapao') }}">Mapao</a></li>
+                        <li><a href="{{ url_for('moments') }}">Moments</a></li>
+                        <li><a href="{{ url_for('about') }}">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/share/17DQvR5d3t/" target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a href="https://wa.me/9862899291" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="proudly-built">
+                    <span>Proudly built by</span>
+                    <video class="lookmai-logo" autoplay muted loop playsinline>
+                        <source src="https://kxxlyyqrzsxrzfwjadvg.supabase.co/storage/v1/object/public/magazine-assets/logos/lookmai_logo.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <p>&copy; 2024 Fiction & Poetry Club Manipur. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

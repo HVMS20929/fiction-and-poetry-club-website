@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awards - Hijam Anganghal Ningsing Mana - Fiction & Poetry Club Manipur</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Hijam Anganghal Ningsing Mana Awards - Celebrating excellence in Manipuri literature. View awardees, speeches, and ceremony photos from Fiction & Poetry Club Manipur.">
+    <meta name="keywords" content="Hijam Anganghal Ningsing Mana, Awards, Manipuri Literature, Fiction Poetry Club, Literary Awards, Manipur">
+    <meta name="author" content="Fiction and Poetry Club Manipur">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Meta Tags for Social Media -->
+    <meta property="og:title" content="Hijam Anganghal Ningsing Mana Awards - Fiction & Poetry Club Manipur">
+    <meta property="og:description" content="Celebrating excellence in Manipuri literature through our prestigious awards program.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:image" content="{{ url_for('static', filename='images/fiction&poetry_favicon.png', _external=True) }}">
+    <meta property="og:site_name" content="Fiction and Poetry Club Manipur">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Hijam Anganghal Ningsing Mana Awards">
+    <meta name="twitter:description" content="Celebrating excellence in Manipuri literature">
+    <meta name="twitter:image" content="{{ url_for('static', filename='images/fiction&poetry_favicon.png', _external=True) }}">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ request.url }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="https://kxxlyyqrzsxrzfwjadvg.supabase.co/storage/v1/object/public/magazine-assets/logos/fiction-poetry-club-logo.png" alt="Fiction & Poetry Club Logo" class="nav-logo-img">
+                <h1>Fiction & Poetry Club</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="{{ url_for('home') }}" class="nav-link">Home</a></li>
+                <li><a href="{{ url_for('mapao') }}" class="nav-link">Mapao</a></li>
+                <li><a href="{{ url_for('moments') }}" class="nav-link">Moments & Milestones</a></li>
+                <li><a href="{{ url_for('about') }}" class="nav-link">About</a></li>
+                <li><a href="{{ url_for('contact') }}" class="nav-link">Contact</a></li>
+                <li><a href="{{ url_for('awards') }}" class="nav-link active">Awards</a></li>
+                <li><a href="{{ url_for('whos_who') }}" class="nav-link">Who's Who</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">
+                        {{ message }}
+                        <span class="close-flash">&times;</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Page Header -->
+    <section class="page-header awards-header">
+        <div class="container">
+            <h1>Hijam Anganghal Ningsing Mana Awards</h1>
+            <p>Celebrating excellence in Manipuri literature and honoring the legacy of our literary giants</p>
+        </div>
+    </section>
+
+    <!-- Awards Introduction -->
+    <section class="awards-intro">
+        <div class="container">
+            <div class="intro-content">
+                <h2>About the Award</h2>
+                <p>The <strong>Hijam Anganghal Ningsing Mana Award</strong> is the highest literary honor bestowed by the Fiction & Poetry Club Manipur. Named after the father of modern Manipuri literature, this prestigious award recognizes outstanding contributions to Manipuri literature across various genres including poetry, fiction, drama, and literary criticism.</p>
+                
+                <div class="award-highlights">
+                    <div class="highlight-item">
+                        <i class="fas fa-trophy"></i>
+                        <h3>Prestigious Recognition</h3>
+                        <p>Honoring the most distinguished literary figures in Manipur</p>
+                    </div>
+                    <div class="highlight-item">
+                        <i class="fas fa-book"></i>
+                        <h3>Literary Excellence</h3>
+                        <p>Celebrating outstanding contributions to Manipuri literature</p>
+                    </div>
+                    <div class="highlight-item">
+                        <i class="fas fa-users"></i>
+                        <h3>Community Impact</h3>
+                        <p>Recognizing writers who have influenced society through their work</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Year Filter -->
+    <section class="awards-filter">
+        <div class="container">
+            <div class="filter-content">
+                <h3>Filter by Year</h3>
+                <div class="year-buttons">
+                    <button class="year-btn active" data-year="all">All Years</button>
+                    {% for year in years %}
+                    <button class="year-btn" data-year="{{ year }}">{{ year }}</button>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Awards Listing -->
+    <section class="awards-listing">
+        <div class="container">
+            {% if awards %}
+                <div class="awards-grid">
+                    {% for award in awards %}
+                    <div class="award-card" data-year="{{ award.year }}">
+                        <div class="award-year">{{ award.year }}</div>
+                        <div class="award-content">
+                            <div class="awardee-photo">
+                                {% if award.awardee_photo_url %}
+                                    <img src="{{ award.awardee_photo_url }}" alt="{{ award.awardee_name }}" class="awardee-img">
+                                {% else %}
+                                    <div class="awardee-placeholder">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="awardee-info">
+                                <h3>{{ award.awardee_name }}</h3>
+                                <p class="award-genre">{{ award.literary_genre }}</p>
+                                <p class="award-bio-preview">{{ award.awardee_bio[:150] }}{% if award.awardee_bio|length > 150 %}...{% endif %}</p>
+                                <a href="{{ url_for('award_detail', award_id=award.id) }}" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="no-awards">
+                    <div class="no-awards-content">
+                        <i class="fas fa-trophy"></i>
+                        <h3>No Awards Found</h3>
+                        <p>We're working on adding more award information. Please check back soon!</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="awards-cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Know Someone Deserving?</h2>
+                <p>Help us identify exceptional literary figures who deserve recognition for their contributions to Manipuri literature.</p>
+                <a href="{{ url_for('contact') }}" class="btn btn-primary">Nominate Someone</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Fiction & Poetry Club</h3>
+                    <p>Nurturing literary excellence in Manipur since 2004</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="{{ url_for('home') }}">Home</a></li>
+                        <li><a href="{{ url_for('mapao') }}">Mapao</a></li>
+                        <li><a href="{{ url_for('moments') }}">Moments</a></li>
+                        <li><a href="{{ url_for('about') }}">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/share/17DQvR5d3t/" target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a href="https://wa.me/9862899291" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="proudly-built">
+                    <span>Proudly built by</span>
+                    <video class="lookmai-logo" autoplay muted loop playsinline>
+                        <source src="https://kxxlyyqrzsxrzfwjadvg.supabase.co/storage/v1/object/public/magazine-assets/logos/lookmai_logo.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <p>&copy; 2024 Fiction & Poetry Club Manipur. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

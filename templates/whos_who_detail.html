@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ person.name }} - Who's Who - Fiction & Poetry Club Manipur</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="{{ person.name }} - {{ person.literary_genre }} writer and literary figure in Manipuri literature. Read biography, notable works, and achievements.">
+    <meta name="keywords" content="{{ person.name }}, Manipuri Literature, {{ person.literary_genre }}, Who's Who, Literary Figure, Manipur">
+    <meta name="author" content="Fiction and Poetry Club Manipur">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Meta Tags for Social Media -->
+    <meta property="og:title" content="{{ person.name }} - Literary Figure Profile">
+    <meta property="og:description" content="Read about {{ person.name }}, a distinguished {{ person.literary_genre }} writer in Manipuri literature.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:image" content="{% if person.photo_url %}{{ person.photo_url }}{% else %}{{ url_for('static', filename='images/fiction&poetry_favicon.png', _external=True) }}{% endif %}">
+    <meta property="og:site_name" content="Fiction and Poetry Club Manipur">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ person.name }} - Literary Figure Profile">
+    <meta name="twitter:description" content="Read about {{ person.name }}, a distinguished {{ person.literary_genre }} writer in Manipuri literature.">
+    <meta name="twitter:image" content="{% if person.photo_url %}{{ person.photo_url }}{% else %}{{ url_for('static', filename='images/fiction&poetry_favicon.png', _external=True) }}{% endif %}">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ request.url }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="https://kxxlyyqrzsxrzfwjadvg.supabase.co/storage/v1/object/public/magazine-assets/logos/fiction-poetry-club-logo.png" alt="Fiction & Poetry Club Logo" class="nav-logo-img">
+                <h1>Fiction & Poetry Club</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="{{ url_for('home') }}" class="nav-link">Home</a></li>
+                <li><a href="{{ url_for('mapao') }}" class="nav-link">Mapao</a></li>
+                <li><a href="{{ url_for('moments') }}" class="nav-link">Moments & Milestones</a></li>
+                <li><a href="{{ url_for('about') }}" class="nav-link">About</a></li>
+                <li><a href="{{ url_for('contact') }}" class="nav-link">Contact</a></li>
+                <li><a href="{{ url_for('awards') }}" class="nav-link">Awards</a></li>
+                <li><a href="{{ url_for('whos_who') }}" class="nav-link active">Who's Who</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">
+                        {{ message }}
+                        <span class="close-flash">&times;</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Person Header -->
+    <section class="person-detail-header">
+        <div class="container">
+            <div class="person-header-content">
+                <div class="person-photo-large">
+                    {% if person.photo_url %}
+                        <img src="{{ person.photo_url }}" alt="{{ person.name }}" class="person-img-large">
+                    {% else %}
+                        <div class="person-placeholder-large">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="person-header-info">
+                    <h1>{{ person.name }}</h1>
+                    <p class="person-genre">{{ person.literary_genre }}</p>
+                    <p class="person-years">
+                        {% if person.birth_year %}
+                            {{ person.birth_year }}
+                            {% if person.death_year %}
+                                - {{ person.death_year }}
+                            {% else %}
+                                - Present
+                            {% endif %}
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Person Content -->
+    <section class="person-detail-content">
+        <div class="container">
+            <div class="person-layout">
+                <!-- Biography -->
+                <div class="person-bio-section">
+                    <h2>Biography</h2>
+                    <div class="bio-content">
+                        <p>{{ person.bio }}</p>
+                    </div>
+                </div>
+
+                <!-- Notable Works -->
+                {% if person.notable_works %}
+                <div class="notable-works-section">
+                    <h2>Notable Works</h2>
+                    <div class="works-list">
+                        {% for work in person.notable_works %}
+                        <div class="work-item">
+                            <i class="fas fa-book"></i>
+                            <span>{{ work }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Awards Received -->
+                {% if person.awards_received %}
+                <div class="awards-section">
+                    <h2>Awards & Recognition</h2>
+                    <div class="awards-list">
+                        {% for award in person.awards_received %}
+                        <div class="award-item">
+                            <i class="fas fa-trophy"></i>
+                            <span>{{ award }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Literary Genre Details -->
+                <div class="genre-details-section">
+                    <h2>Literary Contribution</h2>
+                    <div class="genre-info">
+                        <div class="genre-badge">{{ person.literary_genre }}</div>
+                        <p>This distinguished literary figure has made significant contributions to {{ person.literary_genre }} in Manipuri literature, enriching the cultural and literary heritage of Manipur.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Navigation -->
+    <section class="person-navigation">
+        <div class="container">
+            <div class="nav-buttons">
+                <a href="{{ url_for('whos_who') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Who's Who
+                </a>
+                <a href="{{ url_for('awards') }}" class="btn btn-outline">
+                    <i class="fas fa-trophy"></i> Awards
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Fiction & Poetry Club</h3>
+                    <p>Nurturing literary excellence in Manipur since 2004</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="{{ url_for('home') }}">Home</a></li>
+                        <li><a href="{{ url_for('mapao') }}">Mapao</a></li>
+                        <li><a href="{{ url_for('moments') }}">Moments</a></li>
+                        <li><a href="{{ url_for('about') }}">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/share/17DQvR5d3t/" target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a href="https://wa.me/9862899291" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="proudly-built">
+                    <span>Proudly built by</span>
+                    <video class="lookmai-logo" autoplay muted loop playsinline>
+                        <source src="https://kxxlyyqrzsxrzfwjadvg.supabase.co/storage/v1/object/public/magazine-assets/logos/lookmai_logo.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <p>&copy; 2024 Fiction & Poetry Club Manipur. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

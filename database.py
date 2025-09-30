@@ -95,24 +95,6 @@ class DatabaseService:
             print(f"Error creating article: {e}")
             return None
     
-    def update_article(self, article_id: int, article_data: Dict[str, Any]) -> bool:
-        """Update an existing article"""
-        try:
-            response = self.supabase.table(Config.ARTICLES_TABLE).update(article_data).eq('id', article_id).execute()
-            return bool(response.data)
-        except Exception as e:
-            print(f"Error updating article {article_id}: {e}")
-            return False
-    
-    def delete_article(self, article_id: int) -> bool:
-        """Delete an article"""
-        try:
-            response = self.supabase.table(Config.ARTICLES_TABLE).delete().eq('id', article_id).execute()
-            return bool(response.data)
-        except Exception as e:
-            print(f"Error deleting article {article_id}: {e}")
-            return False
-    
     # Photos
     def get_photos_by_issue(self, issue_id: int) -> List[Dict[str, Any]]:
         """Get all photos for a specific issue"""
@@ -189,44 +171,6 @@ class DatabaseService:
             print(f"Error uploading file {file_path}: {e}")
             return None
     
-    def upload_file_from_bytes(self, file_bytes: bytes, file_name: str, folder: str = 'covers', bucket_name: str = 'magazine-assets') -> Optional[str]:
-        """Upload a file from bytes to Supabase Storage"""
-        try:
-            # Create a unique filename to avoid conflicts
-            file_extension = os.path.splitext(file_name)[1]
-            unique_filename = f"{folder}/{uuid.uuid4()}{file_extension}"
-            
-            # Determine content type based on file extension
-            content_type = "image/jpeg"
-            if file_extension.lower() in ['.png']:
-                content_type = "image/png"
-            elif file_extension.lower() in ['.gif']:
-                content_type = "image/gif"
-            elif file_extension.lower() in ['.webp']:
-                content_type = "image/webp"
-            
-            print(f"Attempting to upload file: {unique_filename} with content type: {content_type}")
-            
-            response = self.supabase.storage.from_(bucket_name).upload(
-                path=unique_filename,
-                file=file_bytes,
-                file_options={"content-type": content_type}
-            )
-            
-            print(f"Upload response: {response}")
-            
-            if response:
-                public_url = f"{self.supabase.storage.from_(bucket_name).get_public_url(unique_filename)}"
-                print(f"Generated public URL: {public_url}")
-                return public_url
-            return None
-        except Exception as e:
-            print(f"Error uploading file {file_name}: {e}")
-            print(f"Error type: {type(e)}")
-            import traceback
-            traceback.print_exc()
-            return None
-    
     def delete_file(self, file_name: str, bucket_name: str = 'magazine-assets') -> bool:
         """Delete a file from Supabase Storage"""
         try:
@@ -256,6 +200,100 @@ class DatabaseService:
             return response.data[0] if response.data else None
         except Exception as e:
             print(f"Error creating team member: {e}")
+            return None
+    
+    # Awards
+    def get_all_awards(self) -> List[Dict[str, Any]]:
+        """Get all awards ordered by year (descending)"""
+        try:
+            response = self.supabase.table('awards').select('*').order('year', desc=True).execute()
+            return response.data
+        except Exception as e:
+            print(f"Error fetching awards: {e}")
+            return []
+    
+    def get_awards_by_year(self, year: int) -> List[Dict[str, Any]]:
+        """Get awards for a specific year"""
+        try:
+            response = self.supabase.table('awards').select('*').eq('year', year).execute()
+            return response.data
+        except Exception as e:
+            print(f"Error fetching awards for year {year}: {e}")
+            return []
+    
+    def get_award_by_id(self, award_id: int) -> Optional[Dict[str, Any]]:
+        """Get a specific award by ID"""
+        try:
+            response = self.supabase.table('awards').select('*').eq('id', award_id).single().execute()
+            return response.data
+        except Exception as e:
+            print(f"Error fetching award {award_id}: {e}")
+            return None
+    
+    def get_awards_years(self) -> List[int]:
+        """Get all years that have awards"""
+        try:
+            response = self.supabase.table('awards').select('year').execute()
+            years = list(set([award['year'] for award in response.data]))
+            return sorted(years, reverse=True)
+        except Exception as e:
+            print(f"Error fetching award years: {e}")
+            return []
+    
+    def create_award(self, award_data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+        """Create a new award"""
+        try:
+            response = self.supabase.table('awards').insert(award_data).execute()
+            return response.data[0] if response.data else None
+        except Exception as e:
+            print(f"Error creating award: {e}")
+            return None
+    
+    # Who's Who
+    def get_all_whos_who(self) -> List[Dict[str, Any]]:
+        """Get all who's who entries ordered by name"""
+        try:
+            response = self.supabase.table('whos_who').select('*').order('name').execute()
+            return response.data
+        except Exception as e:
+            print(f"Error fetching who's who: {e}")
+            return []
+    
+    def get_whos_who_by_letter(self, letter: str) -> List[Dict[str, Any]]:
+        """Get who's who entries starting with a specific letter"""
+        try:
+            response = self.supabase.table('whos_who').select('*').ilike('name', f'{letter}%').order('name').execute()
+            return response.data
+        except Exception as e:
+            print(f"Error fetching who's who for letter {letter}: {e}")
+            return []
+    
+    def get_whos_who_by_id(self, person_id: int) -> Optional[Dict[str, Any]]:
+        """Get a specific who's who entry by ID"""
+        try:
+            response = self.supabase.table('whos_who').select('*').eq('id', person_id).single().execute()
+            return response.data
+        except Exception as e:
+            print(f"Error fetching who's who entry {person_id}: {e}")
+            return None
+    
+    def get_whos_who_letters(self) -> List[str]:
+        """Get all first letters that have who's who entries"""
+        try:
+            response = self.supabase.table('whos_who').select('name').execute()
+            letters = list(set([person['name'][0].upper() for person in response.data]))
+            return sorted(letters)
+        except Exception as e:
+            print(f"Error fetching who's who letters: {e}")
+            return []
+    
+    def create_whos_who(self, person_data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+        """Create a new who's who entry"""
+        try:
+            response = self.supabase.table('whos_who').insert(person_data).execute()
+            return response.data[0] if response.data else None
+        except Exception as e:
+            print(f"Error creating who's who entry: {e}")
             return None
 
 # Create a global instance
