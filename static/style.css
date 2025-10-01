@@ -3611,10 +3611,31 @@ p {
 
 /* Award Detail Page Styles */
 .award-detail-header {
-    background: linear-gradient(135deg, #8F87F1 0%, #493D9E 100%);
-    color: white;
-    padding: 4rem 0;
+    background: #493D9E;
+    color: #FBFFE4;
+    padding: 8rem 0 4rem;
     text-align: center;
+    position: relative;
+}
+
+.award-detail-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        rgba(73, 61, 158, 1) 0%, 
+        rgba(73, 61, 158, 0.8) 30%, 
+        rgba(73, 61, 158, 0.4) 60%, 
+        rgba(73, 61, 158, 0) 100%);
+    z-index: 1;
+}
+
+.award-detail-header .container {
+    position: relative;
+    z-index: 2;
 }
 
 .award-year-badge {
@@ -4097,9 +4118,30 @@ p {
 
 /* Who's Who Detail Page Styles */
 .person-detail-header {
-    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
-    color: white;
-    padding: 4rem 0;
+    background: #493D9E;
+    color: #FBFFE4;
+    padding: 8rem 0 4rem;
+    position: relative;
+}
+
+.person-detail-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        rgba(73, 61, 158, 1) 0%, 
+        rgba(73, 61, 158, 0.8) 30%, 
+        rgba(73, 61, 158, 0.4) 60%, 
+        rgba(73, 61, 158, 0) 100%);
+    z-index: 1;
+}
+
+.person-detail-header .container {
+    position: relative;
+    z-index: 2;
 }
 
 .person-header-content {
@@ -4245,18 +4287,22 @@ p {
 
 /* Mobile Responsive Styles for Awards and Who's Who */
 @media (max-width: 768px) {
-    .awards-header {
+    .awards-header,
+    .award-detail-header {
         margin-top: 70px;
         padding: 2rem 0;
     }
     
-    .whos-who-header {
+    .whos-who-header,
+    .person-detail-header {
         margin-top: 70px;
         padding: 2rem 0;
     }
     
     .awards-header h1,
-    .whos-who-header h1 {
+    .whos-who-header h1,
+    .award-detail-header h1,
+    .person-detail-header h1 {
         font-size: 2.5rem;
     }
     
@@ -4305,18 +4351,22 @@ p {
 }
 
 @media (max-width: 480px) {
-    .awards-header {
+    .awards-header,
+    .award-detail-header {
         margin-top: 70px;
         padding: 1.5rem 0;
     }
     
-    .whos-who-header {
+    .whos-who-header,
+    .person-detail-header {
         margin-top: 70px;
         padding: 1.5rem 0;
     }
     
     .awards-header h1,
-    .whos-who-header h1 {
+    .whos-who-header h1,
+    .award-detail-header h1,
+    .person-detail-header h1 {
         font-size: 2rem;
     }
     
