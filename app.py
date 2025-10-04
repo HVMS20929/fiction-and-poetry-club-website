@@ -285,13 +285,19 @@ def whos_who():
     try:
         db = get_db_service()
         if db:
+            print("Database connection successful")
             people = db.get_all_whos_who()
+            print(f"Fetched {len(people)} people")
             letters = db.get_whos_who_letters()
+            print(f"Fetched letters: {letters}")
         else:
+            print("Database connection failed")
             people = []
             letters = []
     except Exception as e:
         print(f"Error fetching who's who: {e}")
+        import traceback
+        traceback.print_exc()
         people = []
         letters = []
     
