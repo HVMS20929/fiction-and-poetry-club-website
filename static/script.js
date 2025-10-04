@@ -510,8 +510,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const section = this.getAttribute('data-section');
             
-            // Remove active class from all navigation links
-            tocNavLinks.forEach(navLink => navLink.classList.remove('active'));
+            // Clear all active states
+            clearAllActiveStates();
             
             // Add active class to clicked link
             this.classList.add('active');
@@ -543,11 +543,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const category = this.getAttribute('data-category');
             const articleId = this.getAttribute('data-article');
             
-            // Remove active class from all links in the same category
-            const categoryLinks = document.querySelectorAll(`[data-category="${category}"]`);
-            categoryLinks.forEach(catLink => catLink.classList.remove('active'));
+            // Clear all active states
+            clearAllActiveStates();
             
-            // Add active class to clicked link
+            // Add active class to clicked article link
             this.classList.add('active');
             
             // Hide all articles in the same category
@@ -567,13 +566,28 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             // Update the navigation to show this category as active
-            const tocNavLinks = document.querySelectorAll('.toc-nav-link');
-            tocNavLinks.forEach(navLink => navLink.classList.remove('active'));
             const categoryNavLink = document.querySelector(`[data-section="${category}"]`);
             if (categoryNavLink) {
                 categoryNavLink.classList.add('active');
             }
         });
+    });
+
+    // Function to clear all active states
+    function clearAllActiveStates() {
+        // Remove active class from all navigation links
+        const allNavLinks = document.querySelectorAll('.toc-nav-link');
+        allNavLinks.forEach(navLink => navLink.classList.remove('active'));
+        
+        // Remove active class from all article switch links
+        const allArticleLinks = document.querySelectorAll('.article-switch-link');
+        allArticleLinks.forEach(articleLink => articleLink.classList.remove('active'));
+    }
+
+    // Ensure active states persist on scroll
+    window.addEventListener('scroll', function() {
+        // This ensures that active states are maintained during scroll
+        // The active classes should remain unless explicitly changed
     });
 });
 

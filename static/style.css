@@ -1269,6 +1269,9 @@ p {
 .article-switch-link.active {
     color: #e74c3c;
     font-weight: 600;
+    background-color: rgba(231, 76, 60, 0.1);
+    border-left: 3px solid #e74c3c;
+    padding-left: 0.75rem;
 }
 
 .article-switch-link.active::before {
@@ -1341,7 +1344,7 @@ p {
 }
 
 .article-switch-link.active .toc-subnumber {
-    color: #8F87F1;
+    color: #e74c3c;
     font-weight: 600;
 }
 
