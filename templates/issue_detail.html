@@ -166,11 +166,20 @@
                     <article class="issue-article content-section" id="editorial" data-section="editorial">
                         <h2>Editorial</h2>
                         <div class="article-content">
-                            {% for paragraph in issue.editorial.split('\n\n') %}
-                                {% if paragraph.strip() %}
-                                    <p>{{ paragraph.strip() | replace('\n', ' ') }}</p>
-                                {% endif %}
-                            {% endfor %}
+                            {% set paragraphs = issue.editorial.split('\n\n') %}
+                            {% if paragraphs|length > 1 %}
+                                {% for paragraph in paragraphs %}
+                                    {% if paragraph.strip() %}
+                                        <p>{{ paragraph.strip() | replace('\n', ' ') }}</p>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                {% for line in issue.editorial.split('\n') %}
+                                    {% if line.strip() %}
+                                        <p>{{ line.strip() }}</p>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
                         </div>
                     </article>
 
@@ -187,11 +196,20 @@
                                          style="display: none;">
                                     <h2>{{ article.title }}</h2>
                                     <div class="article-content">
-                                        {% for paragraph in article.content.split('\n\n') %}
-                                            {% if paragraph.strip() %}
-                                                <p>{{ paragraph.strip() | replace('\n', ' ') }}</p>
-                                            {% endif %}
-                                        {% endfor %}
+                                        {% set paragraphs = article.content.split('\n\n') %}
+                                        {% if paragraphs|length > 1 %}
+                                            {% for paragraph in paragraphs %}
+                                                {% if paragraph.strip() %}
+                                                    <p>{{ paragraph.strip() | replace('\n', ' ') }}</p>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            {% for line in article.content.split('\n') %}
+                                                {% if line.strip() %}
+                                                    <p>{{ line.strip() }}</p>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
                                     </div>
                                 </article>
                                 {% endfor %}
@@ -203,11 +221,20 @@
                                          style="display: none;">
                                     <h2>{{ articles[0].title }}</h2>
                                     <div class="article-content">
-                                        {% for paragraph in articles[0].content.split('\n\n') %}
-                                            {% if paragraph.strip() %}
-                                                <p>{{ paragraph.strip() | replace('\n', ' ') }}</p>
-                                            {% endif %}
-                                        {% endfor %}
+                                        {% set paragraphs = articles[0].content.split('\n\n') %}
+                                        {% if paragraphs|length > 1 %}
+                                            {% for paragraph in paragraphs %}
+                                                {% if paragraph.strip() %}
+                                                    <p>{{ paragraph.strip() | replace('\n', ' ') }}</p>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            {% for line in articles[0].content.split('\n') %}
+                                                {% if line.strip() %}
+                                                    <p>{{ line.strip() }}</p>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
                                     </div>
                                 </article>
                             {% endif %}
@@ -220,11 +247,20 @@
                                  style="display: none;">
                             <h2>{{ article.title }}</h2>
                             <div class="article-content">
-                                {% for paragraph in article.content.split('\n\n') %}
-                                    {% if paragraph.strip() %}
-                                        <p>{{ paragraph.strip() | replace('\n', ' ') }}</p>
-                                    {% endif %}
-                                {% endfor %}
+                                {% set paragraphs = article.content.split('\n\n') %}
+                                {% if paragraphs|length > 1 %}
+                                    {% for paragraph in paragraphs %}
+                                        {% if paragraph.strip() %}
+                                            <p>{{ paragraph.strip() | replace('\n', ' ') }}</p>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    {% for line in article.content.split('\n') %}
+                                        {% if line.strip() %}
+                                            <p>{{ line.strip() }}</p>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
                             </div>
                         </article>
                         {% endfor %}
