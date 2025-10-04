@@ -245,29 +245,7 @@ document.addEventListener('DOMContentLoaded', function() {
         images.forEach(img => imageObserver.observe(img));
     }
 
-    // Table of Contents highlighting
-    const tocLinks = document.querySelectorAll('.toc-nav a');
-    const sections = document.querySelectorAll('article[id], section[id]');
-
-    if (tocLinks.length > 0 && sections.length > 0) {
-        window.addEventListener('scroll', () => {
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (window.pageYOffset >= sectionTop - 200) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            tocLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${current}`) {
-                    link.classList.add('active');
-                }
-            });
-        });
-    }
+    // Note: Removed old scroll-based highlighting to prevent conflicts with content switching
 });
 
 // Utility Functions
@@ -501,77 +479,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Content Section Navigation
+    // Content Section Navigation and Article Switching
     const tocNavLinks = document.querySelectorAll('.toc-nav-link');
-    
-    tocNavLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const section = this.getAttribute('data-section');
-            
-            // Clear all active states
-            clearAllActiveStates();
-            
-            // Add active class to clicked link
-            this.classList.add('active');
-            
-            // Hide all content sections
-            const contentSections = document.querySelectorAll('.content-section');
-            contentSections.forEach(section => {
-                section.style.display = 'none';
-            });
-            
-            // Show the selected section
-            const targetSection = document.querySelector(`[data-section="${section}"]`);
-            if (targetSection) {
-                setTimeout(() => {
-                    targetSection.style.display = 'block';
-                }, 150); // Small delay for smooth transition
-            }
-        });
-    });
-
-    // Article Switching functionality
     const articleSwitchLinks = document.querySelectorAll('.article-switch-link');
-    
-    articleSwitchLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation(); // Prevent event bubbling to parent elements
-            
-            const category = this.getAttribute('data-category');
-            const articleId = this.getAttribute('data-article');
-            
-            // Clear all active states
-            clearAllActiveStates();
-            
-            // Add active class to clicked article link
-            this.classList.add('active');
-            
-            // Hide all articles in the same category
-            const categoryArticles = document.querySelectorAll(`.category-article[data-category="${category}"]`);
-            categoryArticles.forEach(article => {
-                article.style.display = 'none';
-                article.classList.add('hidden');
-            });
-            
-            // Show the selected article
-            const targetArticle = document.getElementById(articleId);
-            if (targetArticle) {
-                setTimeout(() => {
-                    targetArticle.style.display = 'block';
-                    targetArticle.classList.remove('hidden');
-                }, 150); // Small delay for smooth transition
-            }
-            
-            // Update the navigation to show this category as active
-            const categoryNavLink = document.querySelector(`[data-section="${category}"]`);
-            if (categoryNavLink) {
-                categoryNavLink.classList.add('active');
-            }
-        });
-    });
 
     // Function to clear all active states
     function clearAllActiveStates() {
@@ -586,8 +496,91 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Ensure active states persist on scroll
     window.addEventListener('scroll', function() {
-        // This ensures that active states are maintained during scroll
-        // The active classes should remain unless explicitly changed
+        // Prevent any scroll-based interference with our active states
+        // The active classes should remain unless explicitly changed by user interaction
+    });
+
+    // Add a more robust state management system
+    let currentActiveElement = null;
+    
+    function setActiveElement(element, type) {
+        // Clear previous active element
+        if (currentActiveElement) {
+            currentActiveElement.classList.remove('active');
+        }
+        
+        // Set new active element
+        currentActiveElement = element;
+        element.classList.add('active');
+        
+        // Store the active state in a data attribute for persistence
+        element.setAttribute('data-persistent-active', 'true');
+        
+        // Remove persistent flag from all other elements
+        const allPossibleActive = document.querySelectorAll('.toc-nav-link, .article-switch-link');
+        allPossibleActive.forEach(el => {
+            if (el !== element) {
+                el.removeAttribute('data-persistent-active');
+            }
+        });
+    }
+
+    // Enhanced click handlers that use the new state management
+    tocNavLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const section = this.getAttribute('data-section');
+            setActiveElement(this, 'nav');
+            
+            // Hide all content sections
+            const contentSections = document.querySelectorAll('.content-section');
+            contentSections.forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Show the selected section
+            const targetSection = document.querySelector(`[data-section="${section}"]`);
+            if (targetSection) {
+                setTimeout(() => {
+                    targetSection.style.display = 'block';
+                }, 150);
+            }
+        });
+    });
+
+    articleSwitchLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const category = this.getAttribute('data-category');
+            const articleId = this.getAttribute('data-article');
+            
+            setActiveElement(this, 'article');
+            
+            // Hide all articles in the same category
+            const categoryArticles = document.querySelectorAll(`.category-article[data-category="${category}"]`);
+            categoryArticles.forEach(article => {
+                article.style.display = 'none';
+                article.classList.add('hidden');
+            });
+            
+            // Show the selected article
+            const targetArticle = document.getElementById(articleId);
+            if (targetArticle) {
+                setTimeout(() => {
+                    targetArticle.style.display = 'block';
+                    targetArticle.classList.remove('hidden');
+                }, 150);
+            }
+            
+            // Update the navigation to show this category as active
+            const categoryNavLink = document.querySelector(`[data-section="${category}"]`);
+            if (categoryNavLink) {
+                setActiveElement(categoryNavLink, 'nav');
+            }
+        });
     });
 });
 
