@@ -168,7 +168,7 @@
                         <div class="article-content">
                             {% for paragraph in issue.editorial.split('\n\n') %}
                                 {% if paragraph.strip() %}
-                                    <p>{{ paragraph.strip() }}</p>
+                                    <p>{{ paragraph.strip() | replace('\n', ' ') }}</p>
                                 {% endif %}
                             {% endfor %}
                         </div>
@@ -189,7 +189,7 @@
                                     <div class="article-content">
                                         {% for paragraph in article.content.split('\n\n') %}
                                             {% if paragraph.strip() %}
-                                                <p>{{ paragraph.strip() }}</p>
+                                                <p>{{ paragraph.strip() | replace('\n', ' ') }}</p>
                                             {% endif %}
                                         {% endfor %}
                                     </div>
@@ -205,7 +205,7 @@
                                     <div class="article-content">
                                         {% for paragraph in articles[0].content.split('\n\n') %}
                                             {% if paragraph.strip() %}
-                                                <p>{{ paragraph.strip() }}</p>
+                                                <p>{{ paragraph.strip() | replace('\n', ' ') }}</p>
                                             {% endif %}
                                         {% endfor %}
                                     </div>
@@ -222,7 +222,7 @@
                             <div class="article-content">
                                 {% for paragraph in article.content.split('\n\n') %}
                                     {% if paragraph.strip() %}
-                                        <p>{{ paragraph.strip() }}</p>
+                                        <p>{{ paragraph.strip() | replace('\n', ' ') }}</p>
                                     {% endif %}
                                 {% endfor %}
                             </div>
