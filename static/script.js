@@ -558,6 +558,14 @@ document.addEventListener('DOMContentLoaded', function() {
             if (targetSection) {
                 setTimeout(() => {
                     targetSection.style.display = 'block';
+                    // Scroll to top of main content
+                    const mainContent = document.querySelector('.issue-main-content');
+                    if (mainContent) {
+                        mainContent.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start' 
+                        });
+                    }
                 }, 150);
             }
         });
@@ -593,6 +601,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(() => {
                     targetArticle.style.display = 'block';
                     targetArticle.classList.remove('hidden');
+                    // Scroll to top of main content
+                    const mainContent = document.querySelector('.issue-main-content');
+                    if (mainContent) {
+                        mainContent.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start' 
+                        });
+                    }
                 }, 150);
             }
             
