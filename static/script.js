@@ -482,31 +482,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Content Section Navigation and Article Switching
     const tocNavLinks = document.querySelectorAll('.toc-nav-link');
     const articleSwitchLinks = document.querySelectorAll('.article-switch-link');
-    
-    // Initialize page state - show editorial by default
-    function initializePageState() {
-        // Hide all content sections first
-        const contentSections = document.querySelectorAll('.content-section');
-        contentSections.forEach(section => {
-            section.style.display = 'none';
-        });
-        
-        // Show editorial section by default
-        const editorialSection = document.querySelector('[data-section="editorial"]');
-        if (editorialSection) {
-            editorialSection.style.display = 'block';
-        }
-        
-        // Set editorial nav link as active by default
-        const editorialNavLink = document.querySelector('[data-section="editorial"]');
-        if (editorialNavLink) {
-            editorialNavLink.classList.add('active');
-            currentActiveElement = editorialNavLink;
-        }
-    }
-    
-    // Initialize the page
-    initializePageState();
 
     // Function to clear all active states
     function clearAllActiveStates() {
@@ -529,10 +504,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentActiveElement = null;
     
     function setActiveElement(element, type) {
-        // Clear previous active element
-        if (currentActiveElement) {
-            currentActiveElement.classList.remove('active');
-        }
+        // Clear ALL active states from ALL possible elements
+        clearAllActiveStates();
         
         // Set new active element
         currentActiveElement = element;
@@ -540,15 +513,31 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Store the active state in a data attribute for persistence
         element.setAttribute('data-persistent-active', 'true');
-        
-        // Remove persistent flag from all other elements
-        const allPossibleActive = document.querySelectorAll('.toc-nav-link, .article-switch-link');
-        allPossibleActive.forEach(el => {
-            if (el !== element) {
-                el.removeAttribute('data-persistent-active');
-            }
-        });
     }
+
+    // Initialize page state - show editorial by default and set it as active
+    function initializePageState() {
+        // Hide all content sections first
+        const contentSections = document.querySelectorAll('.content-section');
+        contentSections.forEach(section => {
+            section.style.display = 'none';
+        });
+        
+        // Show editorial section by default
+        const editorialSection = document.querySelector('[data-section="editorial"]');
+        if (editorialSection) {
+            editorialSection.style.display = 'block';
+        }
+        
+        // Set editorial nav link as active by default
+        const editorialNavLink = document.querySelector('[data-section="editorial"]');
+        if (editorialNavLink) {
+            setActiveElement(editorialNavLink, 'nav');
+        }
+    }
+    
+    // Initialize the page
+    initializePageState();
 
     // Enhanced click handlers that use the new state management
     tocNavLinks.forEach(link => {
@@ -556,13 +545,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             
             const section = this.getAttribute('data-section');
-            
-            // Clear all active states first
-            clearAllActiveStates();
-            
-            // Set this nav link as active
-            this.classList.add('active');
-            currentActiveElement = this;
+            setActiveElement(this, 'nav');
             
             // Hide all content sections
             const contentSections = document.querySelectorAll('.content-section');
@@ -588,12 +571,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const category = this.getAttribute('data-category');
             const articleId = this.getAttribute('data-article');
             
-            // Clear all active states first
-            clearAllActiveStates();
-            
-            // Set this article link as active
-            this.classList.add('active');
-            currentActiveElement = this;
+            // Set the sub-item as active
+            setActiveElement(this, 'article');
             
             // Hide all content sections first
             const contentSections = document.querySelectorAll('.content-section');
@@ -617,10 +596,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, 150);
             }
             
-            // Update the navigation to show this category as active
+            // Also set the parent category as active in the main navigation
             const categoryNavLink = document.querySelector(`[data-section="${category}"]`);
             if (categoryNavLink) {
                 categoryNavLink.classList.add('active');
+                categoryNavLink.setAttribute('data-persistent-active', 'true');
             }
         });
     });

@@ -109,7 +109,7 @@
                         <nav class="toc-nav">
                             <ul>
                                 {% set toc_counter = namespace(main=1, sub=1) %}
-                                <li><a href="#" class="toc-nav-link active" data-section="editorial"><span class="toc-number">{{ toc_counter.main }}.</span> Editorial</a></li>
+                                <li><a href="#" class="toc-nav-link" data-section="editorial"><span class="toc-number">{{ toc_counter.main }}.</span> Editorial</a></li>
                                 {% set toc_counter.main = toc_counter.main + 1 %}
                                 
                                 <!-- Articles by Category -->
@@ -129,7 +129,7 @@
                                                 {% for article in articles %}
                                                 <li>
                                                     <a href="#" 
-                                                       class="article-switch-link{% if loop.index == 1 %} active{% endif %}" 
+                                                       class="article-switch-link" 
                                                        data-category="{{ category|lower|replace(' ', '-') }}" 
                                                        data-article="{{ article.title|lower|replace(' ', '-') }}">
                                                         <span class="toc-subnumber">{{ toc_counter.main }}.{{ toc_counter.sub }}</span> {{ article.title }}
