@@ -501,6 +501,37 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Content Section Navigation
+    const tocNavLinks = document.querySelectorAll('.toc-nav-link');
+    
+    tocNavLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const section = this.getAttribute('data-section');
+            
+            // Remove active class from all navigation links
+            tocNavLinks.forEach(navLink => navLink.classList.remove('active'));
+            
+            // Add active class to clicked link
+            this.classList.add('active');
+            
+            // Hide all content sections
+            const contentSections = document.querySelectorAll('.content-section');
+            contentSections.forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Show the selected section
+            const targetSection = document.querySelector(`[data-section="${section}"]`);
+            if (targetSection) {
+                setTimeout(() => {
+                    targetSection.style.display = 'block';
+                }, 150); // Small delay for smooth transition
+            }
+        });
+    });
+
     // Article Switching functionality
     const articleSwitchLinks = document.querySelectorAll('.article-switch-link');
     
@@ -533,6 +564,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     targetArticle.style.display = 'block';
                     targetArticle.classList.remove('hidden');
                 }, 150); // Small delay for smooth transition
+            }
+            
+            // Update the navigation to show this category as active
+            const tocNavLinks = document.querySelectorAll('.toc-nav-link');
+            tocNavLinks.forEach(navLink => navLink.classList.remove('active'));
+            const categoryNavLink = document.querySelector(`[data-section="${category}"]`);
+            if (categoryNavLink) {
+                categoryNavLink.classList.add('active');
             }
         });
     });

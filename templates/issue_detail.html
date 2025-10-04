@@ -108,7 +108,7 @@
                         <h3>Table of Contents</h3>
                         <nav class="toc-nav">
                             <ul>
-                                <li><a href="#editorial">Editorial</a></li>
+                                <li><a href="#" class="toc-nav-link active" data-section="editorial">Editorial</a></li>
                                 
                                 <!-- Articles by Category -->
                                 {% if issue.articles_by_category %}
@@ -136,18 +136,18 @@
                                             </ul>
                                         </div>
                                         {% else %}
-                                        <a href="#{{ articles[0].title|lower|replace(' ', '-') }}">{{ articles[0].title }}</a>
+                                        <a href="#" class="toc-nav-link" data-section="{{ category|lower|replace(' ', '-') }}">{{ articles[0].title }}</a>
                                         {% endif %}
                                     </li>
                                     {% endfor %}
                                 {% else %}
                                     {% for article in issue.featured_articles %}
-                                    <li><a href="#article-{{ loop.index }}">{{ article.title }}</a></li>
+                                    <li><a href="#" class="toc-nav-link" data-section="articles">Article {{ loop.index }}</a></li>
                                     {% endfor %}
                                 {% endif %}
                                 
-                                <li><a href="#contributors">Contributors</a></li>
-                                <li><a href="#gallery">Photo Gallery</a></li>
+                                <li><a href="#" class="toc-nav-link" data-section="contributors">Contributors</a></li>
+                                <li><a href="#" class="toc-nav-link" data-section="gallery">Photo Gallery</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -156,7 +156,7 @@
                 <!-- Main Content -->
                 <main class="issue-main-content">
                     <!-- Editorial -->
-                    <article class="issue-article" id="editorial">
+                    <article class="issue-article content-section" id="editorial" data-section="editorial">
                         <h2>Editorial</h2>
                         <div class="article-content">
                             <p>{{ issue.editorial }}</p>
@@ -167,12 +167,13 @@
                     {% if issue.articles_by_category %}
                         {% for category, articles in issue.articles_by_category.items() %}
                             {% if articles|length > 1 %}
-                                <!-- Multiple articles - show first one, hide others -->
+                                <!-- Multiple articles - hide all initially -->
                                 {% for article in articles %}
-                                <article class="issue-article category-article" 
+                                <article class="issue-article category-article content-section" 
                                          data-category="{{ category|lower|replace(' ', '-') }}" 
+                                         data-section="{{ category|lower|replace(' ', '-') }}"
                                          id="{{ article.title|lower|replace(' ', '-') }}"
-                                         {% if loop.index > 1 %}style="display: none;"{% endif %}>
+                                         style="display: none;">
                                     <h2>{{ article.title }}</h2>
                                     <div class="article-content">
                                         <p>{{ article.content }}</p>
@@ -180,8 +181,11 @@
                                 </article>
                                 {% endfor %}
                             {% else %}
-                                <!-- Single article - show normally -->
-                                <article class="issue-article" id="{{ articles[0].title|lower|replace(' ', '-') }}">
+                                <!-- Single article - hide initially -->
+                                <article class="issue-article content-section" 
+                                         data-section="{{ category|lower|replace(' ', '-') }}"
+                                         id="{{ articles[0].title|lower|replace(' ', '-') }}"
+                                         style="display: none;">
                                     <h2>{{ articles[0].title }}</h2>
                                     <div class="article-content">
                                         <p>{{ articles[0].content }}</p>
@@ -191,7 +195,10 @@
                         {% endfor %}
                     {% else %}
                         {% for article in issue.featured_articles %}
-                        <article class="issue-article" id="article-{{ loop.index }}">
+                        <article class="issue-article content-section" 
+                                 data-section="articles"
+                                 id="article-{{ loop.index }}"
+                                 style="display: none;">
                             <h2>{{ article.title }}</h2>
                             <div class="article-content">
                                 <p>{{ article.content }}</p>
@@ -201,7 +208,7 @@
                     {% endif %}
 
                     <!-- Contributors -->
-                    <section class="contributors-section" id="contributors">
+                    <section class="contributors-section content-section" id="contributors" data-section="contributors" style="display: none;">
                         <h2>Contributors</h2>
                         <div class="contributors-tabs">
                             <button class="contrib-tab" data-group="editorial_team">Editorial Team</button>
@@ -299,7 +306,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
                     <!-- Photo Gallery -->
-                    <section class="gallery-section" id="gallery">
+                    <section class="gallery-section content-section" id="gallery" data-section="gallery" style="display: none;">
                         <h2>Photo Gallery</h2>
                         <div class="gallery-grid">
                             {% for image in issue.gallery %}
