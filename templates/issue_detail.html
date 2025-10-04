@@ -166,7 +166,11 @@
                     <article class="issue-article content-section" id="editorial" data-section="editorial">
                         <h2>Editorial</h2>
                         <div class="article-content">
-                            {{ issue.editorial | replace('\n', '<br>') | safe }}
+                            {% for paragraph in issue.editorial.split('\n\n') %}
+                                {% if paragraph.strip() %}
+                                    <p>{{ paragraph.strip() }}</p>
+                                {% endif %}
+                            {% endfor %}
                         </div>
                     </article>
 
@@ -183,7 +187,11 @@
                                          style="display: none;">
                                     <h2>{{ article.title }}</h2>
                                     <div class="article-content">
-                                        {{ article.content | replace('\n', '<br>') | safe }}
+                                        {% for paragraph in article.content.split('\n\n') %}
+                                            {% if paragraph.strip() %}
+                                                <p>{{ paragraph.strip() }}</p>
+                                            {% endif %}
+                                        {% endfor %}
                                     </div>
                                 </article>
                                 {% endfor %}
@@ -195,7 +203,11 @@
                                          style="display: none;">
                                     <h2>{{ articles[0].title }}</h2>
                                     <div class="article-content">
-                                        {{ articles[0].content | replace('\n', '<br>') | safe }}
+                                        {% for paragraph in articles[0].content.split('\n\n') %}
+                                            {% if paragraph.strip() %}
+                                                <p>{{ paragraph.strip() }}</p>
+                                            {% endif %}
+                                        {% endfor %}
                                     </div>
                                 </article>
                             {% endif %}
@@ -208,7 +220,11 @@
                                  style="display: none;">
                             <h2>{{ article.title }}</h2>
                             <div class="article-content">
-                                {{ article.content | replace('\n', '<br>') | safe }}
+                                {% for paragraph in article.content.split('\n\n') %}
+                                    {% if paragraph.strip() %}
+                                        <p>{{ paragraph.strip() }}</p>
+                                    {% endif %}
+                                {% endfor %}
                             </div>
                         </article>
                         {% endfor %}

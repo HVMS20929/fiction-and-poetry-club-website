@@ -1378,20 +1378,16 @@ p {
     margin-bottom: 1.5rem;
 }
 
-.article-content p {
-    margin-bottom: 1.5rem;
-    line-height: 1.8;
-}
-
 .article-content {
     line-height: 1.8;
     font-size: 1.1rem;
     text-align: justify;
-    text-indent: 4rem;
 }
 
-.article-content br {
-    margin-bottom: 0.5rem;
+.article-content p {
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+    text-indent: 4rem;
 }
 
 .article-quote {
