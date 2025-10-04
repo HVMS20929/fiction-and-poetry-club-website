@@ -108,7 +108,9 @@
                         <h3>Table of Contents</h3>
                         <nav class="toc-nav">
                             <ul>
-                                <li><a href="#" class="toc-nav-link active" data-section="editorial">Editorial</a></li>
+                                {% set toc_counter = namespace(main=1, sub=1) %}
+                                <li><a href="#" class="toc-nav-link active" data-section="editorial"><span class="toc-number">{{ toc_counter.main }}.</span> Editorial</a></li>
+                                {% set toc_counter.main = toc_counter.main + 1 %}
                                 
                                 <!-- Articles by Category -->
                                 {% if issue.articles_by_category %}
@@ -116,38 +118,43 @@
                                     <li class="toc-section">
                                         {% if articles|length > 1 %}
                                         <div class="toc-section-header">
-                                            <span class="toc-section-title">{{ category }}</span>
+                                            <span class="toc-section-title"><span class="toc-number">{{ toc_counter.main }}.</span> {{ category }}</span>
                                             <button class="toc-toggle-btn" data-section="{{ category|lower|replace(' ', '-') }}">
                                                 <i class="fas fa-chevron-down"></i>
                                             </button>
                                         </div>
                                         <div class="toc-section-content" id="{{ category|lower|replace(' ', '-') }}" style="display: none;">
                                             <ul class="toc-subsection">
+                                                {% set toc_counter.sub = 1 %}
                                                 {% for article in articles %}
                                                 <li>
                                                     <a href="#" 
                                                        class="article-switch-link{% if loop.index == 1 %} active{% endif %}" 
                                                        data-category="{{ category|lower|replace(' ', '-') }}" 
                                                        data-article="{{ article.title|lower|replace(' ', '-') }}">
-                                                        {{ article.title }}
+                                                        <span class="toc-subnumber">{{ toc_counter.main }}.{{ toc_counter.sub }}</span> {{ article.title }}
                                                     </a>
                                                 </li>
+                                                {% set toc_counter.sub = toc_counter.sub + 1 %}
                                                 {% endfor %}
                                             </ul>
                                         </div>
                                         {% else %}
-                                        <a href="#" class="toc-nav-link" data-section="{{ category|lower|replace(' ', '-') }}">{{ articles[0].title }}</a>
+                                        <a href="#" class="toc-nav-link" data-section="{{ category|lower|replace(' ', '-') }}"><span class="toc-number">{{ toc_counter.main }}.</span> {{ articles[0].title }}</a>
                                         {% endif %}
                                     </li>
+                                    {% set toc_counter.main = toc_counter.main + 1 %}
                                     {% endfor %}
                                 {% else %}
                                     {% for article in issue.featured_articles %}
-                                    <li><a href="#" class="toc-nav-link" data-section="articles">Article {{ loop.index }}</a></li>
+                                    <li><a href="#" class="toc-nav-link" data-section="articles"><span class="toc-number">{{ toc_counter.main }}.</span> Article {{ loop.index }}</a></li>
+                                    {% set toc_counter.main = toc_counter.main + 1 %}
                                     {% endfor %}
                                 {% endif %}
                                 
-                                <li><a href="#" class="toc-nav-link" data-section="contributors">Contributors</a></li>
-                                <li><a href="#" class="toc-nav-link" data-section="gallery">Photo Gallery</a></li>
+                                <li><a href="#" class="toc-nav-link" data-section="contributors"><span class="toc-number">{{ toc_counter.main }}.</span> Contributors</a></li>
+                                {% set toc_counter.main = toc_counter.main + 1 %}
+                                <li><a href="#" class="toc-nav-link" data-section="gallery"><span class="toc-number">{{ toc_counter.main }}.</span> Photo Gallery</a></li>
                             </ul>
                         </nav>
                     </div>

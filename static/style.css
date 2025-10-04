@@ -1314,6 +1314,37 @@ p {
     font-weight: 600;
 }
 
+/* Table of Contents Numbering */
+.toc-number,
+.toc-subnumber {
+    font-weight: 600;
+    color: #8F87F1;
+    margin-right: 0.5rem;
+    min-width: 1.5rem;
+    display: inline-block;
+}
+
+.toc-nav-link.active .toc-number,
+.toc-nav-link.active .toc-subnumber {
+    color: white;
+}
+
+.toc-section-title .toc-number {
+    color: #8F87F1;
+    font-weight: 600;
+}
+
+.article-switch-link .toc-subnumber {
+    color: #666;
+    font-weight: 500;
+    font-size: 0.9em;
+}
+
+.article-switch-link.active .toc-subnumber {
+    color: #8F87F1;
+    font-weight: 600;
+}
+
 .content-section {
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
