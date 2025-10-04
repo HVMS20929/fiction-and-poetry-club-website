@@ -558,7 +558,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (targetSection) {
                 setTimeout(() => {
                     targetSection.style.display = 'block';
-                    // Scroll to the top of the main content area
+                    // Scroll to top of the main content area
                     const mainContent = document.querySelector('.issue-main-content');
                     if (mainContent) {
                         mainContent.scrollIntoView({ 
@@ -601,7 +601,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(() => {
                     targetArticle.style.display = 'block';
                     targetArticle.classList.remove('hidden');
-                    // Scroll to the top of the main content area
+                    // Scroll to top of the main content area
                     const mainContent = document.querySelector('.issue-main-content');
                     if (mainContent) {
                         mainContent.scrollIntoView({ 
