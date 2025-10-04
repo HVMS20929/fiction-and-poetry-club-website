@@ -558,12 +558,16 @@ document.addEventListener('DOMContentLoaded', function() {
             if (targetSection) {
                 setTimeout(() => {
                     targetSection.style.display = 'block';
-                    // Scroll to top of the main content area
+                    // Scroll to top of the main content area with offset for title visibility
                     const mainContent = document.querySelector('.issue-main-content');
                     if (mainContent) {
-                        mainContent.scrollIntoView({ 
-                            behavior: 'smooth', 
-                            block: 'start' 
+                        const offset = -100; // Scroll 100px higher than the element
+                        const elementPosition = mainContent.offsetTop;
+                        const offsetPosition = elementPosition + offset;
+                        
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
                         });
                     }
                 }, 150);
@@ -601,12 +605,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(() => {
                     targetArticle.style.display = 'block';
                     targetArticle.classList.remove('hidden');
-                    // Scroll to top of the main content area
+                    // Scroll to top of the main content area with offset for title visibility
                     const mainContent = document.querySelector('.issue-main-content');
                     if (mainContent) {
-                        mainContent.scrollIntoView({ 
-                            behavior: 'smooth', 
-                            block: 'start' 
+                        const offset = -100; // Scroll 100px higher than the element
+                        const elementPosition = mainContent.offsetTop;
+                        const offsetPosition = elementPosition + offset;
+                        
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
                         });
                     }
                 }, 150);
