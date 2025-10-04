@@ -482,6 +482,31 @@ document.addEventListener('DOMContentLoaded', function() {
     // Content Section Navigation and Article Switching
     const tocNavLinks = document.querySelectorAll('.toc-nav-link');
     const articleSwitchLinks = document.querySelectorAll('.article-switch-link');
+    
+    // Initialize page state - show editorial by default
+    function initializePageState() {
+        // Hide all content sections first
+        const contentSections = document.querySelectorAll('.content-section');
+        contentSections.forEach(section => {
+            section.style.display = 'none';
+        });
+        
+        // Show editorial section by default
+        const editorialSection = document.querySelector('[data-section="editorial"]');
+        if (editorialSection) {
+            editorialSection.style.display = 'block';
+        }
+        
+        // Set editorial nav link as active by default
+        const editorialNavLink = document.querySelector('[data-section="editorial"]');
+        if (editorialNavLink) {
+            editorialNavLink.classList.add('active');
+            currentActiveElement = editorialNavLink;
+        }
+    }
+    
+    // Initialize the page
+    initializePageState();
 
     // Function to clear all active states
     function clearAllActiveStates() {
@@ -531,7 +556,13 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             
             const section = this.getAttribute('data-section');
-            setActiveElement(this, 'nav');
+            
+            // Clear all active states first
+            clearAllActiveStates();
+            
+            // Set this nav link as active
+            this.classList.add('active');
+            currentActiveElement = this;
             
             // Hide all content sections
             const contentSections = document.querySelectorAll('.content-section');
@@ -557,7 +588,18 @@ document.addEventListener('DOMContentLoaded', function() {
             const category = this.getAttribute('data-category');
             const articleId = this.getAttribute('data-article');
             
-            setActiveElement(this, 'article');
+            // Clear all active states first
+            clearAllActiveStates();
+            
+            // Set this article link as active
+            this.classList.add('active');
+            currentActiveElement = this;
+            
+            // Hide all content sections first
+            const contentSections = document.querySelectorAll('.content-section');
+            contentSections.forEach(section => {
+                section.style.display = 'none';
+            });
             
             // Hide all articles in the same category
             const categoryArticles = document.querySelectorAll(`.category-article[data-category="${category}"]`);
@@ -578,7 +620,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Update the navigation to show this category as active
             const categoryNavLink = document.querySelector(`[data-section="${category}"]`);
             if (categoryNavLink) {
-                setActiveElement(categoryNavLink, 'nav');
+                categoryNavLink.classList.add('active');
             }
         });
     });
