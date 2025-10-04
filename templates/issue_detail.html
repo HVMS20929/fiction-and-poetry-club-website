@@ -166,7 +166,7 @@
                     <article class="issue-article content-section" id="editorial" data-section="editorial">
                         <h2>Editorial</h2>
                         <div class="article-content">
-                            <p>{{ issue.editorial }}</p>
+                            {{ issue.editorial | replace('\n', '<br>') | safe }}
                         </div>
                     </article>
 
@@ -183,7 +183,7 @@
                                          style="display: none;">
                                     <h2>{{ article.title }}</h2>
                                     <div class="article-content">
-                                        <p>{{ article.content }}</p>
+                                        {{ article.content | replace('\n', '<br>') | safe }}
                                     </div>
                                 </article>
                                 {% endfor %}
@@ -195,7 +195,7 @@
                                          style="display: none;">
                                     <h2>{{ articles[0].title }}</h2>
                                     <div class="article-content">
-                                        <p>{{ articles[0].content }}</p>
+                                        {{ articles[0].content | replace('\n', '<br>') | safe }}
                                     </div>
                                 </article>
                             {% endif %}
@@ -208,7 +208,7 @@
                                  style="display: none;">
                             <h2>{{ article.title }}</h2>
                             <div class="article-content">
-                                <p>{{ article.content }}</p>
+                                {{ article.content | replace('\n', '<br>') | safe }}
                             </div>
                         </article>
                         {% endfor %}

@@ -1383,6 +1383,16 @@ p {
     line-height: 1.8;
 }
 
+.article-content {
+    line-height: 1.8;
+    font-size: 1.1rem;
+    text-align: justify;
+}
+
+.article-content br {
+    margin-bottom: 0.5rem;
+}
+
 .article-quote {
     margin: 2rem 0;
     padding: 2rem;
