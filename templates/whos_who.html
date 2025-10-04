@@ -102,9 +102,11 @@
         <div class="container">
             <div class="alphabet-buttons">
                 <button class="alphabet-btn active" data-letter="all">All</button>
-                {% for letter in letters %}
-                <button class="alphabet-btn" data-letter="{{ letter }}">{{ letter }}</button>
-                {% endfor %}
+                {% if letters %}
+                    {% for letter in letters %}
+                    <button class="alphabet-btn" data-letter="{{ letter }}">{{ letter }}</button>
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </section>
@@ -115,10 +117,10 @@
             {% if people %}
                 <div class="people-grid" id="people-grid">
                     {% for person in people %}
-                    <div class="person-card" data-letter="{{ person.name[0].upper() }}" data-name="{{ person.name.lower() }}">
+                    <div class="person-card" data-letter="{{ person.name[0].upper() if person.name else 'A' }}" data-name="{{ person.name.lower() if person.name else '' }}">
                         <div class="person-photo">
                             {% if person.photo_url %}
-                                <img src="{{ person.photo_url }}" alt="{{ person.name }}" class="person-img">
+                                <img src="{{ person.photo_url }}" alt="{{ person.name or 'Unknown' }}" class="person-img">
                             {% else %}
                                 <div class="person-placeholder">
                                     <i class="fas fa-user"></i>
@@ -126,8 +128,8 @@
                             {% endif %}
                         </div>
                         <div class="person-info">
-                            <h3>{{ person.name }}</h3>
-                            <p class="person-genre">{{ person.literary_genre }}</p>
+                            <h3>{{ person.name or 'Unknown Name' }}</h3>
+                            <p class="person-genre">{{ person.literary_genre or 'Not specified' }}</p>
                             <p class="person-years">
                                 {% if person.birth_year %}
                                     {{ person.birth_year }}
@@ -136,9 +138,17 @@
                                     {% else %}
                                         - Present
                                     {% endif %}
+                                {% else %}
+                                    Years not specified
                                 {% endif %}
                             </p>
-                            <p class="person-bio-preview">{{ person.bio[:100] }}{% if person.bio|length > 100 %}...{% endif %}</p>
+                            <p class="person-bio-preview">
+                                {% if person.bio %}
+                                    {{ person.bio[:100] }}{% if person.bio|length > 100 %}...{% endif %}
+                                {% else %}
+                                    Biography not available
+                                {% endif %}
+                            </p>
                             <a href="{{ url_for('whos_who_detail', person_id=person.id) }}" class="btn btn-primary">View Profile</a>
                         </div>
                     </div>

@@ -281,7 +281,7 @@ class DatabaseService:
         """Get all first letters that have who's who entries"""
         try:
             response = self.supabase.table('whos_who').select('name').execute()
-            letters = list(set([person['name'][0].upper() for person in response.data]))
+            letters = list(set([person['name'][0].upper() for person in response.data if person.get('name')]))
             return sorted(letters)
         except Exception as e:
             print(f"Error fetching who's who letters: {e}")

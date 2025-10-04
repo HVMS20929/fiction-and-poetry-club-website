@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ person.name }} - Who's Who - Fiction & Poetry Club Manipur</title>
+    <title>{{ person.name or 'Unknown' }} - Who's Who - Fiction & Poetry Club Manipur</title>
     <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/fiction&poetry_favicon.png') }}">
@@ -13,14 +13,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="{{ person.name }} - {{ person.literary_genre }} writer and literary figure in Manipuri literature. Read biography, notable works, and achievements.">
-    <meta name="keywords" content="{{ person.name }}, Manipuri Literature, {{ person.literary_genre }}, Who's Who, Literary Figure, Manipur">
+    <meta name="description" content="{{ person.name or 'Unknown' }} - {{ person.literary_genre or 'Literary' }} writer and literary figure in Manipuri literature. Read biography, notable works, and achievements.">
+    <meta name="keywords" content="{{ person.name or 'Unknown' }}, Manipuri Literature, {{ person.literary_genre or 'Literary' }}, Who's Who, Literary Figure, Manipur">
     <meta name="author" content="Fiction and Poetry Club Manipur">
     <meta name="robots" content="index, follow">
     
     <!-- Open Graph Meta Tags for Social Media -->
-    <meta property="og:title" content="{{ person.name }} - Literary Figure Profile">
-    <meta property="og:description" content="Read about {{ person.name }}, a distinguished {{ person.literary_genre }} writer in Manipuri literature.">
+    <meta property="og:title" content="{{ person.name or 'Unknown' }} - Literary Figure Profile">
+    <meta property="og:description" content="Read about {{ person.name or 'Unknown' }}, a distinguished {{ person.literary_genre or 'Literary' }} writer in Manipuri literature.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="{{ request.url }}">
     <meta property="og:image" content="{% if person.photo_url %}{{ person.photo_url }}{% else %}{{ url_for('static', filename='images/fiction&poetry_favicon.png', _external=True) }}{% endif %}">
@@ -28,8 +28,8 @@
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ person.name }} - Literary Figure Profile">
-    <meta name="twitter:description" content="Read about {{ person.name }}, a distinguished {{ person.literary_genre }} writer in Manipuri literature.">
+    <meta name="twitter:title" content="{{ person.name or 'Unknown' }} - Literary Figure Profile">
+    <meta name="twitter:description" content="Read about {{ person.name or 'Unknown' }}, a distinguished {{ person.literary_genre or 'Literary' }} writer in Manipuri literature.">
     <meta name="twitter:image" content="{% if person.photo_url %}{{ person.photo_url }}{% else %}{{ url_for('static', filename='images/fiction&poetry_favicon.png', _external=True) }}{% endif %}">
     
     <!-- Canonical URL -->
@@ -78,7 +78,7 @@
             <div class="person-header-content">
                 <div class="person-photo-large">
                     {% if person.photo_url %}
-                        <img src="{{ person.photo_url }}" alt="{{ person.name }}" class="person-img-large">
+                        <img src="{{ person.photo_url }}" alt="{{ person.name or 'Unknown' }}" class="person-img-large">
                     {% else %}
                         <div class="person-placeholder-large">
                             <i class="fas fa-user"></i>
@@ -86,8 +86,8 @@
                     {% endif %}
                 </div>
                 <div class="person-header-info">
-                    <h1>{{ person.name }}</h1>
-                    <p class="person-genre">{{ person.literary_genre }}</p>
+                    <h1>{{ person.name or 'Unknown Name' }}</h1>
+                    <p class="person-genre">{{ person.literary_genre or 'Not specified' }}</p>
                     <p class="person-years">
                         {% if person.birth_year %}
                             {{ person.birth_year }}
@@ -96,6 +96,8 @@
                             {% else %}
                                 - Present
                             {% endif %}
+                        {% else %}
+                            Years not specified
                         {% endif %}
                     </p>
                 </div>
@@ -111,7 +113,11 @@
                 <div class="person-bio-section">
                     <h2>Biography</h2>
                     <div class="bio-content">
-                        <p>{{ person.bio }}</p>
+                        {% if person.bio %}
+                            <p>{{ person.bio }}</p>
+                        {% else %}
+                            <p>Biography not available.</p>
+                        {% endif %}
                     </div>
                 </div>
 
