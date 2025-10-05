@@ -196,6 +196,12 @@
                                          id="{{ article.title|lower|replace(' ', '-') }}"
                                          style="display: none;">
                                     <h2>{{ article.title }}</h2>
+                                    {% if article.author %}
+                                    <div class="article-author">
+                                        <span class="author-label">By:</span>
+                                        <span class="author-name">{{ article.author }}</span>
+                                    </div>
+                                    {% endif %}
                                     <div class="article-content">
                                         {% set paragraphs = article.content.split('\n\n') %}
                                         {% if paragraphs|length > 1 %}
@@ -221,6 +227,12 @@
                                          id="{{ articles[0].title|lower|replace(' ', '-') }}"
                                          style="display: none;">
                                     <h2>{{ articles[0].title }}</h2>
+                                    {% if articles[0].author %}
+                                    <div class="article-author">
+                                        <span class="author-label">By:</span>
+                                        <span class="author-name">{{ articles[0].author }}</span>
+                                    </div>
+                                    {% endif %}
                                     <div class="article-content">
                                         {% set paragraphs = articles[0].content.split('\n\n') %}
                                         {% if paragraphs|length > 1 %}
@@ -247,6 +259,12 @@
                                  id="article-{{ loop.index }}"
                                  style="display: none;">
                             <h2>{{ article.title }}</h2>
+                            {% if article.author %}
+                            <div class="article-author">
+                                <span class="author-label">By:</span>
+                                <span class="author-name">{{ article.author }}</span>
+                            </div>
+                            {% endif %}
                             <div class="article-content">
                                 {% set paragraphs = article.content.split('\n\n') %}
                                 {% if paragraphs|length > 1 %}
