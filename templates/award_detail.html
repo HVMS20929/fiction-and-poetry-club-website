@@ -103,7 +103,19 @@
                     
                     <div class="awardee-bio">
                         <h2>Biography</h2>
-                        <p>{{ award.awardee_bio }}</p>
+                        {% if award.awardee_bio %}
+                            {% set bio_paragraphs = award.awardee_bio.split('\n\n') %}
+                            {% if bio_paragraphs|length == 1 %}
+                                {% set bio_paragraphs = award.awardee_bio.split('\n') %}
+                            {% endif %}
+                            {% for paragraph in bio_paragraphs %}
+                                {% if paragraph.strip() %}
+                                    <p>{{ paragraph.strip() }}</p>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <p>Biography not available.</p>
+                        {% endif %}
                     </div>
                 </div>
 

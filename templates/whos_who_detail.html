@@ -115,7 +115,15 @@
                     <h2>Biography</h2>
                     <div class="bio-content">
                         {% if person.bio %}
-                            <p>{{ person.bio }}</p>
+                            {% set bio_paragraphs = person.bio.split('\n\n') %}
+                            {% if bio_paragraphs|length == 1 %}
+                                {% set bio_paragraphs = person.bio.split('\n') %}
+                            {% endif %}
+                            {% for paragraph in bio_paragraphs %}
+                                {% if paragraph.strip() %}
+                                    <p>{{ paragraph.strip() }}</p>
+                                {% endif %}
+                            {% endfor %}
                         {% else %}
                             <p>Biography not available.</p>
                         {% endif %}
