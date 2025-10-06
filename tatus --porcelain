@@ -1,0 +1,5 @@
+[33m4765a98[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Change biography text color to white in award_detail.html and whos_who_detail.html for better visibility
+[33m2eeb4f6[m Fix year text visibility in hero sections of award_detail.html and whos_who_detail.html by changing color to white
+[33m347208c[m Add author field display for articles in issue_detail.html with proper styling
+[33mf5124bb[m Fix biography sections to display content as separate paragraphs in whos_who_detail.html and award_detail.html
+[33m714a4ec[m Move 'About' link to the end of navbar in all templates
