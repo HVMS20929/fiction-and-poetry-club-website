@@ -2264,16 +2264,6 @@ p {
     .hero-buttons {
         flex-direction: column;
         align-items: center;
-        margin-left: 0 !important;
-    }
-    
-    .hero-buttons .btn {
-        width: 100%;
-        max-width: 300px;
-        text-align: center;
-        pointer-events: auto !important;
-        touch-action: manipulation;
-        z-index: 100;
     }
 
     .hero-logo {
@@ -2435,6 +2425,12 @@ p {
 
     .issue-actions {
         flex-direction: column;
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+    }
+    
+    .issue-card-content-large {
+        transform: translateY(0) !important;
     }
 
     .issue-actions-header {
@@ -2443,23 +2439,6 @@ p {
 
     .social-links-large {
         grid-template-columns: 1fr;
-    }
-    
-    /* Fix for mobile buttons */
-    .btn {
-        pointer-events: auto !important;
-        touch-action: manipulation;
-        -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
-    }
-    
-    .issue-actions .btn {
-        pointer-events: auto !important;
-        z-index: 10;
-    }
-    
-    .share-btn {
-        pointer-events: auto !important;
-        z-index: 10;
     }
     
     .contributors-tabs {
@@ -2692,9 +2671,6 @@ p {
     
     .issue-card-content-large {
         padding: 1rem;
-        transform: translateY(0) !important;
-        opacity: 1 !important;
-        position: relative !important;
     }
     
     .issue-card-content-large h3 {
@@ -2708,14 +2684,8 @@ p {
         transform: translateY(0) !important;
     }
     
-    .issue-card-large {
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .issue-card-cover-large {
-        position: relative !important;
-        flex: 1;
+    .issue-card-content-large {
+        transform: translateY(0) !important;
     }
     
     .proudly-built {
