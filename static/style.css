@@ -2316,6 +2316,18 @@ p {
     .issue-card-large {
         aspect-ratio: 3/4;
     }
+    
+    /* Make issue card content visible on mobile */
+    .issue-card-content-large {
+        transform: translateY(0) !important;
+        opacity: 1 !important;
+        position: relative;
+    }
+    
+    .issue-actions {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+    }
 
     .issue-header {
         margin-top: 70px;
@@ -2663,20 +2675,11 @@ p {
         aspect-ratio: 3/4;
     }
     
-    .issue-card-large.show-details .issue-card-content-large {
-        transform: translateY(0);
-    }
-    
-    .issue-card-large.show-details .issue-actions {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    
     .issue-card-content-large {
         padding: 1rem;
+        transform: translateY(0) !important;
+        opacity: 1 !important;
         position: relative;
-        z-index: 5;
-        pointer-events: auto;
     }
     
     .issue-card-content-large h3 {
@@ -2686,14 +2689,8 @@ p {
     .issue-actions {
         flex-direction: column;
         gap: 0.5rem;
-        position: relative;
-        z-index: 10;
-        pointer-events: auto;
-    }
-    
-    .issue-actions .btn {
-        pointer-events: auto;
-        z-index: 10;
+        opacity: 1 !important;
+        transform: translateY(0) !important;
     }
     
     .proudly-built {
