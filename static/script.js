@@ -873,6 +873,23 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
         });
     });
+    
+    // Mobile tap-to-show for issue cards
+    if (window.innerWidth <= 480) {
+        const issueCards = document.querySelectorAll('.issue-card-large');
+        
+        issueCards.forEach(card => {
+            card.addEventListener('click', function(e) {
+                // If clicking on a button or link, don't toggle the card
+                if (e.target.closest('.btn') || e.target.closest('a')) {
+                    return; // Let the button/link handle its own click
+                }
+                
+                // Toggle show-details class
+                this.classList.toggle('show-details');
+            });
+        });
+    }
 });
 
 // ========================================
