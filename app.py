@@ -66,6 +66,9 @@ def home():
             issues = get_magazine_issues()
             latest_issue = issues[0] if issues else None
             gallery_images = db.get_gallery_images()
+            print(f"DEBUG: Found {len(gallery_images)} gallery images")
+            for i, img in enumerate(gallery_images):
+                print(f"DEBUG: Image {i+1}: {img}")
         else:
             issues = []
             latest_issue = None

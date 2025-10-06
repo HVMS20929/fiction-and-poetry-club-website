@@ -133,16 +133,20 @@
                 <div class="carousel-container">
                     <div class="carousel-wrapper">
                         {% if gallery_images %}
+                            <!-- DEBUG: Gallery images found: {{ gallery_images|length }} -->
                             {% for image in gallery_images %}
+                            <!-- DEBUG: Image {{ loop.index }}: {{ image }} -->
                             <div class="carousel-slide {% if loop.first %}active{% endif %}">
                                 <div class="slide-image">
-                                    <img src="{{ image.photo_url }}" alt="{{ image.caption or 'Gallery Image' }}" class="carousel-img">
+                                    <img src="{{ image.photo_url }}" alt="{{ image.caption or 'Gallery Image' }}" class="carousel-img" 
+                                         onerror="console.error('Image failed to load:', this.src); this.style.border='2px solid red';">
                                 </div>
                                 <div class="slide-caption">
                                     <h3>{{ image.caption or 'Gallery Image' }}</h3>
                                     {% if image.description %}
                                     <p>{{ image.description }}</p>
                                     {% endif %}
+                                    <!-- DEBUG: Image URL: {{ image.photo_url }} -->
                                 </div>
                             </div>
                             {% endfor %}
