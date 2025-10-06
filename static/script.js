@@ -128,7 +128,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Share Button Functionality
     const shareButtons = document.querySelectorAll('.share-btn');
     shareButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             const issueTitle = this.dataset.issue || 'Mapao Magazine';
             const url = window.location.href;
             const text = `Check out "${issueTitle}" from Mapao Magazine!`;
@@ -857,21 +859,43 @@ document.addEventListener('DOMContentLoaded', function() {
     const buttons = document.querySelectorAll('.year-btn, .alphabet-btn, .btn');
     
     buttons.forEach(btn => {
-        btn.addEventListener('touchstart', function() {
+        btn.addEventListener('touchstart', function(e) {
             this.style.transform = 'scale(0.95)';
+        }, {passive: true});
+        
+        btn.addEventListener('touchend', function(e) {
+            this.style.transform = 'scale(1)';
+        }, {passive: true});
+    });
+    
+    // Fix for issue card buttons on mobile
+    const issueCardButtons = document.querySelectorAll('.issue-actions .btn, .issue-actions-header .btn');
+    issueCardButtons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
         });
         
-        btn.addEventListener('touchend', function() {
-            this.style.transform = 'scale(1)';
+        btn.addEventListener('touchend', function(e) {
+            e.stopPropagation();
         });
     });
     
-    // Prevent zoom on double tap for buttons
-    buttons.forEach(btn => {
-        btn.addEventListener('touchend', function(e) {
-            e.preventDefault();
+    // Make issue cards always show content on mobile
+    if (window.innerWidth <= 768) {
+        const issueCards = document.querySelectorAll('.issue-card-large');
+        issueCards.forEach(card => {
+            const content = card.querySelector('.issue-card-content-large');
+            const actions = card.querySelector('.issue-actions');
+            if (content) {
+                content.style.transform = 'translateY(0)';
+                content.style.opacity = '1';
+            }
+            if (actions) {
+                actions.style.opacity = '1';
+                actions.style.transform = 'translateY(0)';
+            }
         });
-    });
+    }
 });
 
 // ========================================
@@ -1037,4 +1061,5 @@ document.addEventListener('DOMContentLoaded', function() {
             carouselContainer.addEventListener('mouseleave', startCarousel);
         }
     }
+});
 });
