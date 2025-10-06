@@ -866,8 +866,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Prevent zoom on double tap for buttons
-    buttons.forEach(btn => {
+    // Prevent zoom on double tap for filter buttons only (not action buttons)
+    const filterButtons = document.querySelectorAll('.year-btn, .alphabet-btn');
+    filterButtons.forEach(btn => {
         btn.addEventListener('touchend', function(e) {
             e.preventDefault();
         });

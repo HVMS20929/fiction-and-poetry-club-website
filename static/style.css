@@ -2661,10 +2661,30 @@ p {
     
     .issue-card-large {
         aspect-ratio: 3/4;
+        cursor: default;
+    }
+    
+    .issue-card-cover-large {
+        pointer-events: none;
+    }
+    
+    .issue-overlay {
+        opacity: 0.3 !important;
+        pointer-events: none;
     }
     
     .issue-card-content-large {
         padding: 1rem;
+        transform: translateY(0) !important;
+        position: relative;
+        z-index: 5;
+        pointer-events: auto;
+        background: linear-gradient(
+            to top,
+            rgba(0, 0, 0, 0.95) 0%,
+            rgba(0, 0, 0, 0.85) 50%,
+            rgba(0, 0, 0, 0.6) 100%
+        ) !important;
     }
     
     .issue-card-content-large h3 {
@@ -2674,6 +2694,16 @@ p {
     .issue-actions {
         flex-direction: column;
         gap: 0.5rem;
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+        position: relative;
+        z-index: 10;
+        pointer-events: auto;
+    }
+    
+    .issue-actions .btn {
+        pointer-events: auto;
+        z-index: 10;
     }
     
     .proudly-built {
