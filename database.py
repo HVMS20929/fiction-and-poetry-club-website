@@ -109,10 +109,64 @@ class DatabaseService:
         """Get all gallery images for carousel display"""
         try:
             response = self.supabase.table(Config.PHOTOS_TABLE).select('*').is_('issue_id', 'null').order('created_at', desc=True).execute()
-            return response.data
+            # Map the database columns to expected carousel format
+            gallery_images = []
+            for photo in response.data:
+                gallery_images.append({
+                    'photo_url': photo.get('file_url'),  # Map file_url to photo_url for carousel
+                    'caption': photo.get('caption'),
+                    'description': photo.get('alt_text'),  # Map alt_text to description for carousel
+                    'filename': photo.get('filename'),
+                    'id': photo.get('id'),
+                    'created_at': photo.get('created_at')
+                })
+            return gallery_images
         except Exception as e:
             print(f"Error fetching gallery images: {e}")
             return []
+    
+    def add_gallery_image(self, file_url: str, filename: str, caption: str = None, alt_text: str = None) -> Optional[Dict[str, Any]]:
+        """Add a new gallery image to the carousel"""
+        try:
+            photo_data = {
+                'file_url': file_url,
+                'filename': filename,
+                'caption': caption,
+                'alt_text': alt_text,
+                'issue_id': None  # Gallery images are not tied to specific issues
+            }
+            response = self.supabase.table(Config.PHOTOS_TABLE).insert(photo_data).execute()
+            return response.data[0] if response.data else None
+        except Exception as e:
+            print(f"Error adding gallery image: {e}")
+            return None
+    
+    def update_gallery_image(self, file_url: str, caption: str = None, alt_text: str = None) -> bool:
+        """Update an existing gallery image"""
+        try:
+            update_data = {}
+            if caption is not None:
+                update_data['caption'] = caption
+            if alt_text is not None:
+                update_data['alt_text'] = alt_text
+            
+            if not update_data:
+                return False
+                
+            response = self.supabase.table(Config.PHOTOS_TABLE).update(update_data).eq('file_url', file_url).is_('issue_id', 'null').execute()
+            return len(response.data) > 0
+        except Exception as e:
+            print(f"Error updating gallery image: {e}")
+            return False
+    
+    def delete_gallery_image(self, file_url: str) -> bool:
+        """Delete a gallery image"""
+        try:
+            response = self.supabase.table(Config.PHOTOS_TABLE).delete().eq('file_url', file_url).is_('issue_id', 'null').execute()
+            return len(response.data) > 0
+        except Exception as e:
+            print(f"Error deleting gallery image: {e}")
+            return False
     
     def upload_photo(self, photo_data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         """Upload a new photo"""
