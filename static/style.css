@@ -3815,13 +3815,14 @@ p {
 
 .awardee-bio h2 {
     margin-bottom: 1.5rem;
-    color: #333;
+    color: white;
 }
 
 .awardee-bio p {
     line-height: 1.8;
-    color: #666;
+    color: white;
     font-size: 1.1rem;
+    opacity: 0.9;
 }
 
 .award-speech-section {
@@ -4142,10 +4143,11 @@ p {
 }
 
 .person-bio-preview {
-    color: #666;
+    color: white;
     line-height: 1.6;
     margin-bottom: 1.5rem;
     font-size: 0.9rem;
+    opacity: 0.9;
 }
 
 .whos-who-stats {
@@ -4316,13 +4318,14 @@ p {
 
 .person-bio-section h2 {
     margin-bottom: 1.5rem;
-    color: #333;
+    color: white;
 }
 
 .bio-content p {
     line-height: 1.8;
-    color: #666;
+    color: white;
     font-size: 1.1rem;
+    opacity: 0.9;
 }
 
 .notable-works-section,
