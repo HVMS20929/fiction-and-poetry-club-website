@@ -139,7 +139,8 @@
                             <div class="carousel-slide {% if loop.first %}active{% endif %}">
                                 <div class="slide-image">
                                     <img src="{{ image.photo_url }}" alt="{{ image.caption or 'Gallery Image' }}" class="carousel-img" 
-                                         onerror="console.error('Image failed to load:', this.src); this.style.border='2px solid red';">
+                                         onerror="console.error('Image failed to load:', this.src); this.style.border='2px solid red';"
+                                         onload="console.log('Image loaded successfully:', this.src);">
                                 </div>
                                 <div class="slide-caption">
                                     <h3>{{ image.caption or 'Gallery Image' }}</h3>
@@ -323,5 +324,47 @@
     </footer>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
+    
+    <!-- Gallery Debug Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('=== GALLERY DEBUG ===');
+            
+            // Check if gallery_images variable exists
+            {% if gallery_images %}
+                console.log('Gallery images found:', {{ gallery_images|length }});
+                console.log('Gallery images data:', {{ gallery_images|tojson|safe }});
+                
+                // Check each image
+                {% for image in gallery_images %}
+                    console.log('Image {{ loop.index }}:', {
+                        photo_url: '{{ image.photo_url }}',
+                        caption: '{{ image.caption }}',
+                        description: '{{ image.description }}'
+                    });
+                {% endfor %}
+            {% else %}
+                console.log('No gallery images found - showing fallback');
+            {% endif %}
+            
+            // Check carousel elements
+            const carouselSlides = document.querySelectorAll('.carousel-slide');
+            console.log('Carousel slides found:', carouselSlides.length);
+            
+            const carouselImages = document.querySelectorAll('.carousel-img');
+            console.log('Carousel images found:', carouselImages.length);
+            
+            // Check if images are visible
+            carouselImages.forEach((img, index) => {
+                console.log(`Image ${index + 1}:`, {
+                    src: img.src,
+                    complete: img.complete,
+                    naturalWidth: img.naturalWidth,
+                    naturalHeight: img.naturalHeight,
+                    visible: img.offsetWidth > 0 && img.offsetHeight > 0
+                });
+            });
+        });
+    </script>
 </body>
 </html>

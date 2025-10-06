@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-image { 
+            max-width: 300px; 
+            height: 200px; 
+            object-fit: cover; 
+            border: 2px solid #ccc; 
+            margin: 10px;
+        }
+        .error { border-color: red !important; }
+        .success { border-color: green !important; }
+    </style>
+</head>
+<body>
+    <h1>Gallery Image Test</h1>
+    <p>This page helps test if your gallery images are accessible.</p>
+    
+    <h2>Test Images:</h2>
+    <div id="test-container">
+        <!-- Images will be added here by JavaScript -->
+    </div>
+    
+    <h2>Instructions:</h2>
+    <ol>
+        <li>Replace the URLs below with your actual image URLs from Supabase</li>
+        <li>Open this file in your browser</li>
+        <li>Check if images load (green border = success, red border = error)</li>
+    </ol>
+    
+    <script>
+        // Replace these with your actual image URLs
+        const testImages = [
+            'https://kxxlyyqrzsxrzfwjadvg.supabase.co/storage/v1/object/public/magazine-assets/gallery/event1.jpg',
+            'https://kxxlyyqrzsxrzfwjadvg.supabase.co/storage/v1/object/public/magazine-assets/gallery/event2.jpg',
+            'https://kxxlyyqrzsxrzfwjadvg.supabase.co/storage/v1/object/public/magazine-assets/gallery/event3.jpg',
+            'https://kxxlyyqrzsxrzfwjadvg.supabase.co/storage/v1/object/public/magazine-assets/gallery/event4.jpg',
+            'https://kxxlyyqrzsxrzfwjadvg.supabase.co/storage/v1/object/public/magazine-assets/gallery/event5.jpg'
+        ];
+        
+        const container = document.getElementById('test-container');
+        
+        testImages.forEach((url, index) => {
+            const img = document.createElement('img');
+            img.src = url;
+            img.alt = `Test Image ${index + 1}`;
+            img.className = 'test-image';
+            
+            img.onload = function() {
+                this.classList.add('success');
+                console.log(`✅ Image ${index + 1} loaded successfully:`, url);
+            };
+            
+            img.onerror = function() {
+                this.classList.add('error');
+                console.error(`❌ Image ${index + 1} failed to load:`, url);
+            };
+            
+            container.appendChild(img);
+        });
+    </script>
+</body>
+</html>
