@@ -2758,6 +2758,158 @@ p {
     background: #f8f9fa;
 }
 
+/* Gallery Carousel Styles */
+.gallery-carousel {
+    margin-top: 3rem;
+}
+
+.carousel-container {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.carousel-wrapper {
+    position: relative;
+    width: 100%;
+    height: 500px;
+}
+
+.carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+}
+
+.slide-image {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.carousel-slide:hover .carousel-img {
+    transform: scale(1.05);
+}
+
+.placeholder-image {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #8F87F1 0%, #493D9E 100%);
+    color: white;
+}
+
+.placeholder-image i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+}
+
+.placeholder-image p {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.slide-caption {
+    padding: 2rem;
+    background: white;
+    text-align: center;
+}
+
+.slide-caption h3 {
+    color: #333;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.slide-caption p {
+    color: #666;
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(143, 135, 241, 0.9);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.carousel-btn:hover {
+    background: rgba(73, 61, 158, 0.9);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-prev {
+    left: 20px;
+}
+
+.carousel-next {
+    right: 20px;
+}
+
+.carousel-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    background: #8F87F1;
+    transform: scale(1.2);
+}
+
+.dot:hover {
+    background: rgba(143, 135, 241, 0.8);
+}
+
 .club-info-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -4495,5 +4647,50 @@ p {
     .year-btn,
     .alphabet-btn {
         flex-shrink: 0;
+    }
+    
+    /* Gallery Carousel Mobile Styles */
+    .carousel-container {
+        max-width: 100%;
+        margin: 0 1rem;
+    }
+    
+    .carousel-wrapper {
+        height: 350px;
+    }
+    
+    .slide-caption {
+        padding: 1.5rem;
+    }
+    
+    .slide-caption h3 {
+        font-size: 1.3rem;
+    }
+    
+    .slide-caption p {
+        font-size: 0.9rem;
+    }
+    
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    .carousel-prev {
+        left: 10px;
+    }
+    
+    .carousel-next {
+        right: 10px;
+    }
+    
+    .carousel-dots {
+        bottom: 15px;
+    }
+    
+    .dot {
+        width: 10px;
+        height: 10px;
     }
 }

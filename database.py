@@ -105,6 +105,15 @@ class DatabaseService:
             print(f"Error fetching photos for issue {issue_id}: {e}")
             return []
     
+    def get_gallery_images(self) -> List[Dict[str, Any]]:
+        """Get all gallery images for carousel display"""
+        try:
+            response = self.supabase.table(Config.PHOTOS_TABLE).select('*').is_('issue_id', 'null').order('created_at', desc=True).execute()
+            return response.data
+        except Exception as e:
+            print(f"Error fetching gallery images: {e}")
+            return []
+    
     def upload_photo(self, photo_data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         """Upload a new photo"""
         try:

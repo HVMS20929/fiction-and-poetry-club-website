@@ -60,12 +60,26 @@ def get_moments_data():
 
 @app.route('/')
 def home():
-    issues = get_magazine_issues()
-    latest_issue = issues[0] if issues else None
+    try:
+        db = get_db_service()
+        if db:
+            issues = get_magazine_issues()
+            latest_issue = issues[0] if issues else None
+            gallery_images = db.get_gallery_images()
+        else:
+            issues = []
+            latest_issue = None
+            gallery_images = []
+    except Exception as e:
+        print(f"Database error: {e}")
+        issues = []
+        latest_issue = None
+        gallery_images = []
+    
     # You can set these URLs from your Supabase Storage or environment variables
     club_logo_url = "https://kxxlyyqrzsxrzfwjadvg.supabase.co/storage/v1/object/public/magazine-assets/logos/fiction-poetry-club-logo.png"
     hero_video_url = "https://kxxlyyqrzsxrzfwjadvg.supabase.co/storage/v1/object/public/magazine-assets/videos/purple_background.mp4"
-    return render_template('home.html', latest_issue=latest_issue, issues=issues, club_logo_url=club_logo_url, hero_video_url=hero_video_url)
+    return render_template('home.html', latest_issue=latest_issue, issues=issues, club_logo_url=club_logo_url, hero_video_url=hero_video_url, gallery_images=gallery_images)
 
 @app.route('/mapao')
 def mapao():

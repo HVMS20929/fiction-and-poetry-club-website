@@ -128,27 +128,59 @@
                 <h2>About Fiction & Poetry Club Manipur</h2>
                 <p>Established on 16 May 2004, we are a literary organization dedicated to promoting Manipuri literature and culture</p>
             </div>
-            <div class="club-info-grid">
-                <div class="club-info-card">
-                    <div class="info-icon">
-                        <i class="fas fa-book-open"></i>
+            <!-- Image Carousel -->
+            <div class="gallery-carousel">
+                <div class="carousel-container">
+                    <div class="carousel-wrapper">
+                        {% if gallery_images %}
+                            {% for image in gallery_images %}
+                            <div class="carousel-slide {% if loop.first %}active{% endif %}">
+                                <div class="slide-image">
+                                    <img src="{{ image.photo_url }}" alt="{{ image.caption or 'Gallery Image' }}" class="carousel-img">
+                                </div>
+                                <div class="slide-caption">
+                                    <h3>{{ image.caption or 'Gallery Image' }}</h3>
+                                    {% if image.description %}
+                                    <p>{{ image.description }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <!-- Fallback content if no images -->
+                            <div class="carousel-slide active">
+                                <div class="slide-image">
+                                    <div class="placeholder-image">
+                                        <i class="fas fa-images"></i>
+                                        <p>Gallery images coming soon</p>
+                                    </div>
+                                </div>
+                                <div class="slide-caption">
+                                    <h3>Our Gallery</h3>
+                                    <p>Discover moments from our literary journey and community events</p>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
-                    <h3>Our Mission</h3>
-                    <p>To promote and preserve Manipuri literature through various literary activities, workshops, and publications.</p>
-                </div>
-                <div class="club-info-card">
-                    <div class="info-icon">
-                        <i class="fas fa-users"></i>
+                    
+                    <!-- Navigation Arrows -->
+                    <button class="carousel-btn carousel-prev" onclick="changeSlide(-1)">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-btn carousel-next" onclick="changeSlide(1)">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    
+                    <!-- Dots Indicator -->
+                    <div class="carousel-dots">
+                        {% if gallery_images %}
+                            {% for image in gallery_images %}
+                            <span class="dot {% if loop.first %}active{% endif %}" onclick="currentSlide({{ loop.index }})"></span>
+                            {% endfor %}
+                        {% else %}
+                            <span class="dot active"></span>
+                        {% endif %}
                     </div>
-                    <h3>Our Community</h3>
-                    <p>A vibrant community of writers, poets, researchers, and literature enthusiasts from Manipur and beyond.</p>
-                </div>
-                <div class="club-info-card">
-                    <div class="info-icon">
-                        <i class="fas fa-award"></i>
-                    </div>
-                    <h3>Our Achievement</h3>
-                    <p>Publisher of MAPAO, a leading bi-annual literary journal with ISSN 2347-9140, recognized in Manipuri literature.</p>
                 </div>
             </div>
         </div>
