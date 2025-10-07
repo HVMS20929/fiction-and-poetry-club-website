@@ -976,44 +976,24 @@ const galleryDots = document.querySelectorAll('.gallery-dot');
 const totalImages = galleryCards.length;
 
 function updateGalleryCards() {
-    // Check if we're on mobile (screen width <= 768px)
-    const isMobile = window.innerWidth <= 768;
-    
-    if (isMobile) {
-        // Mobile: Traditional carousel - show only one card at a time
-        galleryCards.forEach((card, index) => {
-            const dataIndex = parseInt(card.dataset.index);
-            
-            // Remove all classes
-            card.classList.remove('main', 'left', 'right', 'hidden');
-            
-            if (dataIndex === currentGalleryIndex) {
-                card.classList.add('main');
-            } else {
-                card.classList.add('hidden');
-            }
-        });
-    } else {
-        // Desktop: Three-card layout
-        galleryCards.forEach((card, index) => {
-            const dataIndex = parseInt(card.dataset.index);
-            const relativeIndex = (dataIndex - currentGalleryIndex + totalImages) % totalImages;
-            
-            // Remove all classes
-            card.classList.remove('main', 'left', 'right', 'hidden');
-            
-            // Apply appropriate class based on position
-            if (relativeIndex === 0) {
-                card.classList.add('main');
-            } else if (relativeIndex === 1) {
-                card.classList.add('right');
-            } else if (relativeIndex === totalImages - 1) {
-                card.classList.add('left');
-            } else {
-                card.classList.add('hidden');
-            }
-        });
-    }
+    galleryCards.forEach((card, index) => {
+        const dataIndex = parseInt(card.dataset.index);
+        const relativeIndex = (dataIndex - currentGalleryIndex + totalImages) % totalImages;
+        
+        // Remove all classes
+        card.classList.remove('main', 'left', 'right', 'hidden');
+        
+        // Apply appropriate class based on position
+        if (relativeIndex === 0) {
+            card.classList.add('main');
+        } else if (relativeIndex === 1) {
+            card.classList.add('right');
+        } else if (relativeIndex === totalImages - 1) {
+            card.classList.add('left');
+        } else {
+            card.classList.add('hidden');
+        }
+    });
     
     // Update dots
     galleryDots.forEach((dot, index) => {
@@ -1074,20 +1054,17 @@ function handleSwipeGesture() {
     }
 }
 
-// Click handlers for side cards (desktop only)
+// Click handlers for side cards
 function setupGalleryCardClicks() {
     galleryCards.forEach(card => {
         card.addEventListener('click', function() {
-            // Only handle side card clicks on desktop
-            if (window.innerWidth > 768) {
-                const cardIndex = parseInt(this.dataset.index);
-                const relativeIndex = (cardIndex - currentGalleryIndex + totalImages) % totalImages;
-                
-                if (relativeIndex === 1 || relativeIndex === totalImages - 1) {
-                    // Clicked on side card - make it main
-                    currentGalleryIndex = cardIndex;
-                    updateGalleryCards();
-                }
+            const cardIndex = parseInt(this.dataset.index);
+            const relativeIndex = (cardIndex - currentGalleryIndex + totalImages) % totalImages;
+            
+            if (relativeIndex === 1 || relativeIndex === totalImages - 1) {
+                // Clicked on side card - make it main
+                currentGalleryIndex = cardIndex;
+                updateGalleryCards();
             }
         });
     });
@@ -1124,10 +1101,5 @@ document.addEventListener('DOMContentLoaded', function() {
             galleryContainer.addEventListener('mouseenter', stopGalleryCarousel);
             galleryContainer.addEventListener('mouseleave', startGalleryCarousel);
         }
-        
-        // Update carousel layout on window resize
-        window.addEventListener('resize', function() {
-            updateGalleryCards();
-        });
     }
 });

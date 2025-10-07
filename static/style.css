@@ -2525,32 +2525,37 @@ p {
 
     /* Extra small screen carousel adjustments */
     .gallery-wrapper {
-        height: 250px;
+        height: 240px;
+        gap: 0.2rem;
+        flex-wrap: nowrap;
+        overflow: hidden;
     }
 
-    .gallery-card .card-overlay {
-        padding: 1rem;
+    .gallery-card.main {
+        width: 160px;
+        height: 200px;
+        flex-shrink: 0;
     }
 
-    .gallery-card .card-content h3 {
-        font-size: 1.2rem;
+    .gallery-card.left,
+    .gallery-card.right {
+        width: 80px;
+        height: 120px;
+        flex-shrink: 0;
     }
 
-    .gallery-card .card-content p {
-        font-size: 0.9rem;
+    .gallery-card.left {
+        transform: translateX(-25px) scale(0.5);
+    }
+
+    .gallery-card.right {
+        transform: translateX(25px) scale(0.5);
     }
 
     .gallery-nav {
         width: 40px;
         height: 40px;
         font-size: 0.9rem;
-        background: transparent;
-        color: white;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    }
-
-    .gallery-nav:hover {
-        background: rgba(255, 255, 255, 0.1);
     }
 
     .gallery-prev {
@@ -3012,7 +3017,7 @@ p {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: transparent;
+    background: rgba(255, 255, 255, 0.9);
     border: none;
     width: 60px;
     height: 60px;
@@ -3024,14 +3029,13 @@ p {
     transition: all 0.3s ease;
     z-index: 10;
     font-size: 1.2rem;
-    color: white;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    color: #333;
 }
 
 .gallery-nav:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: white;
     transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
 .gallery-prev {
@@ -4811,7 +4815,7 @@ p {
     }
     
     /* Gallery Carousel Mobile Styles */
-    /* Mobile Gallery Carousel - Traditional single card design */
+    /* Mobile Gallery Carousel - Keep three-card layout */
     .photo-gallery-carousel {
         margin-left: -50vw;
         margin-right: -50vw;
@@ -4819,39 +4823,44 @@ p {
     }
 
     .gallery-container {
-        padding: 0;
-        max-width: 100%;
+        padding: 2rem 1rem;
     }
 
     .gallery-wrapper {
-        position: relative;
-        width: 100%;
-        height: 300px;
+        flex-direction: row;
+        height: 280px;
+        gap: 0.3rem;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: nowrap;
         overflow: hidden;
     }
 
-    /* Mobile Cards - Single card view */
-    .gallery-card {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        transition: opacity 0.5s ease-in-out;
-        transform: none !important;
-        z-index: 1;
-    }
-
+    /* Mobile Cards - Smaller three-card layout */
     .gallery-card.main {
+        width: 180px;
+        height: 220px;
+        z-index: 3;
+        transform: scale(1);
         opacity: 1;
-        z-index: 2;
+        flex-shrink: 0;
     }
 
     .gallery-card.left,
     .gallery-card.right {
-        opacity: 0;
-        transform: none;
+        width: 100px;
+        height: 140px;
+        z-index: 1;
+        opacity: 0.4;
+        flex-shrink: 0;
+    }
+
+    .gallery-card.left {
+        transform: translateX(-30px) scale(0.6);
+    }
+
+    .gallery-card.right {
+        transform: translateX(30px) scale(0.6);
     }
 
     .gallery-card.hidden {
@@ -4859,47 +4868,37 @@ p {
     }
 
     /* Mobile card content */
-    .gallery-card .card-overlay {
-        padding: 1.5rem;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-        color: white;
-        transform: translateY(0);
+    .gallery-card.main .card-overlay {
+        padding: 1rem;
     }
 
-    .gallery-card .card-content h3 {
-        font-size: 1.4rem;
-        margin-bottom: 0.5rem;
-        font-weight: 600;
+    .gallery-card.main .card-content h3 {
+        font-size: 1.2rem;
     }
 
-    .gallery-card .card-content p {
-        font-size: 1rem;
-        opacity: 0.9;
+    .gallery-card.main .card-content p {
+        font-size: 0.9rem;
     }
 
-    /* Mobile image fitting */
-    .gallery-card .gallery-img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        object-position: center;
+    .gallery-card.left .card-overlay,
+    .gallery-card.right .card-overlay {
+        padding: 0.5rem;
+    }
+
+    .gallery-card.left .card-content h3,
+    .gallery-card.right .card-content h3 {
+        font-size: 0.8rem;
+    }
+
+    .gallery-card.left .card-content p,
+    .gallery-card.right .card-content p {
+        font-size: 0.6rem;
     }
 
     .gallery-nav {
         width: 50px;
         height: 50px;
         font-size: 1rem;
-        background: transparent;
-        color: white;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    }
-
-    .gallery-nav:hover {
-        background: rgba(255, 255, 255, 0.1);
     }
 
     .gallery-prev {
