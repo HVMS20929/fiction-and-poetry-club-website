@@ -2526,44 +2526,18 @@ p {
     /* Extra small screen carousel adjustments */
     .gallery-wrapper {
         height: 250px;
-        gap: 0.5rem;
-        max-width: 350px;
     }
 
-    .gallery-card.main {
-        height: 150px !important;
-    }
-
-    .gallery-card.left,
-    .gallery-card.right {
-        height: 100px !important;
-    }
-
-    .gallery-card.main .card-overlay {
+    .gallery-card .card-overlay {
         padding: 1rem;
     }
 
-    .gallery-card.main .card-content h3 {
+    .gallery-card .card-content h3 {
         font-size: 1.2rem;
     }
 
-    .gallery-card.main .card-content p {
+    .gallery-card .card-content p {
         font-size: 0.9rem;
-    }
-
-    .gallery-card.left .card-overlay,
-    .gallery-card.right .card-overlay {
-        padding: 0.6rem;
-    }
-
-    .gallery-card.left .card-content h3,
-    .gallery-card.right .card-content h3 {
-        font-size: 0.9rem;
-    }
-
-    .gallery-card.left .card-content p,
-    .gallery-card.right .card-content p {
-        font-size: 0.7rem;
     }
 
     .gallery-nav {
@@ -4829,7 +4803,7 @@ p {
     }
     
     /* Gallery Carousel Mobile Styles */
-    /* Mobile Gallery Carousel - Horizontal elongated design */
+    /* Mobile Gallery Carousel - Traditional single card design */
     .photo-gallery-carousel {
         margin-left: -50vw;
         margin-right: -50vw;
@@ -4837,91 +4811,66 @@ p {
     }
 
     .gallery-container {
-        padding: 2rem 1rem;
+        padding: 0;
+        max-width: 100%;
     }
 
     .gallery-wrapper {
-        display: grid !important;
-        grid-template-columns: 1fr 2fr 1fr;
-        grid-template-rows: auto;
-        gap: 1rem;
-        justify-items: center;
-        align-items: center;
-        height: 300px;
-        width: 100%;
-        max-width: 400px;
-        margin: 0 auto;
-    }
-
-    /* Mobile Main Card - Wide rectangular like desktop */
-    .gallery-card.main {
-        width: 100% !important;
-        height: 180px !important;
-        z-index: 3;
-        transform: scale(1) !important;
-        opacity: 1 !important;
         position: relative;
-        grid-column: 2;
-        grid-row: 1;
+        width: 100%;
+        height: 300px;
+        overflow: hidden;
     }
 
-    /* Mobile Sub Cards - Stacked underneath */
+    /* Mobile Cards - Single card view */
+    .gallery-card {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        transform: none !important;
+        z-index: 1;
+    }
+
+    .gallery-card.main {
+        opacity: 1;
+        z-index: 2;
+    }
+
     .gallery-card.left,
     .gallery-card.right {
-        width: 100% !important;
-        height: 120px !important;
-        z-index: 1;
-        opacity: 0.4 !important;
-        position: relative;
-    }
-
-    .gallery-card.left {
-        transform: scale(1) !important;
-        grid-column: 1;
-        grid-row: 2;
-    }
-
-    .gallery-card.right {
-        transform: scale(1) !important;
-        grid-column: 3;
-        grid-row: 2;
+        opacity: 0;
+        transform: none;
     }
 
     .gallery-card.hidden {
-        display: none !important;
-    }
-
-    /* Ensure only three cards are visible */
-    .gallery-card:nth-child(n+4) {
-        display: none !important;
+        display: none;
     }
 
     /* Mobile card content */
-    .gallery-card.main .card-overlay {
+    .gallery-card .card-overlay {
         padding: 1.5rem;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+        color: white;
+        transform: translateY(0);
     }
 
-    .gallery-card.main .card-content h3 {
+    .gallery-card .card-content h3 {
         font-size: 1.4rem;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
     }
 
-    .gallery-card.main .card-content p {
+    .gallery-card .card-content p {
         font-size: 1rem;
-    }
-
-    .gallery-card.left .card-overlay,
-    .gallery-card.right .card-overlay {
-        padding: 0.8rem;
-    }
-
-    .gallery-card.left .card-content h3,
-    .gallery-card.right .card-content h3 {
-        font-size: 1rem;
-    }
-
-    .gallery-card.left .card-content p,
-    .gallery-card.right .card-content p {
-        font-size: 0.8rem;
+        opacity: 0.9;
     }
 
     .gallery-nav {
