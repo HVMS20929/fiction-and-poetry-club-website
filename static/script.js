@@ -1090,7 +1090,11 @@ function stopGalleryCarousel() {
 // Initialize gallery carousel when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     if (galleryCards.length > 0) {
-        updateGalleryCards();
+        // Force initial layout update
+        setTimeout(() => {
+            updateGalleryCards();
+        }, 100);
+        
         setupGalleryCardClicks();
         handleGallerySwipe();
         startGalleryCarousel();
@@ -1101,5 +1105,12 @@ document.addEventListener('DOMContentLoaded', function() {
             galleryContainer.addEventListener('mouseenter', stopGalleryCarousel);
             galleryContainer.addEventListener('mouseleave', startGalleryCarousel);
         }
+        
+        // Force layout update on window resize for mobile
+        window.addEventListener('resize', function() {
+            setTimeout(() => {
+                updateGalleryCards();
+            }, 100);
+        });
     }
 });

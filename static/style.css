@@ -2527,25 +2527,29 @@ p {
     .gallery-wrapper {
         height: 240px;
         gap: 0.3rem;
+        flex-direction: row !important;
     }
 
     .gallery-card.main {
-        width: 180px;
-        height: 220px;
+        width: 180px !important;
+        height: 220px !important;
+        transform: scale(1) !important;
+        opacity: 1 !important;
     }
 
     .gallery-card.left,
     .gallery-card.right {
-        width: 100px;
-        height: 140px;
+        width: 100px !important;
+        height: 140px !important;
+        opacity: 0.4 !important;
     }
 
     .gallery-card.left {
-        transform: translateX(-30px) scale(0.6);
+        transform: translateX(-30px) scale(0.6) !important;
     }
 
     .gallery-card.right {
-        transform: translateX(30px) scale(0.6);
+        transform: translateX(30px) scale(0.6) !important;
     }
 
     .gallery-nav {
@@ -4823,40 +4827,47 @@ p {
     }
 
     .gallery-wrapper {
-        flex-direction: row;
+        flex-direction: row !important;
         height: 280px;
         gap: 0.5rem;
         justify-content: center;
         align-items: center;
     }
 
-    /* Mobile Cards - Smaller three-card layout */
+    /* Mobile Cards - Smaller three-card layout with proper positioning */
     .gallery-card.main {
-        width: 200px;
-        height: 250px;
+        width: 200px !important;
+        height: 250px !important;
         z-index: 3;
-        transform: scale(1);
-        opacity: 1;
+        transform: scale(1) !important;
+        opacity: 1 !important;
+        position: relative;
     }
 
     .gallery-card.left,
     .gallery-card.right {
-        width: 120px;
-        height: 160px;
+        width: 120px !important;
+        height: 160px !important;
         z-index: 1;
-        opacity: 0.4;
+        opacity: 0.4 !important;
+        position: relative;
     }
 
     .gallery-card.left {
-        transform: translateX(-40px) scale(0.6);
+        transform: translateX(-40px) scale(0.6) !important;
     }
 
     .gallery-card.right {
-        transform: translateX(40px) scale(0.6);
+        transform: translateX(40px) scale(0.6) !important;
     }
 
     .gallery-card.hidden {
-        display: none;
+        display: none !important;
+    }
+
+    /* Ensure only three cards are visible */
+    .gallery-card:nth-child(n+4) {
+        display: none !important;
     }
 
     /* Mobile card content */
