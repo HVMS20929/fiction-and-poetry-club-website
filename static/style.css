@@ -2523,6 +2523,55 @@ p {
         margin: 0 10px;
     }
 
+    /* Extra small screen carousel adjustments */
+    .gallery-wrapper {
+        height: 240px;
+        gap: 0.3rem;
+    }
+
+    .gallery-card.main {
+        width: 180px;
+        height: 220px;
+    }
+
+    .gallery-card.left,
+    .gallery-card.right {
+        width: 100px;
+        height: 140px;
+    }
+
+    .gallery-card.left {
+        transform: translateX(-30px) scale(0.6);
+    }
+
+    .gallery-card.right {
+        transform: translateX(30px) scale(0.6);
+    }
+
+    .gallery-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 0.9rem;
+    }
+
+    .gallery-prev {
+        left: 0.5rem;
+    }
+
+    .gallery-next {
+        right: 0.5rem;
+    }
+
+    .gallery-dots {
+        bottom: 0.5rem;
+    }
+
+    .gallery-dot {
+        width: 10px;
+        height: 10px;
+    }
+}
+
     .nav-logo h1 {
         font-size: 0.9rem;
         white-space: nowrap;
@@ -4762,7 +4811,7 @@ p {
     }
     
     /* Gallery Carousel Mobile Styles */
-    /* Mobile Gallery Carousel */
+    /* Mobile Gallery Carousel - Keep three-card layout */
     .photo-gallery-carousel {
         margin-left: -50vw;
         margin-right: -50vw;
@@ -4774,50 +4823,68 @@ p {
     }
 
     .gallery-wrapper {
-        flex-direction: column;
-        height: auto;
-        gap: 1rem;
+        flex-direction: row;
+        height: 280px;
+        gap: 0.5rem;
+        justify-content: center;
+        align-items: center;
     }
 
-    /* Mobile Cards - Single card view */
-    .gallery-card {
-        width: 100% !important;
-        max-width: 350px;
-        height: 250px !important;
-        margin: 0 auto;
-        transform: none !important;
-        opacity: 1 !important;
-    }
-
-    .gallery-card.main,
-    .gallery-card.left,
-    .gallery-card.right {
-        width: 100%;
+    /* Mobile Cards - Smaller three-card layout */
+    .gallery-card.main {
+        width: 200px;
         height: 250px;
-        transform: none;
+        z-index: 3;
+        transform: scale(1);
         opacity: 1;
     }
 
-    .gallery-card.main .card-overlay {
-        padding: 1.5rem;
+    .gallery-card.left,
+    .gallery-card.right {
+        width: 120px;
+        height: 160px;
+        z-index: 1;
+        opacity: 0.4;
     }
 
-    .gallery-card.main .card-content h3 {
-        font-size: 1.5rem;
+    .gallery-card.left {
+        transform: translateX(-40px) scale(0.6);
     }
 
-    .gallery-card.main .card-content p {
-        font-size: 1rem;
+    .gallery-card.right {
+        transform: translateX(40px) scale(0.6);
     }
 
-    /* Show only one card at a time on mobile */
     .gallery-card.hidden {
         display: none;
     }
 
-    /* Show the main card by default */
-    .gallery-card:not(.hidden) {
-        display: block;
+    /* Mobile card content */
+    .gallery-card.main .card-overlay {
+        padding: 1rem;
+    }
+
+    .gallery-card.main .card-content h3 {
+        font-size: 1.2rem;
+    }
+
+    .gallery-card.main .card-content p {
+        font-size: 0.9rem;
+    }
+
+    .gallery-card.left .card-overlay,
+    .gallery-card.right .card-overlay {
+        padding: 0.5rem;
+    }
+
+    .gallery-card.left .card-content h3,
+    .gallery-card.right .card-content h3 {
+        font-size: 0.8rem;
+    }
+
+    .gallery-card.left .card-content p,
+    .gallery-card.right .card-content p {
+        font-size: 0.6rem;
     }
 
     .gallery-nav {
