@@ -967,69 +967,139 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // ========================================
-// GALLERY CAROUSEL FUNCTIONALITY
+// GALLERY CAROUSEL FUNCTIONALITY - Three Card Design
 // ========================================
 
-let currentSlideIndex = 0;
-const slides = document.querySelectorAll('.carousel-slide');
-const dots = document.querySelectorAll('.dot');
+let currentGalleryIndex = 0;
+const galleryCards = document.querySelectorAll('.gallery-card');
+const galleryDots = document.querySelectorAll('.gallery-dot');
+const totalImages = galleryCards.length;
 
-function showSlide(index) {
-    // Hide all slides
-    slides.forEach(slide => slide.classList.remove('active'));
-    dots.forEach(dot => dot.classList.remove('active'));
-    
-    // Show current slide
-    if (slides[index]) {
-        slides[index].classList.add('active');
-    }
-    if (dots[index]) {
-        dots[index].classList.add('active');
-    }
-}
-
-function changeSlide(direction) {
-    currentSlideIndex += direction;
-    
-    // Wrap around if at the beginning or end
-    if (currentSlideIndex >= slides.length) {
-        currentSlideIndex = 0;
-    } else if (currentSlideIndex < 0) {
-        currentSlideIndex = slides.length - 1;
-    }
-    
-    showSlide(currentSlideIndex);
-}
-
-function currentSlide(index) {
-    currentSlideIndex = index - 1; // Convert to 0-based index
-    showSlide(currentSlideIndex);
-}
-
-// Auto-advance carousel every 5 seconds
-let carouselInterval;
-
-function startCarousel() {
-    carouselInterval = setInterval(() => {
-        changeSlide(1);
-    }, 5000);
-}
-
-function stopCarousel() {
-    clearInterval(carouselInterval);
-}
-
-// Initialize carousel when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    if (slides.length > 0) {
-        showSlide(0);
-        startCarousel();
+function updateGalleryCards() {
+    galleryCards.forEach((card, index) => {
+        const dataIndex = parseInt(card.dataset.index);
+        const relativeIndex = (dataIndex - currentGalleryIndex + totalImages) % totalImages;
         
-        // Pause carousel on hover
-        const carouselContainer = document.querySelector('.carousel-container');
-        if (carouselContainer) {
-            carouselContainer.addEventListener('mouseenter', stopCarousel);
-            carouselContainer.addEventListener('mouseleave', startCarousel);
+        // Remove all classes
+        card.classList.remove('main', 'left', 'right', 'hidden');
+        
+        // Apply appropriate class based on position
+        if (relativeIndex === 0) {
+            card.classList.add('main');
+        } else if (relativeIndex === 1) {
+            card.classList.add('right');
+        } else if (relativeIndex === totalImages - 1) {
+            card.classList.add('left');
+        } else {
+            card.classList.add('hidden');
+        }
+    });
+    
+    // Update dots
+    galleryDots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentGalleryIndex);
+    });
+}
+
+function changeGallerySlide(direction) {
+    if (totalImages === 0) return;
+    
+    currentGalleryIndex += direction;
+    if (currentGalleryIndex >= totalImages) {
+        currentGalleryIndex = 0;
+    } else if (currentGalleryIndex < 0) {
+        currentGalleryIndex = totalImages - 1;
+    }
+    
+    updateGalleryCards();
+}
+
+function goToGallerySlide(index) {
+    if (index >= 0 && index < totalImages) {
+        currentGalleryIndex = index;
+        updateGalleryCards();
+    }
+}
+
+// Touch/swipe support for mobile
+let touchStartX = 0;
+let touchEndX = 0;
+
+function handleGallerySwipe() {
+    const galleryWrapper = document.querySelector('.gallery-wrapper');
+    if (!galleryWrapper) return;
+    
+    galleryWrapper.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    });
+    
+    galleryWrapper.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipeGesture();
+    });
+}
+
+function handleSwipeGesture() {
+    const swipeThreshold = 50;
+    const diff = touchStartX - touchEndX;
+    
+    if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+            // Swipe left - next slide
+            changeGallerySlide(1);
+        } else {
+            // Swipe right - previous slide
+            changeGallerySlide(-1);
+        }
+    }
+}
+
+// Click handlers for side cards
+function setupGalleryCardClicks() {
+    galleryCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const cardIndex = parseInt(this.dataset.index);
+            const relativeIndex = (cardIndex - currentGalleryIndex + totalImages) % totalImages;
+            
+            if (relativeIndex === 1 || relativeIndex === totalImages - 1) {
+                // Clicked on side card - make it main
+                currentGalleryIndex = cardIndex;
+                updateGalleryCards();
+            }
+        });
+    });
+}
+
+// Auto-play carousel
+let galleryAutoPlayInterval;
+
+function startGalleryCarousel() {
+    if (totalImages > 1) {
+        galleryAutoPlayInterval = setInterval(() => {
+            changeGallerySlide(1);
+        }, 5000);
+    }
+}
+
+function stopGalleryCarousel() {
+    if (galleryAutoPlayInterval) {
+        clearInterval(galleryAutoPlayInterval);
+    }
+}
+
+// Initialize gallery carousel when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    if (galleryCards.length > 0) {
+        updateGalleryCards();
+        setupGalleryCardClicks();
+        handleGallerySwipe();
+        startGalleryCarousel();
+        
+        // Pause auto-play on hover
+        const galleryContainer = document.querySelector('.gallery-container');
+        if (galleryContainer) {
+            galleryContainer.addEventListener('mouseenter', stopGalleryCarousel);
+            galleryContainer.addEventListener('mouseleave', startGalleryCarousel);
         }
     }
 });
