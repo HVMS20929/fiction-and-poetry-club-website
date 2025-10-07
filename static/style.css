@@ -177,6 +177,9 @@ p {
     cursor: pointer;
     font-size: 1rem;
     text-align: center;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
 }
 
 .btn-primary {
@@ -2264,6 +2267,18 @@ p {
     .hero-buttons {
         flex-direction: column;
         align-items: center;
+        gap: 1rem;
+        margin-left: 0;
+        width: 100%;
+    }
+    
+    .hero-buttons .btn {
+        width: 100%;
+        max-width: 280px;
+        padding: 1rem 1.5rem;
+        font-size: 1.1rem;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
     }
 
     .hero-logo {
@@ -2425,8 +2440,6 @@ p {
 
     .issue-actions {
         flex-direction: column;
-        opacity: 1 !important;
-        transform: translateY(0) !important;
     }
 
     .issue-actions-header {
@@ -2508,6 +2521,17 @@ p {
 
     .hero-title {
         font-size: 2.8rem !important;
+    }
+    
+    .hero-buttons {
+        gap: 0.75rem;
+        margin: 1rem 0;
+    }
+    
+    .hero-buttons .btn {
+        max-width: 250px;
+        padding: 0.875rem 1.25rem;
+        font-size: 1rem;
     }
 
     .hero-subtitle {
@@ -2676,8 +2700,6 @@ p {
     .issue-actions {
         flex-direction: column;
         gap: 0.5rem;
-        opacity: 1 !important;
-        transform: translateY(0) !important;
     }
     
     .proudly-built {
