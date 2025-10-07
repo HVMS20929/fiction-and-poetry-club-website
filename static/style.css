@@ -2816,9 +2816,9 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
+    gap: 1rem;
     position: relative;
-    height: 500px;
+    height: 550px;
     perspective: 1000px;
 }
 
@@ -2832,29 +2832,30 @@ p {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
-/* Main Card (Center) */
+/* Main Card (Center) - Bigger and more prominent */
 .gallery-card.main {
-    width: 400px;
-    height: 450px;
+    width: 500px;
+    height: 500px;
     z-index: 3;
     transform: scale(1);
+    opacity: 1;
 }
 
-/* Side Cards */
+/* Side Cards - Smaller hints */
 .gallery-card.left,
 .gallery-card.right {
-    width: 280px;
-    height: 350px;
-    z-index: 2;
-    opacity: 0.7;
+    width: 160px;
+    height: 200px;
+    z-index: 1;
+    opacity: 0.4;
 }
 
 .gallery-card.left {
-    transform: translateX(-50px) scale(0.85);
+    transform: translateX(-80px) scale(0.6);
 }
 
 .gallery-card.right {
-    transform: translateX(50px) scale(0.85);
+    transform: translateX(80px) scale(0.6);
 }
 
 /* Hidden Cards */
@@ -2889,9 +2890,13 @@ p {
     right: 0;
     background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
     color: white;
-    padding: 2rem;
+    padding: 1rem;
     transform: translateY(100%);
     transition: transform 0.4s ease;
+}
+
+.gallery-card.main .card-overlay {
+    padding: 2.5rem;
 }
 
 .gallery-card.main .card-overlay {
@@ -2903,22 +2908,24 @@ p {
 }
 
 .card-content h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
     font-weight: 600;
 }
 
 .gallery-card.main .card-content h3 {
-    font-size: 1.8rem;
+    font-size: 2rem;
+    margin-bottom: 0.8rem;
 }
 
 .card-content p {
-    font-size: 0.9rem;
+    font-size: 0.7rem;
     opacity: 0.9;
 }
 
 .gallery-card.main .card-content p {
-    font-size: 1rem;
+    font-size: 1.1rem;
+    opacity: 0.95;
 }
 
 /* Placeholder for missing images */
@@ -2934,21 +2941,22 @@ p {
 }
 
 .placeholder-image i {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
 }
 
 .gallery-card.main .placeholder-image i {
-    font-size: 4rem;
+    font-size: 5rem;
+    margin-bottom: 1.5rem;
 }
 
 .placeholder-image p {
-    font-size: 1rem;
+    font-size: 0.8rem;
     font-weight: 500;
 }
 
 .gallery-card.main .placeholder-image p {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
 }
 
 /* Navigation Controls */
@@ -4788,6 +4796,18 @@ p {
         height: 300px;
         transform: none;
         opacity: 1;
+    }
+
+    .gallery-card.main .card-overlay {
+        padding: 1.5rem;
+    }
+
+    .gallery-card.main .card-content h3 {
+        font-size: 1.5rem;
+    }
+
+    .gallery-card.main .card-content p {
+        font-size: 1rem;
     }
 
     /* Show only one card at a time on mobile */
