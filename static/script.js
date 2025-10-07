@@ -58,13 +58,9 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             const target = document.querySelector(href);
             if (target) {
-                // Add mobile-friendly smooth scrolling with offset for fixed navbar
-                const navbarHeight = document.querySelector('.navbar')?.offsetHeight || 70;
-                const targetPosition = target.offsetTop - navbarHeight;
-                
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
                 });
             }
         });
@@ -870,12 +866,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Prevent zoom on double tap for buttons
-    buttons.forEach(btn => {
-        btn.addEventListener('touchend', function(e) {
-            e.preventDefault();
-        });
-    });
+    // Note: Removed preventDefault() to allow normal button clicks on mobile
 });
 
 // ========================================
