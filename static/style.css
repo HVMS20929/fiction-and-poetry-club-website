@@ -2525,31 +2525,45 @@ p {
 
     /* Extra small screen carousel adjustments */
     .gallery-wrapper {
-        height: 200px;
-        gap: 0.1rem;
-        flex-direction: row !important;
+        height: 250px;
+        gap: 0.5rem;
+        max-width: 350px;
     }
 
     .gallery-card.main {
-        width: 220px !important;
         height: 150px !important;
-        transform: scale(1) !important;
-        opacity: 1 !important;
     }
 
     .gallery-card.left,
     .gallery-card.right {
-        width: 80px !important;
-        height: 110px !important;
-        opacity: 0.4 !important;
+        height: 100px !important;
     }
 
-    .gallery-card.left {
-        transform: translateX(-35px) scale(0.6) !important;
+    .gallery-card.main .card-overlay {
+        padding: 1rem;
     }
 
-    .gallery-card.right {
-        transform: translateX(35px) scale(0.6) !important;
+    .gallery-card.main .card-content h3 {
+        font-size: 1.2rem;
+    }
+
+    .gallery-card.main .card-content p {
+        font-size: 0.9rem;
+    }
+
+    .gallery-card.left .card-overlay,
+    .gallery-card.right .card-overlay {
+        padding: 0.6rem;
+    }
+
+    .gallery-card.left .card-content h3,
+    .gallery-card.right .card-content h3 {
+        font-size: 0.9rem;
+    }
+
+    .gallery-card.left .card-content p,
+    .gallery-card.right .card-content p {
+        font-size: 0.7rem;
     }
 
     .gallery-nav {
@@ -4815,7 +4829,7 @@ p {
     }
     
     /* Gallery Carousel Mobile Styles */
-    /* Mobile Gallery Carousel - Keep three-card layout */
+    /* Mobile Gallery Carousel - Horizontal elongated design */
     .photo-gallery-carousel {
         margin-left: -50vw;
         margin-right: -50vw;
@@ -4827,38 +4841,50 @@ p {
     }
 
     .gallery-wrapper {
-        flex-direction: row !important;
-        height: 280px;
-        gap: 0.2rem;
-        justify-content: center;
+        display: grid !important;
+        grid-template-columns: 1fr 2fr 1fr;
+        grid-template-rows: auto;
+        gap: 1rem;
+        justify-items: center;
         align-items: center;
+        height: 300px;
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
     }
 
-    /* Mobile Cards - Wider rectangular main card like desktop */
+    /* Mobile Main Card - Wide rectangular like desktop */
     .gallery-card.main {
-        width: 280px !important;
-        height: 200px !important;
+        width: 100% !important;
+        height: 180px !important;
         z-index: 3;
         transform: scale(1) !important;
         opacity: 1 !important;
         position: relative;
+        grid-column: 2;
+        grid-row: 1;
     }
 
+    /* Mobile Sub Cards - Stacked underneath */
     .gallery-card.left,
     .gallery-card.right {
-        width: 100px !important;
-        height: 140px !important;
+        width: 100% !important;
+        height: 120px !important;
         z-index: 1;
         opacity: 0.4 !important;
         position: relative;
     }
 
     .gallery-card.left {
-        transform: translateX(-50px) scale(0.6) !important;
+        transform: scale(1) !important;
+        grid-column: 1;
+        grid-row: 2;
     }
 
     .gallery-card.right {
-        transform: translateX(50px) scale(0.6) !important;
+        transform: scale(1) !important;
+        grid-column: 3;
+        grid-row: 2;
     }
 
     .gallery-card.hidden {
@@ -4872,30 +4898,30 @@ p {
 
     /* Mobile card content */
     .gallery-card.main .card-overlay {
-        padding: 0.8rem;
+        padding: 1.5rem;
     }
 
     .gallery-card.main .card-content h3 {
-        font-size: 1.1rem;
+        font-size: 1.4rem;
     }
 
     .gallery-card.main .card-content p {
-        font-size: 0.8rem;
+        font-size: 1rem;
     }
 
     .gallery-card.left .card-overlay,
     .gallery-card.right .card-overlay {
-        padding: 0.4rem;
+        padding: 0.8rem;
     }
 
     .gallery-card.left .card-content h3,
     .gallery-card.right .card-content h3 {
-        font-size: 0.7rem;
+        font-size: 1rem;
     }
 
     .gallery-card.left .card-content p,
     .gallery-card.right .card-content p {
-        font-size: 0.5rem;
+        font-size: 0.8rem;
     }
 
     .gallery-nav {
