@@ -2525,31 +2525,31 @@ p {
 
     /* Extra small screen carousel adjustments */
     .gallery-wrapper {
-        height: 240px;
-        gap: 0.3rem;
+        height: 200px;
+        gap: 0.1rem;
         flex-direction: row !important;
     }
 
     .gallery-card.main {
-        width: 180px !important;
-        height: 220px !important;
+        width: 220px !important;
+        height: 150px !important;
         transform: scale(1) !important;
         opacity: 1 !important;
     }
 
     .gallery-card.left,
     .gallery-card.right {
-        width: 100px !important;
-        height: 140px !important;
+        width: 80px !important;
+        height: 110px !important;
         opacity: 0.4 !important;
     }
 
     .gallery-card.left {
-        transform: translateX(-30px) scale(0.6) !important;
+        transform: translateX(-35px) scale(0.6) !important;
     }
 
     .gallery-card.right {
-        transform: translateX(30px) scale(0.6) !important;
+        transform: translateX(35px) scale(0.6) !important;
     }
 
     .gallery-nav {
@@ -4829,15 +4829,15 @@ p {
     .gallery-wrapper {
         flex-direction: row !important;
         height: 280px;
-        gap: 0.5rem;
+        gap: 0.2rem;
         justify-content: center;
         align-items: center;
     }
 
-    /* Mobile Cards - Smaller three-card layout with proper positioning */
+    /* Mobile Cards - Wider rectangular main card like desktop */
     .gallery-card.main {
-        width: 200px !important;
-        height: 250px !important;
+        width: 280px !important;
+        height: 200px !important;
         z-index: 3;
         transform: scale(1) !important;
         opacity: 1 !important;
@@ -4846,19 +4846,19 @@ p {
 
     .gallery-card.left,
     .gallery-card.right {
-        width: 120px !important;
-        height: 160px !important;
+        width: 100px !important;
+        height: 140px !important;
         z-index: 1;
         opacity: 0.4 !important;
         position: relative;
     }
 
     .gallery-card.left {
-        transform: translateX(-40px) scale(0.6) !important;
+        transform: translateX(-50px) scale(0.6) !important;
     }
 
     .gallery-card.right {
-        transform: translateX(40px) scale(0.6) !important;
+        transform: translateX(50px) scale(0.6) !important;
     }
 
     .gallery-card.hidden {
@@ -4872,30 +4872,30 @@ p {
 
     /* Mobile card content */
     .gallery-card.main .card-overlay {
-        padding: 1rem;
+        padding: 0.8rem;
     }
 
     .gallery-card.main .card-content h3 {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
 
     .gallery-card.main .card-content p {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
     }
 
     .gallery-card.left .card-overlay,
     .gallery-card.right .card-overlay {
-        padding: 0.5rem;
+        padding: 0.4rem;
     }
 
     .gallery-card.left .card-content h3,
     .gallery-card.right .card-content h3 {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
     }
 
     .gallery-card.left .card-content p,
     .gallery-card.right .card-content p {
-        font-size: 0.6rem;
+        font-size: 0.5rem;
     }
 
     .gallery-nav {
